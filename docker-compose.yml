@@ -1,0 +1,19 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=file:./prisma/dev.db
+      - NEXT_PUBLIC_COUPLE_NAME=${NEXT_PUBLIC_COUPLE_NAME:-Alex & Sam}
+      - NEXT_PUBLIC_WEDDING_DATE=${NEXT_PUBLIC_WEDDING_DATE:-2027-06-12}
+      - NEXT_PUBLIC_VENUE=${NEXT_PUBLIC_VENUE:-Villa del Sol, Barcelona}
+      - NEXT_PUBLIC_THEME=${NEXT_PUBLIC_THEME:-classic}
+      - NEXT_PUBLIC_ACCENT=${NEXT_PUBLIC_ACCENT:-#b48a78}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin123}
+    volumes:
+      - sqlite_data:/app/prisma
+    restart: unless-stopped
+
+volumes:
+  sqlite_data:

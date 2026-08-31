@@ -1,17 +1,30 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
 }
 
-// Models will be extended in Task 2
-// Placeholder model to allow `prisma generate` during bootstrap
-model Placeholder {
-  id String @id @default(cuid())
+model Guest {
+  id          String       @id @default(cuid())
+  name        String
+  email       String?
+  category    String       @default("family") // family | friends | colleagues | other
+  plusOne     Boolean      @default(false)
+  plusOneName String?
+  createdAt   DateTime     @default(now())
+  rsvp        RsvpResponse?
+}
+
+model RsvpResponse {
+  id           String   @id @default(cuid())
+  guestId      String   @unique
+  guest        Guest    @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  attending    Boolean
+  headcount    Int      @default(1)
+  mealChoice   String? // vegetarian | vegan | meat | fish
+  dietaryNotes String?
+  message      String?
+  respondedAt  DateTime @default(now())
 }

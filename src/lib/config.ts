@@ -41,7 +41,14 @@ export function getSiteConfig(): SiteConfig {
   const registry = rawRegistry && typeof rawRegistry === "object" ? rawRegistry : { links: [] as RegistryConfig["links"] };
   // Ensure registry.links is always an array even if env provides partial object; filter unsafe URLs
   const rawLinks = Array.isArray((registry as RegistryConfig).links) ? (registry as RegistryConfig).links : [];
-  const safeLinks = rawLinks.filter((l) => typeof l.label === "string" && typeof l.url === "string" && isSafeUrl(l.url));
+  const safeLinks = rawLinks.filter(
+    (l) =>
+      l !== null &&
+      typeof l === "object" &&
+      typeof (l as { label?: unknown }).label === "string" &&
+      typeof (l as { url?: unknown }).url === "string" &&
+      isSafeUrl((l as { url: string }).url)
+  );
   const normalizedRegistry: RegistryConfig = {
     iban: (registry as RegistryConfig).iban,
     bizum: (registry as RegistryConfig).bizum,
@@ -58,7 +65,12 @@ export function getSiteConfig(): SiteConfig {
     accentColor: process.env.NEXT_PUBLIC_ACCENT || "#b48a78",
     schedule: Array.isArray(schedule) ? schedule : [],
     venueMapUrl,
-    accommodations: Array.isArray(accommodations) ? accommodations : [],
+    accommodations: Array.isArray(accommodations) ? accommodations.filter((acc) =>
+    acc &&
+    typeof acc === "object" &&
+    typeof (acc as { url?: unknown }).url === "string" &&
+    isSafeUrl((acc as { url: string }).url)
+  ) : [],
     registry: normalizedRegistry,
   };
 }

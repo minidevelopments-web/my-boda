@@ -33,11 +33,16 @@ export default async function AdminPage() {
             const { redirect } = await import("next/navigation");
             const { ADMIN_COOKIE_NAME } = await import("@/lib/auth");
             const cookieStore = await cookies();
-            // clear cookie via server action by setting empty and redirect
-            // We cannot directly set cookies in server action without NextResponse, use redirect to login and client logout
+            cookieStore.delete(ADMIN_COOKIE_NAME);
             redirect("/admin/login");
           }}
         >
+          <button
+            type="submit"
+            className="rounded border px-3 py-1.5 text-sm hover:bg-gray-50"
+          >
+            Logout
+          </button>
         </form>
       </div>
       <StatsCards guests={serialized as any} />

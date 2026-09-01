@@ -11,23 +11,18 @@ export function getAdminPassword(): string {
 }
 
 export function getAuthSecret(): string {
-  // HMAC secret: use ADMIN_PASSWORD or fallback for dev
   const pw = getAdminPassword();
-  return pw || "dev-fallback-secret";
+  if (!pw) return "";
+  return pw;
 }
 
 export function isValidPassword(candidate: string): boolean {
   const expected = getAdminPassword();
   if (!expected) return false;
-  // constant-time compare if lengths match
-  const a = Buffer.from(candidate);
-  const b = Buffer.from(expected);
-  if (a.length !== b.length) return false;
-  try {
-    return crypto.timingSafeEqual(a, b);
-  } catch {
-    return candidate === expected;
-  }
+  // hash to fixed length then constant-time compare to avoid length leak
+  const aHash = crypto.createHash("sha256").update(candidate).digest();
+  const bHash = crypto.createHash("sha256").update(expected).digest();
+  return crypto.timingSafeEqual(aHash, bHash);
 }
 
 export function signSession(payload: string): string {
@@ -38,18 +33,30 @@ export function signSession(payload: string): string {
 
 export function verifySession(token: string | undefined | null): boolean {
   if (!token) return false;
+  const secret = getAuthSecret();
+  if (!secret) return false;
   const lastDot = token.lastIndexOf(".");
   if (lastDot === -1) return false;
   const payload = token.slice(0, lastDot);
   const sig = token.slice(lastDot + 1);
-  const secret = getAuthSecret();
   const expectedSig = crypto.createHmac("sha256", secret).update(payload).digest("hex");
   if (sig.length !== expectedSig.length) return false;
+  let sigValid: boolean;
   try {
-    return crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expectedSig));
+    sigValid = crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expectedSig));
   } catch {
-    return sig === expectedSig;
+    sigValid = sig === expectedSig;
   }
+  if (!sigValid) return false;
+  // expiry check: payload is `${timestamp}.${randomHex}`
+  const dotIdx = payload.indexOf(".");
+  if (dotIdx === -1) return false;
+  const ts = Number(payload.slice(0, dotIdx));
+  if (!Number.isFinite(ts)) return false;
+  const SESSION_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
+  if (Date.now() - ts > SESSION_MAX_AGE_MS) return false;
+  if (ts > Date.now() + 60 * 1000) return false;
+  return true;
 }
 
 export function createSessionToken(): string {
@@ -61,6 +68,8 @@ export function isAdminRequest(req: NextRequest): boolean {
   const token = req.cookies.get(ADMIN_COOKIE_NAME)?.value;
   return verifySession(token);
 }
+
+export const isAdmin = isAdminRequest;
 
 // For server components using next/headers cookies()
 export function isAdminFromToken(token: string | undefined | null): boolean {

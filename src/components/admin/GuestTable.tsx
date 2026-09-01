@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { CategoryFilter } from "./CategoryFilter";
 
 type Rsvp = {
@@ -35,6 +35,19 @@ export function GuestTable({ guests: initialGuests }: Props) {
   const [sortKey, setSortKey] = useState<SortKey>("name");
   const [sortDir, setSortDir] = useState<SortDir>("asc");
   const [editingId, setEditingId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const id = setInterval(async () => {
+      try {
+        const r = await fetch("/api/guests");
+        if (r.ok) {
+          const d = await r.json();
+          if (Array.isArray(d.data)) setGuests(d.data);
+        }
+      } catch {}
+    }, 30000);
+    return () => clearInterval(id);
+  }, []);
 
   const filtered = useMemo(() => {
     let list = [...guests];
@@ -114,17 +127,21 @@ export function GuestTable({ guests: initialGuests }: Props) {
   }
 
   async function handleDownloadCSV() {
-    const res = await fetch("/api/guests/export");
-    if (!res.ok) throw new Error("Export failed");
-    const blob = await res.blob();
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "guests.csv";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
+    try {
+      const res = await fetch("/api/guests/export");
+      if (!res.ok) throw new Error("Export failed");
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "guests.csv";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   return (

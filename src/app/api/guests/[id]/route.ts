@@ -18,11 +18,13 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     if (!guest) {
       return NextResponse.json({ error: "Guest not found" }, { status: 404 });
     }
+    const normalizedEmail =
+      parsed.data.email !== undefined ? (parsed.data.email?.trim() ? parsed.data.email.trim().toLowerCase() : null) : undefined;
     const updated = await prisma.guest.update({
       where: { id },
       data: {
         ...(parsed.data.name !== undefined ? { name: parsed.data.name } : {}),
-        ...(parsed.data.email !== undefined ? { email: parsed.data.email || null } : {}),
+        ...(normalizedEmail !== undefined ? { email: normalizedEmail } : {}),
         ...(parsed.data.category !== undefined ? { category: parsed.data.category } : {}),
         ...(parsed.data.plusOne !== undefined ? { plusOne: parsed.data.plusOne } : {}),
         ...(parsed.data.plusOneName !== undefined ? { plusOneName: parsed.data.plusOneName || null } : {}),

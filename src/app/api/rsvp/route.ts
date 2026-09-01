@@ -25,11 +25,12 @@ export async function POST(req: NextRequest) {
         if (!guest) {
           throw new Error("Guest not found");
         }
+        const normalizedEmail = email !== undefined ? (email?.trim() ? email.trim().toLowerCase() : null) : undefined;
         guest = await tx.guest.update({
           where: { id: guestId },
           data: {
             ...(name ? { name } : {}),
-            ...(email !== undefined ? { email: email || null } : {}),
+            ...(normalizedEmail !== undefined ? { email: normalizedEmail } : {}),
             ...(category ? { category } : {}),
             ...(plusOne !== undefined ? { plusOne } : {}),
             ...(plusOneName !== undefined ? { plusOneName: plusOneName || null } : {}),

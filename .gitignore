@@ -15,9 +15,13 @@
 # prisma
 prisma/dev.db
 prisma/dev.db-journal
-data/dev.db
-data/dev.db-journal
-prisma/data/dev.db
+data/
+!data/.gitkeep
+/prisma/data/
+/data/dev.db
+/data/dev.db-journal
+/data/dev.db-wal
+/data/dev.db-shm
 
 # env
 .env

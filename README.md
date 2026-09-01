@@ -9,11 +9,6 @@ An open-core, self-hosted wedding platform — no tracking, no vendor lock-in, n
 </p>
 
 <p align="center">
-  <a href="https://vercel.com/new/clone?repository-url=https://github.com/your-org/my-boda"><img src="https://vercel.com/button" alt="Deploy with Vercel" /></a>
-  <a href="https://railway.app/template/github/your-org/my-boda"><img src="https://railway.app/button.svg" alt="Deploy on Railway" /></a>
-</p>
-
-<p align="center">
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/your-org/my-boda)
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/github/your-org/my-boda)
@@ -30,7 +25,7 @@ Three handcrafted themes — switch with a single env var, no rebuild of content
 |---|---|---|
 | ![Classic](docs/assets/theme-classic.gif) | ![Modern](docs/assets/theme-modern.gif) | ![Garden](docs/assets/theme-garden.gif) |
 | Warm serif, editorial layout | Clean sans, generous whitespace | Soft florals, romantic palette |
-| `THEME=classic` | `THEME=modern` | `THEME=garden` |
+| `NEXT_PUBLIC_THEME=classic` | `NEXT_PUBLIC_THEME=modern` | `NEXT_PUBLIC_THEME=garden` |
 
 > GIF placeholders — replace `docs/assets/theme-*.gif` with screen recordings of each theme. See [docs/THEMES.md](docs/THEMES.md) for how to add a new theme.
 
@@ -157,7 +152,7 @@ npm run dev
 
 ## License
 
-MIT — self-hosted core is free and open. See [LICENSE](LICENSE) (add if missing: `npx license MIT` or copy the standard MIT text). You may self-host, fork, and modify freely. A future managed cloud offering may add paid convenience features without restricting the open core.
+MIT — self-hosted core is free and open. See [LICENSE](LICENSE). You may self-host, fork, and modify freely. A future managed cloud offering may add paid convenience features without restricting the open core.
 
 ---
 

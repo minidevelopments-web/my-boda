@@ -28,13 +28,14 @@ function parseJsonEnv<T>(value: string | undefined, fallback: T): T {
 export function getSiteConfig(): SiteConfig {
   const schedule = parseJsonEnv<ScheduleItem[]>(process.env.NEXT_PUBLIC_SCHEDULE_JSON, []);
   const accommodations = parseJsonEnv<Accommodation[]>(process.env.NEXT_PUBLIC_ACCOMMODATIONS_JSON, []);
-  const registry = parseJsonEnv<RegistryConfig>(process.env.NEXT_PUBLIC_REGISTRY_JSON, { links: [] });
+  const rawRegistry = parseJsonEnv<RegistryConfig | null>(process.env.NEXT_PUBLIC_REGISTRY_JSON, { links: [] });
+  const registry = rawRegistry && typeof rawRegistry === "object" ? rawRegistry : { links: [] as RegistryConfig["links"] };
   // Ensure registry.links is always an array even if env provides partial object
   const normalizedRegistry: RegistryConfig = {
-    iban: registry.iban,
-    bizum: registry.bizum,
-    links: Array.isArray(registry.links) ? registry.links : [],
-    message: registry.message,
+    iban: (registry as RegistryConfig).iban,
+    bizum: (registry as RegistryConfig).bizum,
+    links: Array.isArray((registry as RegistryConfig).links) ? (registry as RegistryConfig).links : [],
+    message: (registry as RegistryConfig).message,
   };
   return {
     coupleName: process.env.NEXT_PUBLIC_COUPLE_NAME || "Alex & Sam",

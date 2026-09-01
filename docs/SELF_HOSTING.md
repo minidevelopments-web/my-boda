@@ -27,8 +27,8 @@ Open `http://YOUR_SERVER_IP:3000`. Admin at `/admin`.
 
 - Builds from `Dockerfile` (Node 20 Alpine, `better-sqlite3` native deps, `prisma generate`, `next build`)
 - Exposes `3000:3000` and `expose: 3000`
-- Sets `DATABASE_URL=file:./prisma/dev.db` (SQLite file inside container)
-- Persists DB via named volume `sqlite_data:/app/prisma` — survives rebuilds
+- Sets `DATABASE_URL=file:/app/data/dev.db` (SQLite file inside container; build arg `DATABASE_URL=file:./data/dev.db` for host)
+- Persists DB via named volume `sqlite_data:/app/data` — survives rebuilds (isolated from `/app/prisma` migrations)
 - `restart: unless-stopped` — survives host reboots
 - `healthcheck` polls `http://localhost:3000/` every 30s (start period 40s)
 
@@ -64,7 +64,7 @@ Do not mix SQLite and Postgres URLs without migrating — see Migration below.
 All vars are in `.env.example` with comments. Key groups:
 
 - `NEXT_PUBLIC_*` — inlined at **build time**. After changing any of them, rebuild: `docker compose up --build -d`.
-- `DATABASE_URL` — server-only. SQLite default is `file:./prisma/dev.db` (relative to `prisma/` inside container, backed by volume).
+- `DATABASE_URL` — server-only. SQLite default is `file:/app/data/dev.db` in container / `file:./data/dev.db` locally (backed by `sqlite_data:/app/data` volume).
 - `ADMIN_PASSWORD` — server-only. Compared via HMAC hash; session is httpOnly cookie with 7-day expiry. Change from default before exposing publicly.
 
 See [README.md](../README.md#environment-variables) table and `.env.example` header comments for every var.
@@ -144,11 +144,11 @@ docker compose exec app npx prisma migrate deploy
 
 ```bash
 # On old host
-docker compose exec app sh -c "cp /app/prisma/dev.db /tmp/backup.db"
+docker compose exec app sh -c "cp /app/data/dev.db /tmp/backup.db"
 docker cp $(docker compose ps -q app):/tmp/backup.db ./my-boda-backup.db
 
 # On new host (after git clone + docker compose up)
-docker cp ./my-boda-backup.db $(docker compose ps -q app):/app/prisma/dev.db
+docker cp ./my-boda-backup.db $(docker compose ps -q app):/app/data/dev.db
 docker compose restart app
 ```
 
@@ -158,12 +158,12 @@ For Postgres, use `pg_dump` / `pg_restore` instead.
 
 ### SQLite (default)
 
-The DB is a single file at volume `sqlite_data` → `/app/prisma/dev.db` inside the container.
+The DB is a single file at volume `sqlite_data` → `/app/data/dev.db` inside the container.
 
 **Cron example on host:**
 
 ```cron
-0 3 * * * docker cp $(docker compose -f /opt/my-boda/docker-compose.yml ps -q app):/app/prisma/dev.db /backups/my-boda-$(date +\%F).db
+0 3 * * * docker cp $(docker compose -f /opt/my-boda/docker-compose.yml ps -q app):/app/data/dev.db /backups/my-boda-$(date +\%F).db
 ```
 
 Or back up the volume directly:
@@ -175,7 +175,7 @@ docker run --rm -v my-boda_sqlite_data:/data -v /backups:/backup alpine cp /data
 Keep at least 7 daily copies off-host. Test restores periodically:
 
 ```bash
-docker cp /backups/my-boda-2027-06-01.db $(docker compose ps -q app):/app/prisma/dev.db
+docker cp /backups/my-boda-2027-06-01.db $(docker compose ps -q app):/app/data/dev.db
 docker compose restart app
 ```
 

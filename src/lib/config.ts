@@ -25,18 +25,31 @@ function parseJsonEnv<T>(value: string | undefined, fallback: T): T {
   }
 }
 
+function isSafeUrl(url: string): boolean {
+  try {
+    const u = new URL(url);
+    return u.protocol === "https:" || u.protocol === "http:";
+  } catch {
+    return false;
+  }
+}
+
 export function getSiteConfig(): SiteConfig {
   const schedule = parseJsonEnv<ScheduleItem[]>(process.env.NEXT_PUBLIC_SCHEDULE_JSON, []);
   const accommodations = parseJsonEnv<Accommodation[]>(process.env.NEXT_PUBLIC_ACCOMMODATIONS_JSON, []);
   const rawRegistry = parseJsonEnv<RegistryConfig | null>(process.env.NEXT_PUBLIC_REGISTRY_JSON, { links: [] });
   const registry = rawRegistry && typeof rawRegistry === "object" ? rawRegistry : { links: [] as RegistryConfig["links"] };
-  // Ensure registry.links is always an array even if env provides partial object
+  // Ensure registry.links is always an array even if env provides partial object; filter unsafe URLs
+  const rawLinks = Array.isArray((registry as RegistryConfig).links) ? (registry as RegistryConfig).links : [];
+  const safeLinks = rawLinks.filter((l) => typeof l.label === "string" && typeof l.url === "string" && isSafeUrl(l.url));
   const normalizedRegistry: RegistryConfig = {
     iban: (registry as RegistryConfig).iban,
     bizum: (registry as RegistryConfig).bizum,
-    links: Array.isArray((registry as RegistryConfig).links) ? (registry as RegistryConfig).links : [],
+    links: safeLinks,
     message: (registry as RegistryConfig).message,
   };
+  const rawVenueMapUrl = process.env.NEXT_PUBLIC_VENUE_MAP_URL || "";
+  const venueMapUrl = rawVenueMapUrl && isSafeUrl(rawVenueMapUrl) ? rawVenueMapUrl : "";
   return {
     coupleName: process.env.NEXT_PUBLIC_COUPLE_NAME || "Alex & Sam",
     weddingDate: process.env.NEXT_PUBLIC_WEDDING_DATE || "2027-06-12",
@@ -44,7 +57,7 @@ export function getSiteConfig(): SiteConfig {
     theme: (process.env.NEXT_PUBLIC_THEME as ThemeId) || "classic",
     accentColor: process.env.NEXT_PUBLIC_ACCENT || "#b48a78",
     schedule: Array.isArray(schedule) ? schedule : [],
-    venueMapUrl: process.env.NEXT_PUBLIC_VENUE_MAP_URL || "",
+    venueMapUrl,
     accommodations: Array.isArray(accommodations) ? accommodations : [],
     registry: normalizedRegistry,
   };

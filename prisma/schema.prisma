@@ -15,6 +15,8 @@ model Guest {
   plusOneName String?
   createdAt   DateTime     @default(now())
   rsvp        RsvpResponse?
+
+  @@index([email])
 }
 
 model RsvpResponse {

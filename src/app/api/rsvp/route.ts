@@ -36,8 +36,8 @@ export async function POST(req: NextRequest) {
           },
         });
       } else {
-        // Email dedup: schema has no @unique on email, so use findFirst
-        const emailValue = email?.trim() ? email.trim() : null;
+        // Email dedup: normalized to lowercase for case-insensitive matching
+        const emailValue = email?.trim() ? email.trim().toLowerCase() : null;
         if (emailValue) {
           guest = await tx.guest.findFirst({ where: { email: emailValue } });
         }

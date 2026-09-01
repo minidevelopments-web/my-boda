@@ -1,12 +1,24 @@
 services:
   app:
-    build: .
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_COUPLE_NAME: ${NEXT_PUBLIC_COUPLE_NAME:-}
+        NEXT_PUBLIC_WEDDING_DATE: ${NEXT_PUBLIC_WEDDING_DATE:-}
+        NEXT_PUBLIC_VENUE: ${NEXT_PUBLIC_VENUE:-}
+        NEXT_PUBLIC_THEME: ${NEXT_PUBLIC_THEME:-}
+        NEXT_PUBLIC_ACCENT: ${NEXT_PUBLIC_ACCENT:-}
+        NEXT_PUBLIC_SCHEDULE_JSON: ${NEXT_PUBLIC_SCHEDULE_JSON:-}
+        NEXT_PUBLIC_ACCOMMODATIONS_JSON: ${NEXT_PUBLIC_ACCOMMODATIONS_JSON:-}
+        NEXT_PUBLIC_REGISTRY_JSON: ${NEXT_PUBLIC_REGISTRY_JSON:-}
+        NEXT_PUBLIC_VENUE_MAP_URL: ${NEXT_PUBLIC_VENUE_MAP_URL:-}
+        DATABASE_URL: ${DATABASE_URL:-file:/app/data/dev.db}
     ports:
       - "3000:3000"
     expose:
       - "3000"
     environment:
-      - DATABASE_URL=file:./prisma/dev.db
+      - DATABASE_URL=file:/app/data/dev.db
       - NEXT_PUBLIC_COUPLE_NAME=${NEXT_PUBLIC_COUPLE_NAME:-Alex & Sam}
       - NEXT_PUBLIC_WEDDING_DATE=${NEXT_PUBLIC_WEDDING_DATE:-2027-06-12}
       - NEXT_PUBLIC_VENUE=${NEXT_PUBLIC_VENUE:-Villa del Sol, Barcelona}
@@ -16,9 +28,9 @@ services:
       - NEXT_PUBLIC_ACCOMMODATIONS_JSON=${NEXT_PUBLIC_ACCOMMODATIONS_JSON:-}
       - NEXT_PUBLIC_REGISTRY_JSON=${NEXT_PUBLIC_REGISTRY_JSON:-}
       - NEXT_PUBLIC_VENUE_MAP_URL=${NEXT_PUBLIC_VENUE_MAP_URL:-}
-      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin123}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-}
     volumes:
-      - sqlite_data:/app/prisma
+      - sqlite_data:/app/data
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3000/ || exit 1"]
       interval: 30s

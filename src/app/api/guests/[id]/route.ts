@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { guestUpdateSchema } from "@/lib/validators";
+import { isAdminRequest } from "@/lib/auth";
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  if (!isAdminRequest(req)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
     const { id } = await params;
     const body = await req.json();

@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    instrumentationHook: true,
-  },
   async rewrites() {
     return [
       // Legacy (unversioned) API paths → versioned v1 handlers.

@@ -1,7 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isValidPassword, createSessionToken, verifySession, ADMIN_COOKIE_NAME } from "@/lib/auth";
+import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 
 export async function POST(req: NextRequest) {
+  const ip = getClientIp(req);
+  const limit = checkRateLimit(`auth:${ip}`);
+  if (!limit.allowed) {
+    const retryAfterSec = Math.ceil(limit.retryAfterMs / 1000);
+    return NextResponse.json({ error: "Too many attempts, try again later" }, { status: 429, headers: { "Retry-After": String(retryAfterSec) } });
+  }
   try {
     let password: string | undefined;
     const contentType = req.headers.get("content-type") || "";

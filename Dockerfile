@@ -2,8 +2,8 @@ FROM node:20-alpine AS base
 
 WORKDIR /app
 
-# Native deps for better-sqlite3
-RUN apk add --no-cache python3 make g++
+# Native deps for better-sqlite3 + tini for PID1 handling
+RUN apk add --no-cache python3 make g++ tini
 
 # Install dependencies
 COPY package.json package-lock.json* ./

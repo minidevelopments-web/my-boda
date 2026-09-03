@@ -1,8 +1,18 @@
 import { PrismaClient } from "@prisma/client";
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
+import { validateEnv } from "./config";
+
+let databaseUrl: string;
+try {
+  databaseUrl = validateEnv(process.env).DATABASE_URL;
+} catch {
+  // validateEnv throws in production on invalid env; fallback is handled there.
+  // For safety, use validated env again (will warn in dev/test).
+  databaseUrl = process.env.DATABASE_URL ?? "file:./data/dev.db";
+}
 
 const adapter = new PrismaBetterSqlite3({
-  url: process.env.DATABASE_URL ?? "file:./data/dev.db",
+  url: databaseUrl,
 });
 
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };

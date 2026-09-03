@@ -75,16 +75,44 @@ export const rsvpService = {
         }
 
         if (!guest) {
-          guest = (await guestRepository.createFlat(
-            {
-              name,
-              email: normalizedForLookup as string | null,
-              category: category || "family",
-              plusOne: plusOne || false,
-              plusOneName: plusOneName || null,
-            },
-            tx
-          )) as typeof guest;
+          try {
+            guest = (await guestRepository.createFlat(
+              {
+                name,
+                email: normalizedForLookup as string | null,
+                category: category || "family",
+                plusOne: plusOne || false,
+                plusOneName: plusOneName || null,
+              },
+              tx
+            )) as typeof guest;
+          } catch (e: unknown) {
+            // Handle race: concurrent insert with same email violates @@unique([email])
+            const isUniqueViolation =
+              e !== null &&
+              typeof e === "object" &&
+              (("code" in e && (e as { code: string }).code === "P2002") ||
+                ("message" in e && String((e as { message: string }).message).includes("Unique constraint")));
+            if (isUniqueViolation && normalizedForLookup) {
+              const found = await guestRepository.findByEmail(normalizedForLookup, tx);
+              if (found) {
+                guest = (await guestRepository.updateFlat(
+                  (found as { id: string }).id,
+                  {
+                    name,
+                    ...(plusOne !== undefined ? { plusOne } : {}),
+                    ...(plusOneName !== undefined ? { plusOneName: plusOneName || null } : {}),
+                    ...(category ? { category } : {}),
+                  },
+                  tx
+                )) as typeof guest;
+              } else {
+                throw e;
+              }
+            } else {
+              throw e;
+            }
+          }
         } else {
           guest = (await guestRepository.updateFlat(
             (guest as { id: string }).id,

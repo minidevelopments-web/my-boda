@@ -16,7 +16,7 @@ model Guest {
   createdAt   DateTime     @default(now())
   rsvp        RsvpResponse?
 
-  @@index([email])
+  @@unique([email])
 }
 
 model RsvpResponse {

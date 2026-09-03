@@ -1,18 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getAdminPassword } from "@/lib/adminPassword";
 
 export const ADMIN_COOKIE_NAME = "admin_session";
-
-/**
- * Mirrors getAdminPassword() in src/lib/auth.ts but duplicated here
- * to avoid importing Node's `crypto` module into the Edge runtime.
- * Keep the two implementations in sync.
- */
-function getAdminPassword(): string {
-  const env = process.env.ADMIN_PASSWORD;
-  if (env) return env;
-  if (process.env.NODE_ENV === "production") return "";
-  return "admin123";
-}
 
 /**
  * Edge-compatible session verification.

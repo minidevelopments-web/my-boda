@@ -12,15 +12,11 @@
  */
 import crypto from "crypto";
 import { NextRequest } from "next/server";
+import { getAdminPassword } from "./adminPassword";
+
+export { getAdminPassword };
 
 export const ADMIN_COOKIE_NAME = "admin_session";
-
-export function getAdminPassword(): string {
-  const env = process.env.ADMIN_PASSWORD;
-  if (env) return env;
-  if (process.env.NODE_ENV === "production") return "";
-  return "admin123";
-}
 
 export function getAuthSecret(): string {
   const pw = getAdminPassword();

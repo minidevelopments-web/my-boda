@@ -141,14 +141,39 @@ export const envSchema = publicEnvSchema
         path: ["ADMIN_PASSWORD"],
       });
     }
-    // Warn if DATABASE_URL looks malformed (allow file: and postgres)
+    // Validate DATABASE_URL shape: must be file: or valid postgres/prisma URL
     if (data.DATABASE_URL) {
       const v = data.DATABASE_URL;
       const isFile = v.startsWith("file:");
-      const isPostgres = v.startsWith("postgresql://") || v.startsWith("postgres://") || v.startsWith("postgresql:") || v.startsWith("prisma://");
-      // SQLite file: or postgres allowed; any other non-empty is flagged but not hard-fail
-      // We don't addIssue here to keep dev flexible — validation for shape is min(1) only.
-      void (isFile || isPostgres);
+      const isPostgresUrl = v.startsWith("postgresql://") || v.startsWith("postgres://");
+      const isPrismaUrl = v.startsWith("prisma://");
+      if (isFile) {
+        const pathPart = v.slice(5);
+        if (!pathPart || pathPart.trim() === "") {
+          ctx.addIssue({
+            code: "custom",
+            message: "DATABASE_URL file: URL must include a path (e.g. file:./data/dev.db)",
+            path: ["DATABASE_URL"],
+          });
+        }
+      } else if (isPostgresUrl || isPrismaUrl) {
+        try {
+          const u = new URL(v);
+          if (!u.hostname) throw new Error("missing hostname");
+        } catch {
+          ctx.addIssue({
+            code: "custom",
+            message: "DATABASE_URL must be a valid URL with hostname (e.g. postgresql://user:pass@host/db)",
+            path: ["DATABASE_URL"],
+          });
+        }
+      } else {
+        ctx.addIssue({
+          code: "custom",
+          message: "DATABASE_URL must be file:./... or postgresql:// / postgres:// / prisma:// URL",
+          path: ["DATABASE_URL"],
+        });
+      }
     }
   });
 

@@ -1,3 +1,15 @@
+/**
+ * Core authentication utilities (Node runtime).
+ *
+ * This module is the canonical implementation for session signing/verification
+ * on the server (API routes, Server Components). The Edge-compatible mirror
+ * lives in `middleware.ts:verifySessionEdge` — keep the HMAC payload format,
+ * expiry window, and secret derivation in sync between the two.
+ *
+ * Centralized flow: `middleware.ts` is the single source of truth at the
+ * request boundary (see `src/lib/requireAdmin.ts` for the per-handler helper).
+ * Per-route `isAdminRequest` checks remain as defense-in-depth.
+ */
 import crypto from "crypto";
 import { NextRequest } from "next/server";
 

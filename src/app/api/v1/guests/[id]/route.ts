@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { guestUpdateSchema } from "@/lib/validators";
-import { isAdminRequest } from "@/lib/auth";
+import { requireAdmin } from "@/lib/requireAdmin";
 import { guestService } from "@/lib/services/guestService";
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  if (!isAdminRequest(req)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const guard = requireAdmin(req);
+  if (guard) return guard;
   try {
     const { id } = await params;
     const body = await req.json();

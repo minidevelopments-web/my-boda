@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { isAdminRequest } from "@/lib/auth";
+import { requireAdmin } from "@/lib/requireAdmin";
 import { guestService } from "@/lib/services/guestService";
 
 export async function GET(req: NextRequest) {
-  if (!isAdminRequest(req)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  // Primary auth is enforced by middleware.ts (edge, single source of truth).
+  // This per-handler guard is defense-in-depth and keeps unit tests honest
+  // when handlers are invoked directly without middleware.
+  const guard = requireAdmin(req);
+  if (guard) return guard;
   try {
     const guests = await guestService.getAllGuests();
     return NextResponse.json({ data: guests });

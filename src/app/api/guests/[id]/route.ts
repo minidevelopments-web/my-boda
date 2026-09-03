@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 import { guestUpdateSchema } from "@/lib/validators";
 import { isAdminRequest } from "@/lib/auth";
+import { guestService } from "@/lib/services/guestService";
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   if (!isAdminRequest(req)) {
@@ -14,24 +14,15 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     if (!parsed.success) {
       return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
     }
-    const guest = await prisma.guest.findUnique({ where: { id } });
-    if (!guest) {
-      return NextResponse.json({ error: "Guest not found" }, { status: 404 });
+    try {
+      const updated = await guestService.updateGuest(id, parsed.data);
+      return NextResponse.json({ data: updated });
+    } catch (e) {
+      if (e instanceof Error && e.message === "Guest not found") {
+        return NextResponse.json({ error: "Guest not found" }, { status: 404 });
+      }
+      throw e;
     }
-    const normalizedEmail =
-      parsed.data.email !== undefined ? (parsed.data.email?.trim() ? parsed.data.email.trim().toLowerCase() : null) : undefined;
-    const updated = await prisma.guest.update({
-      where: { id },
-      data: {
-        ...(parsed.data.name !== undefined ? { name: parsed.data.name } : {}),
-        ...(normalizedEmail !== undefined ? { email: normalizedEmail } : {}),
-        ...(parsed.data.category !== undefined ? { category: parsed.data.category } : {}),
-        ...(parsed.data.plusOne !== undefined ? { plusOne: parsed.data.plusOne } : {}),
-        ...(parsed.data.plusOneName !== undefined ? { plusOneName: parsed.data.plusOneName || null } : {}),
-      },
-      include: { rsvp: true },
-    });
-    return NextResponse.json({ data: updated });
   } catch (e) {
     console.error(e);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });

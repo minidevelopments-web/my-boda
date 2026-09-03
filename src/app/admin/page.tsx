@@ -1,14 +1,11 @@
-import { prisma } from "@/lib/prisma";
 import { StatsCards } from "@/components/admin/StatsCards";
 import { GuestTable } from "@/components/admin/GuestTable";
+import { guestService } from "@/lib/services/guestService";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
-  const guests = await prisma.guest.findMany({
-    include: { rsvp: true },
-    orderBy: { createdAt: "desc" },
-  });
+  const guests = await guestService.getAllGuests();
 
   // Serialize dates to strings for client component
   const serialized = guests.map((g) => ({

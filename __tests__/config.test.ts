@@ -1,10 +1,7 @@
-import { getSiteConfig, isSafeUrl } from "@/lib/config";
-import { test } from "@testing-library/react";
-import { URL } from "url";
+import { getSiteConfig } from "@/lib/config";
 
 // Mock environment variables
 const originalEnv = process.env.NEXT_PUBLIC_ACCOMMODATIONS_JSON;
-const originalIsSafeUrl = isSafeUrl;
 
 describe("config.ts safety checks", () => {
   beforeEach(() => {

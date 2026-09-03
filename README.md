@@ -99,7 +99,7 @@ All variables are documented in [`.env.example`](.env.example). Copy it to `.env
 | `NEXT_PUBLIC_ACCOMMODATIONS_JSON` | public | `""` | Accommodations `[{name,url?,note?}]` |
 | `NEXT_PUBLIC_REGISTRY_JSON` | public | `""` | Registry `{iban?,bizum?,links:[{label,url}],message?}` |
 | `NEXT_PUBLIC_VENUE_MAP_URL` | public | `""` | Google/Apple Maps URL for `/info` |
-| `DATABASE_URL` | server | `file:./prisma/dev.db` | SQLite (default) or `postgresql://…` |
+| `DATABASE_URL` | server | `file:./data/dev.db` (`file:/app/data/dev.db` in Docker) | SQLite (default) or `postgresql://…` |
 | `ADMIN_PASSWORD` | server | `admin123` | Admin dashboard password (HMAC-hashed, httpOnly cookie) |
 
 `NEXT_PUBLIC_*` vars are inlined at build time — rebuild after changing them (`docker compose up --build`).

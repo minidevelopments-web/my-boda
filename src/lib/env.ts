@@ -67,21 +67,32 @@ export function validateServerEnv(
 }
 
 /**
- * Typed accessor for validated env — validates once and caches.
- * Call early in server startup; subsequent calls return cached result
- * unless `force` is true.
+ * Typed accessor for validated env — pure per-request (no global cache).
+ *
+ * Previous implementation cached `validateEnv` result in a mutable global
+ * `cachedEnv`, which made tests that mutate `process.env` fragile unless
+ * they remembered to call `clearEnvCache()`. This version is pure:
+ * every call validates the provided `rawEnv` (or current `process.env`)
+ * and returns a fresh result. No global state, no invalidation needed.
+ *
+ * For callers that want explicit caching/DI, cache the return value
+ * locally or pass `rawEnv` explicitly:
+ *
+ *   const env = getValidatedEnv(process.env); // per-request
+ *   // or DI:
+ *   const env = validateEnv(myEnvObj);
+ *
+ * `clearEnvCache` is retained as a no-op for backward compatibility with
+ * existing tests; `opts.force` is also a no-op.
  */
-let cachedEnv: ReturnType<typeof validateEnv> | null = null;
-
 export function getValidatedEnv(
   rawEnv: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env,
-  opts: { force?: boolean } = {}
+  _opts: { force?: boolean } = {}
 ): ReturnType<typeof validateEnv> {
-  if (cachedEnv && !opts.force) return cachedEnv;
-  cachedEnv = validateEnv(rawEnv);
-  return cachedEnv;
+  return validateEnv(rawEnv);
 }
 
+/** @deprecated No-op — `getValidatedEnv` is now pure per-request and has no global cache. Kept for backward compat. */
 export function clearEnvCache(): void {
-  cachedEnv = null;
+  // no-op
 }

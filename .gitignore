@@ -54,3 +54,8 @@ next-env.d.ts
 swp
 swo
 *~
+
+# agents/skills — reproducible via `npx skills add` / `skills-lock.json`
+.agents/
+skills-lock.json
+.opencode/

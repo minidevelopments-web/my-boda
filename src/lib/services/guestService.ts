@@ -1,4 +1,9 @@
-import { guestRepository } from "@/lib/repositories/guestRepository";
+import {
+  guestRepository,
+  DEFAULT_PAGE_LIMIT,
+  MAX_PAGE_LIMIT,
+  type PaginationOptions,
+} from "@/lib/repositories/guestRepository";
 import type { GuestWithRsvp } from "@/types";
 import type { GuestUpdateInput } from "@/lib/validators";
 
@@ -19,9 +24,47 @@ function normalizeEmail(email: unknown): string | null | undefined {
 export const guestService = {
   /**
    * Retrieve all guests with RSVP, ordered newest first.
+   * @deprecated For large tables use getPaginatedGuests or streamGuestsForExport to avoid OOM.
    */
   getAllGuests(): Promise<GuestWithRsvp[]> {
     return guestRepository.findAllWithRsvp();
+  },
+
+  /**
+   * Paginated retrieval — prevents OOM at scale.
+   * Accepts page (1-based) and limit (capped to MAX_PAGE_LIMIT). Returns data + meta.
+   */
+  async getPaginatedGuests(opts: PaginationOptions = {}): Promise<{
+    data: GuestWithRsvp[];
+    meta: { page: number; limit: number; total: number; totalPages: number };
+  }> {
+    const page = Math.max(opts.page ?? 1, 1);
+    const limit = Math.min(Math.max(opts.limit ?? DEFAULT_PAGE_LIMIT, 1), MAX_PAGE_LIMIT);
+    const { data, total } = await guestRepository.findPaginatedWithRsvp({ page, limit });
+    return {
+      data,
+      meta: {
+        page,
+        limit,
+        total,
+        totalPages: Math.max(1, Math.ceil(total / limit)),
+      },
+    };
+  },
+
+  /**
+   * Cursor-based batched iterator for CSV export streaming.
+   * Yields batches without loading entire table into memory.
+   */
+  async *streamGuestsForExport(batchSize = 500): AsyncGenerator<GuestWithRsvp[], void, unknown> {
+    let cursor: string | undefined;
+    while (true) {
+      const batch = await guestRepository.findWithCursor({ cursor, take: batchSize });
+      if (batch.length === 0) break;
+      yield batch;
+      if (batch.length < batchSize) break;
+      cursor = batch[batch.length - 1].id;
+    }
   },
 
   /**
@@ -56,6 +99,7 @@ export const guestService = {
   /**
    * Data shaper for CSV export — returns the same rows the previous
    * export route mapped inline, but centralized for reuse.
+   * @deprecated Prefer streamGuestsForExport for large datasets to avoid OOM.
    */
   async getGuestsForExport() {
     return guestRepository.findAllWithRsvp();

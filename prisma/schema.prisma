@@ -3,6 +3,12 @@ generator client {
 }
 
 datasource db {
+  // SQLite (better-sqlite3) is single-writer / file-locked — ideal for single-container
+  // deployments with a volume (see docker-compose.yml `sqlite_data`). For multi-instance
+  // or high-concurrency production, switch to Postgres:
+  //   provider = "postgresql"
+  //   url      = env("DATABASE_URL") // e.g. postgresql://user:password@postgres:5432/myboda
+  // Then uncomment the `postgres` service in docker-compose.yml and update DATABASE_URL.
   provider = "sqlite"
 }
 

@@ -1,4 +1,7 @@
+"use client";
+
 import type { ScheduleItem } from "@/lib/config";
+import { useThemeOptional } from "@/components/theme/ThemeContext";
 
 export function Schedule({
   items,
@@ -7,6 +10,8 @@ export function Schedule({
   items: ScheduleItem[];
   accentColor?: string;
 }) {
+  const themeCtx = useThemeOptional();
+  const resolvedAccent = accentColor ?? themeCtx?.tokens.colors.accent ?? "#b48a78";
   if (!items || items.length === 0) {
     return <p className="text-sm text-stone-500">Schedule to be announced.</p>;
   }
@@ -16,11 +21,11 @@ export function Schedule({
         <div key={`${item.title}-${idx}`} className="relative mb-10 last:mb-0">
           <span
             className="absolute -left-[9px] top-1 h-2 w-2 rotate-45 border bg-white"
-            style={{ borderColor: accentColor || "#b48a78" }}
+            style={{ borderColor: resolvedAccent }}
           />
           <p
             className="text-xs font-semibold uppercase tracking-widest"
-            style={{ color: accentColor || "#b48a78" }}
+            style={{ color: resolvedAccent }}
           >
             {item.time}
           </p>

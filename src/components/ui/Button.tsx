@@ -1,4 +1,7 @@
+"use client";
+
 import * as React from "react";
+import { useThemeOptional } from "@/components/theme/ThemeContext";
 
 type ButtonProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
   variant?: "primary" | "secondary";
@@ -13,6 +16,10 @@ export function Button({
   style,
   ...props
 }: ButtonProps) {
+  const themeCtx = useThemeOptional();
+  // Prefer explicit prop, then theme token, then undefined (rely on CSS)
+  const resolvedAccent = accentColor ?? themeCtx?.tokens.colors.accent;
+
   const base =
     "inline-flex items-center justify-center rounded-md px-7 py-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50";
   const variantClass =
@@ -21,8 +28,8 @@ export function Button({
       : "border bg-white hover:bg-gray-50 text-gray-900";
 
   const accentStyle =
-    variant === "primary" && accentColor
-      ? { backgroundColor: accentColor, ...style }
+    variant === "primary" && resolvedAccent
+      ? { backgroundColor: resolvedAccent, ...style }
       : style;
 
   return (

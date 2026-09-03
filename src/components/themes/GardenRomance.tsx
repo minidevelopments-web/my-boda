@@ -1,8 +1,12 @@
+"use client";
+
 import { FC } from "react";
 import { format, parseISO, isValid } from "date-fns";
 import { Playfair_Display, Inter } from "next/font/google";
 import type { SiteConfig } from "@/lib/config";
 import { Button } from "@/components/ui/Button";
+import { useThemeOptional } from "@/components/theme/ThemeContext";
+import { getThemeForConfig } from "@/lib/theme/service";
 
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -18,14 +22,24 @@ function formatDate(dateStr: string): string {
 }
 
 const GardenRomance: FC<{ config: SiteConfig }> = ({ config }) => {
-  const dateFormatted = formatDate(config.weddingDate);
+  const ctx = useThemeOptional();
+  const tokens = ctx?.tokens ?? getThemeForConfig(config);
+  const effectiveConfig = ctx?.config ?? config;
+  const dateFormatted = formatDate(effectiveConfig.weddingDate);
+
   return (
-    <div className={`${playfair.variable} ${inter.variable} bg-[#fbf7f3] text-stone-700`}>
-      {/* Decorative top border */}
-      <div className="h-1 w-full" style={{ backgroundColor: config.accentColor, opacity: 0.6 }} />
+    <div
+      className={`${playfair.variable} ${inter.variable}`}
+      style={{ backgroundColor: tokens.colors.background, color: tokens.colors.foreground }}
+    >
+      {/* Decorative top border — accent via tokens */}
+      <div className="h-1 w-full" style={{ backgroundColor: tokens.colors.accent, opacity: 0.6 }} />
       {/* Hero */}
       <section className="mx-auto max-w-5xl px-6 py-20 text-center md:py-28">
-        <div className="mx-auto max-w-3xl rounded-[2.5rem] border border-white bg-white/70 px-8 py-12 shadow-[0_8px_40px_rgba(0,0,0,0.04)] backdrop-blur md:px-16 md:py-16">
+        <div
+          className="mx-auto max-w-3xl border border-white bg-white/70 px-8 py-12 shadow-[0_8px_40px_rgba(0,0,0,0.04)] backdrop-blur md:px-16 md:py-16"
+          style={{ borderRadius: tokens.radius.card }}
+        >
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-stone-400">Together with love</p>
           <div className="mt-4 flex items-center justify-center gap-3 text-stone-300">
             <span className="h-px w-12 bg-stone-200" />
@@ -34,19 +48,20 @@ const GardenRomance: FC<{ config: SiteConfig }> = ({ config }) => {
           </div>
           <h1
             className="mt-6 font-serif text-5xl font-normal leading-none md:text-6xl"
-            style={{ fontFamily: "var(--font-playfair)", color: config.accentColor }}
+            style={{ fontFamily: tokens.typography.headingFont, color: tokens.colors.accent }}
           >
-            {config.coupleName}
+            {effectiveConfig.coupleName}
           </h1>
-          <p className="mt-6 font-serif text-lg italic text-stone-500" style={{ fontFamily: "var(--font-playfair)" }}>
+          <p className="mt-6 font-serif text-lg italic text-stone-500" style={{ fontFamily: tokens.typography.headingFont }}>
             {dateFormatted}
           </p>
           <p className="mt-2 inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-stone-500 shadow-sm">
-            <span className="h-2 w-2 rounded-full" style={{ backgroundColor: config.accentColor }} />
-            {config.venue}
+            <span className="h-2 w-2 rounded-full" style={{ backgroundColor: tokens.colors.accent }} />
+            {effectiveConfig.venue}
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button href="/rsvp" accentColor={config.accentColor} className="rounded-full px-10 shadow-sm">
+            {/* Buttons consume theme via context */}
+            <Button href="/rsvp" className="rounded-full px-10 shadow-sm">
               RSVP
             </Button>
             <Button href="/info" variant="secondary" className="rounded-full border-stone-200 bg-white px-10">
@@ -64,11 +79,8 @@ const GardenRomance: FC<{ config: SiteConfig }> = ({ config }) => {
 
       {/* Schedule */}
       <section className="mx-auto max-w-5xl px-6 pb-12">
-        <div className="rounded-3xl bg-white p-8 shadow-sm md:p-12">
-          <h2
-            className="text-center font-serif text-2xl font-light"
-            style={{ fontFamily: "var(--font-playfair)" }}
-          >
+        <div className="bg-white p-8 shadow-sm md:p-12" style={{ borderRadius: tokens.radius.card }}>
+          <h2 className="text-center font-serif text-2xl font-light" style={{ fontFamily: tokens.typography.headingFont }}>
             A Garden Celebration
           </h2>
           <p className="mt-2 text-center text-sm text-stone-500">An afternoon among flowers and friends</p>
@@ -78,17 +90,21 @@ const GardenRomance: FC<{ config: SiteConfig }> = ({ config }) => {
               { time: "5:30 PM", title: "Garden Cocktails", desc: "Spritz & small bites", icon: "✿" },
               { time: "7:00 PM", title: "Feast & Dance", desc: "Long tables, wildflowers", icon: "♪" },
             ].map((item) => (
-              <div key={item.title} className="rounded-2xl border border-stone-100 bg-[#fbf7f3] p-6 text-center">
+              <div
+                key={item.title}
+                className="border border-stone-100 p-6 text-center"
+                style={{ backgroundColor: tokens.colors.cardMuted, borderRadius: tokens.radius.card }}
+              >
                 <div
                   className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-white text-sm shadow-sm"
-                  style={{ color: config.accentColor }}
+                  style={{ color: tokens.colors.accent }}
                 >
                   {item.icon}
                 </div>
-                <p className="mt-3 text-xs font-semibold uppercase tracking-widest" style={{ color: config.accentColor }}>
+                <p className="mt-3 text-xs font-semibold uppercase tracking-widest" style={{ color: tokens.colors.accent }}>
                   {item.time}
                 </p>
-                <h3 className="mt-1 font-serif text-lg" style={{ fontFamily: "var(--font-playfair)" }}>
+                <h3 className="mt-1 font-serif text-lg" style={{ fontFamily: tokens.typography.headingFont }}>
                   {item.title}
                 </h3>
                 <p className="mt-1 text-sm text-stone-500">{item.desc}</p>
@@ -100,18 +116,23 @@ const GardenRomance: FC<{ config: SiteConfig }> = ({ config }) => {
 
       {/* Map placeholder */}
       <section className="mx-auto max-w-5xl px-6 pb-16">
-        <div className="overflow-hidden rounded-3xl border border-white bg-white shadow-sm">
+        <div
+          className="overflow-hidden border border-white bg-white shadow-sm"
+          style={{ borderRadius: tokens.radius.card }}
+        >
           <div className="grid md:grid-cols-[1.1fr_0.9fr]">
-            <div className="flex h-64 items-center justify-center bg-gradient-to-br from-green-50 to-pink-50 p-6 text-center md:h-auto">
+            <div
+              className="flex h-64 items-center justify-center bg-gradient-to-br from-green-50 to-pink-50 p-6 text-center md:h-auto"
+            >
               <div>
                 <p className="text-xs uppercase tracking-widest text-stone-400">Find us at</p>
-                <p className="mt-1 font-serif text-xl" style={{ fontFamily: "var(--font-playfair)" }}>
-                  {config.venue}
+                <p className="mt-1 font-serif text-xl" style={{ fontFamily: tokens.typography.headingFont }}>
+                  {effectiveConfig.venue}
                 </p>
                 <p className="mt-2 text-xs text-stone-400">Map placeholder — see Info for directions</p>
               </div>
             </div>
-            <div className="flex h-48 items-center justify-center bg-[#fbf7f3] md:h-64">
+            <div className="flex h-48 items-center justify-center md:h-64" style={{ backgroundColor: tokens.colors.cardMuted }}>
               <span className="rounded-full border border-dashed border-stone-300 px-6 py-3 text-xs uppercase tracking-widest text-stone-400">
                 Map placeholder
               </span>

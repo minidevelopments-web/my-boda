@@ -39,7 +39,7 @@ export function GuestTable({ guests: initialGuests }: Props) {
   useEffect(() => {
     const id = setInterval(async () => {
       try {
-        const r = await fetch("/api/guests");
+        const r = await fetch("/api/v1/guests");
         if (r.ok) {
           const d = await r.json();
           if (Array.isArray(d.data)) setGuests(d.data);
@@ -110,7 +110,7 @@ export function GuestTable({ guests: initialGuests }: Props) {
 
   async function handleCategoryChange(id: string, newCategory: string) {
     try {
-      const res = await fetch(`/api/guests/${id}`, {
+      const res = await fetch(`/api/v1/guests/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ category: newCategory }),
@@ -128,7 +128,7 @@ export function GuestTable({ guests: initialGuests }: Props) {
 
   async function handleDownloadCSV() {
     try {
-      const res = await fetch("/api/guests/export");
+      const res = await fetch("/api/v1/guests/export");
       if (!res.ok) throw new Error("Export failed");
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);

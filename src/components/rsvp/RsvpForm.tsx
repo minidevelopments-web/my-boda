@@ -55,7 +55,7 @@ export default function RsvpForm() {
 
     setSubmitting(true);
     try {
-      const res = await fetch("/api/rsvp", {
+      const res = await fetch("/api/v1/rsvp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(parsed.data),

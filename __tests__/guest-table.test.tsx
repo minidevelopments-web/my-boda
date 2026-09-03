@@ -92,7 +92,7 @@ describe("GuestTable", () => {
     fireEvent.change(select, { target: { value: "friends" } });
     await waitFor(() => {
       expect(mockFetch).toHaveBeenCalledWith(
-        "/api/guests/1",
+        "/api/v1/guests/1",
         expect.objectContaining({ method: "PATCH" })
       );
     });
@@ -110,7 +110,7 @@ describe("GuestTable", () => {
 
     fireEvent.click(btn);
     await waitFor(() => {
-      expect(mockFetch).toHaveBeenCalledWith("/api/guests/export");
+      expect(mockFetch).toHaveBeenCalledWith("/api/v1/guests/export");
     });
     createElSpy.mockRestore();
   });

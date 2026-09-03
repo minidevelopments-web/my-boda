@@ -80,7 +80,7 @@ describe("RsvpForm", () => {
     fireEvent.click(submit);
     await waitFor(() => {
       expect(mockFetch).toHaveBeenCalledWith(
-        "/api/rsvp",
+        "/api/v1/rsvp",
         expect.objectContaining({ method: "POST" })
       );
     });

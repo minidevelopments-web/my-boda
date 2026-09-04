@@ -3,12 +3,12 @@ import type { Guest, Prisma } from "@prisma/client";
 import type { GuestWithRsvp } from "@/types";
 
 /**
- * Low-level Prisma transaction client shape.
- * Using a permissive type to stay compatible with Prisma's generated
- * TransactionClient without coupling consumers to a specific version.
+ * Prisma client usable inside or outside a transaction.
+ * Accepts the global client (`typeof prisma`) or a `$transaction` client
+ * (`Prisma.TransactionClient`), so repositories stay agnostic to the
+ * transaction boundary owned by the service layer.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type DbClient = typeof prisma | any;
+export type DbClient = typeof prisma | Prisma.TransactionClient;
 
 /**
  * Repository for Guest persistence.
@@ -85,12 +85,19 @@ export const guestRepository = {
     client: DbClient = prisma
   ): Promise<GuestWithRsvp[]> {
     const take = Math.min(Math.max(opts.take ?? MAX_EXPORT_BATCH, 1), MAX_EXPORT_BATCH);
-    const cursorOpts = opts.cursor ? { cursor: { id: opts.cursor }, skip: 1 } : {};
+    if (opts.cursor) {
+      return client.guest.findMany({
+        include: { rsvp: true },
+        orderBy: { id: "asc" },
+        take,
+        cursor: { id: opts.cursor },
+        skip: 1,
+      });
+    }
     return client.guest.findMany({
       include: { rsvp: true },
       orderBy: { id: "asc" },
       take,
-      ...cursorOpts,
     });
   },
 

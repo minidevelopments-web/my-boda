@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import type { Prisma } from "@prisma/client";
 import { guestRepository } from "@/lib/repositories/guestRepository";
 import { rsvpRepository } from "@/lib/repositories/rsvpRepository";
 import type { RsvpInput } from "@/lib/validators";
@@ -47,7 +48,7 @@ export const rsvpService = {
     const effectiveMealChoice = attending ? mealChoice || null : null;
     const effectiveDietaryNotes = attending ? dietaryNotes || null : null;
 
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       let guest: { id: string } & Record<string, unknown>;
 
       if (guestId) {

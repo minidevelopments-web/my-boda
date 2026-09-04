@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { rsvpSchema } from "@/lib/validators";
 import { Button } from "@/components/ui/Button";
 
@@ -22,6 +22,21 @@ export default function RsvpForm() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+
+  const summaryRef = useRef<HTMLDivElement>(null);
+  const successRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    if (Object.keys(errors).length > 0) {
+      summaryRef.current?.focus();
+    }
+  }, [errors]);
+
+  useEffect(() => {
+    if (success) {
+      successRef.current?.focus();
+    }
+  }, [success]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -63,7 +78,10 @@ export default function RsvpForm() {
       });
       const json = await res.json();
       if (!res.ok) {
-        const msg = json?.error ? JSON.stringify(json.error) : "Failed to submit RSVP";
+        const msg =
+          typeof json?.error === "string"
+            ? json.error
+            : "Something went wrong sending your RSVP. Please check your details and try again.";
         setSubmitError(msg);
         return;
       }
@@ -78,7 +96,7 @@ export default function RsvpForm() {
   if (success) {
     return (
       <div className="rounded-lg border bg-green-50 p-6 text-center" role="status" aria-live="polite">
-        <h3 className="text-lg font-semibold text-green-800">Thank you! Your RSVP has been received.</h3>
+        <h3 ref={successRef} tabIndex={-1} className="text-lg font-semibold text-green-800 focus:outline-none">Thank you! Your RSVP has been received.</h3>
         <p className="mt-2 text-sm text-green-700">We can&apos;t wait to celebrate with you.</p>
         <button
           type="button"
@@ -98,6 +116,24 @@ export default function RsvpForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-6 rounded-lg border bg-white p-6 shadow-sm">
+      {Object.keys(errors).length > 0 && (
+        <div
+          ref={summaryRef}
+          role="alert"
+          tabIndex={-1}
+          aria-labelledby="rsvp-error-summary-heading"
+          className="rounded-md border border-red-200 bg-red-50 p-4 focus:outline-none"
+        >
+          <h2 id="rsvp-error-summary-heading" className="text-sm font-semibold text-red-800">
+            Please fix the following before sending:
+          </h2>
+          <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-red-700">
+            {Object.values(errors).map((message) => (
+              <li key={message}>{message}</li>
+            ))}
+          </ul>
+        </div>
+      )}
       {/* Name */}
       <div>
         <label htmlFor="rsvp-name" className="block text-sm font-medium">
@@ -148,7 +184,7 @@ export default function RsvpForm() {
       <fieldset>
         <legend className="block text-sm font-medium">Will you be attending?</legend>
         <div className="mt-2 flex gap-4">
-          <label className="flex items-center gap-2 text-sm">
+          <label className="flex min-h-[44px] min-w-[44px] items-center gap-2 text-sm">
             <input
               type="radio"
               name="attending"
@@ -159,7 +195,7 @@ export default function RsvpForm() {
             />
             Yes
           </label>
-          <label className="flex items-center gap-2 text-sm">
+          <label className="flex min-h-[44px] min-w-[44px] items-center gap-2 text-sm">
             <input
               type="radio"
               name="attending"
@@ -237,7 +273,7 @@ export default function RsvpForm() {
 
       {/* Plus one */}
       <div>
-        <label htmlFor="rsvp-plusOne" className="flex items-center gap-2 text-sm font-medium">
+        <label htmlFor="rsvp-plusOne" className="flex min-h-[44px] min-w-[44px] items-center gap-2 text-sm font-medium">
           <input
             id="rsvp-plusOne"
             type="checkbox"

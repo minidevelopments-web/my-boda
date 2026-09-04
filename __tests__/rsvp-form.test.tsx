@@ -67,7 +67,8 @@ describe("RsvpForm", () => {
     const submit = screen.getByRole("button", { name: /submit|send rsvp/i });
     fireEvent.click(submit);
     await waitFor(() => {
-      expect(screen.getByText(/name is required/i)).toBeInTheDocument();
+      // Error appears twice by design: error summary + inline field error
+      expect(screen.getAllByText(/name is required/i)).toHaveLength(2);
     });
     expect(mockFetch).not.toHaveBeenCalled();
 

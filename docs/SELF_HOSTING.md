@@ -129,7 +129,7 @@ No code change needed for the domain itself — the app has no hardcoded host.
 
 ```bash
 # 1. Export guests as CSV from /admin (or via API)
-curl -H "Cookie: session=..." http://localhost:3000/api/guests/export -o guests.csv
+curl -H "Cookie: session=..." http://localhost:3000/api/v1/guests/export -o guests.csv
 
 # 2. Switch DATABASE_URL and compose postgres service (see above)
 

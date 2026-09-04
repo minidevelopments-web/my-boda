@@ -1,4 +1,5 @@
 import type { SiteConfig, ThemeId } from "@/lib/config";
+import { themeIdSchema } from "@/lib/config";
 import { themeTokens } from "./tokens";
 import type { ThemeTokens, ResolvedThemeTokens } from "./types";
 
@@ -8,7 +9,7 @@ import type { ThemeTokens, ResolvedThemeTokens } from "./types";
  * Components never hard-code colors; they ask the service (via context/hook).
  */
 
-const VALID_THEMES = new Set<ThemeId>(["classic", "modern", "garden"]);
+const VALID_THEMES: ReadonlySet<ThemeId> = new Set<ThemeId>(themeIdSchema.options);
 
 export function isValidThemeId(id: string): id is ThemeId {
   return VALID_THEMES.has(id as ThemeId);

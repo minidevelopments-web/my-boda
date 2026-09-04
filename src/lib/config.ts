@@ -237,12 +237,30 @@ function parseJsonArrayEnv<T>(
   if (!value) return fallback;
   const parsed = safeParseJson(value);
   if (!Array.isArray(parsed)) return fallback;
+  return filterValidItems(parsed, itemSchema);
+}
+
+/** Keep only items passing `itemSchema` — shared by array env vars and nested arrays */
+function filterValidItems<T>(parsed: unknown[], itemSchema: z.ZodType<T>): T[] {
   const valid: T[] = [];
   for (const item of parsed) {
     const res = itemSchema.safeParse(item);
     if (res.success) valid.push(res.data);
   }
   return valid;
+}
+
+/** Validate an object JSON env var via schema, returning fallback on any failure */
+function parseJsonObjectEnv<T>(
+  value: string | undefined,
+  objectSchema: z.ZodType<T>,
+  fallback: T
+): T {
+  if (!value) return fallback;
+  const parsed = safeParseJson(value);
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return fallback;
+  const res = objectSchema.safeParse(parsed);
+  return res.success ? res.data : fallback;
 }
 
 function parseSchedule(value: string | undefined): ScheduleItem[] {
@@ -260,13 +278,11 @@ function parseRegistry(value: string | undefined): RegistryConfig {
   if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return fallback;
   const obj = parsed as Record<string, unknown>;
 
-  // Validate links array element-wise (filter unsafe URLs)
-  const rawLinks = Array.isArray(obj.links) ? obj.links : [];
-  const safeLinks: RegistryLink[] = [];
-  for (const l of rawLinks) {
-    const res = registryLinkSchema.safeParse(l);
-    if (res.success) safeLinks.push(res.data);
-  }
+  // Validate links array element-wise via the shared generic (filter unsafe URLs)
+  const safeLinks = filterValidItems(
+    Array.isArray(obj.links) ? obj.links : [],
+    registryLinkSchema
+  );
 
   const iban = typeof obj.iban === "string" ? obj.iban : undefined;
   const bizum = typeof obj.bizum === "string" ? obj.bizum : undefined;
@@ -286,21 +302,13 @@ function parseVenueMapUrl(value: string | undefined): string {
 }
 
 function parseFeatureFlags(value: string | undefined): Record<string, boolean> {
-  if (!value) return {};
-  const parsed = safeParseJson(value);
-  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return {};
-  const res = featureFlagsSchema.safeParse(parsed);
-  return res.success ? res.data : {};
+  return parseJsonObjectEnv(value, featureFlagsSchema, {});
 }
 
+const DEFAULT_API_ENDPOINTS = { rsvp: "/api/v1/rsvp", guests: "/api/v1/guests", auth: "/api/v1/auth" };
+
 function parseApiEndpoints(value: string | undefined): z.infer<typeof apiEndpointsSchema> {
-  if (!value) return { rsvp: "/api/v1/rsvp", guests: "/api/v1/guests", auth: "/api/v1/auth" };
-  const parsed = safeParseJson(value);
-  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
-    return { rsvp: "/api/v1/rsvp", guests: "/api/v1/guests", auth: "/api/v1/auth" };
-  }
-  const res = apiEndpointsSchema.safeParse(parsed);
-  return res.success ? res.data : { rsvp: "/api/v1/rsvp", guests: "/api/v1/guests", auth: "/api/v1/auth" };
+  return parseJsonObjectEnv(value, apiEndpointsSchema, DEFAULT_API_ENDPOINTS);
 }
 
 function parseApiUrl(value: string | undefined): string | undefined {
@@ -328,18 +336,15 @@ export interface GetSiteConfigOptions {
 }
 
 /**
- * Build and validate SiteConfig from env.
+ * Build and validate SiteConfig from an explicit env object.
  * - Validates each field via Zod, falls back to defaults on invalid.
  * - JSON fields are parsed then validated element-wise; invalid entries are dropped.
  * - Unsafe URLs (non-http/https) are filtered via safeUrlSchema / isSafeUrl.
  * - Final object is validated against siteConfigSchema (defense-in-depth).
  */
-export function getSiteConfig(optionsOrEnv?: GetSiteConfigOptions | NodeJS.ProcessEnv | Record<string, string | undefined>): SiteConfig {
-  // Support both getSiteConfig() and getSiteConfig({ env }) and getSiteConfig(envObj) for tests
-  const env: Record<string, string | undefined> =
-    optionsOrEnv && typeof optionsOrEnv === "object" && "env" in (optionsOrEnv as GetSiteConfigOptions)
-      ? ((optionsOrEnv as GetSiteConfigOptions).env as Record<string, string | undefined>) ?? (process.env as Record<string, string | undefined>)
-      : (optionsOrEnv as Record<string, string | undefined>) ?? (process.env as Record<string, string | undefined>);
+export function getSiteConfigFromEnv(
+  env: NodeJS.ProcessEnv | Record<string, string | undefined>
+): SiteConfig {
 
   const coupleName = parseStringWithSchema(z.string().min(1), env.NEXT_PUBLIC_COUPLE_NAME, "Alex & Sam");
   const weddingDate = parseStringWithSchema(isoDateSchema, env.NEXT_PUBLIC_WEDDING_DATE, "2027-06-12");
@@ -385,6 +390,17 @@ export function getSiteConfig(optionsOrEnv?: GetSiteConfigOptions | NodeJS.Proce
   } catch {
     return candidate;
   }
+}
+
+/**
+ * Build and validate SiteConfig from `process.env` (or an explicit override).
+ * Canonical entry point for app code: `getSiteConfig()`.
+ * For tests / explicit env injection, prefer `getSiteConfigFromEnv(env)`.
+ */
+export function getSiteConfig(options?: GetSiteConfigOptions): SiteConfig {
+  return getSiteConfigFromEnv(
+    options?.env ?? (process.env as Record<string, string | undefined>)
+  );
 }
 
 /**
@@ -446,7 +462,7 @@ export function validateConfigAtStartup(
   rawEnv: NodeJS.ProcessEnv | Record<string, string | undefined> = process.env
 ): { env: Env; siteConfig: SiteConfig } {
   const env = validateEnv(rawEnv);
-  const siteConfig = getSiteConfig({ env: rawEnv });
+  const siteConfig = getSiteConfigFromEnv(rawEnv);
   const siteResult = siteConfigSchema.safeParse(siteConfig);
   if (!siteResult.success) {
     const flat = siteResult.error.flatten();
@@ -455,17 +471,6 @@ export function validateConfigAtStartup(
     console.warn(`[config] ${message}`);
   }
   return { env, siteConfig };
-}
-
-/** Legacy helper kept for backward compat — parses JSON env with fallback */
-function parseJsonEnv<T>(value: string | undefined, fallback: T): T {
-  if (!value) return fallback;
-  try {
-    const parsed = JSON.parse(value) as unknown;
-    return parsed as T;
-  } catch {
-    return fallback;
-  }
 }
 
 // Re-export for external validation use

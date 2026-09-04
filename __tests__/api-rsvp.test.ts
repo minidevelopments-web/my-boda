@@ -78,7 +78,7 @@ describe("POST /api/rsvp integration", () => {
   });
 
   it("POST /api/rsvp creates guest and rsvp (expect 201)", async () => {
-    const { POST } = await import("@/app/api/rsvp/route");
+    const { POST } = await import("@/app/api/v1/rsvp/route");
     const req = new NextRequest("http://localhost/api/rsvp", {
       method: "POST",
       body: JSON.stringify({ name: "Test Guest", attending: true, headcount: 2 }),
@@ -91,7 +91,7 @@ describe("POST /api/rsvp integration", () => {
   });
 
   it("uses prisma.$transaction for upsert", async () => {
-    const { POST } = await import("@/app/api/rsvp/route");
+    const { POST } = await import("@/app/api/v1/rsvp/route");
     const req = new NextRequest("http://localhost/api/rsvp", {
       method: "POST",
       body: JSON.stringify({ name: "Tx Guest", attending: true, headcount: 1 }),
@@ -101,7 +101,7 @@ describe("POST /api/rsvp integration", () => {
   });
 
   it("coerces headcount to 1 when attending false", async () => {
-    const { POST } = await import("@/app/api/rsvp/route");
+    const { POST } = await import("@/app/api/v1/rsvp/route");
     const req = new NextRequest("http://localhost/api/rsvp", {
       method: "POST",
       body: JSON.stringify({ name: "No Guest", attending: false, headcount: 5 }),
@@ -116,7 +116,7 @@ describe("POST /api/rsvp integration", () => {
 
   it("dedups by email via findFirst when email provided", async () => {
     mockGuestFindFirst.mockResolvedValue({ id: "existing_123", name: "Existing", email: "lena@example.com" });
-    const { POST } = await import("@/app/api/rsvp/route");
+    const { POST } = await import("@/app/api/v1/rsvp/route");
     const req = new NextRequest("http://localhost/api/rsvp", {
       method: "POST",
       body: JSON.stringify({ name: "Lena", email: "lena@example.com", attending: true, headcount: 1 }),
@@ -127,7 +127,7 @@ describe("POST /api/rsvp integration", () => {
   });
 
   it("returns 400 on invalid payload", async () => {
-    const { POST } = await import("@/app/api/rsvp/route");
+    const { POST } = await import("@/app/api/v1/rsvp/route");
     const req = new NextRequest("http://localhost/api/rsvp", {
       method: "POST",
       body: JSON.stringify({ name: "", attending: true, headcount: 0 }),

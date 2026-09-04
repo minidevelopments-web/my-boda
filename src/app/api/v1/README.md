@@ -19,15 +19,15 @@ Use `/api/v1/*` exclusively.
 ## Why this layout
 
 - **Domain grouping** — each business domain (`guests`, `rsvp`, `auth`) owns a folder. Adding a new feature (e.g. `registry`, `schedule`) means creating `src/app/api/v1/<newDomain>/route.ts` — no flat list.
-- **Versioning** — breaking changes go to `v2/` while `v1/` stays frozen. Clients pin to `/api/v1/...`; legacy unversioned paths keep working through the centralized rewrites during the deprecation window below.
-- **DRY** — logic lives once in `v1/`. Changing business logic requires editing only the `v1/` handler; compat is 4 lines in `next.config.mjs`, not a file per endpoint.
+- **Versioning** — breaking changes go to `v2/` while `v1/` stays frozen. Clients pin to `/api/v1/...`; legacy unversioned paths 404 since #22 — there is no deprecation window.
+- **DRY** — logic lives once in `v1/`. Changing business logic requires editing only the `v1/` handler; there is no compat layer — no wrappers, no rewrites.
 - **Tests** — import the canonical handler directly (`import { POST } from "@/app/api/v1/rsvp/route"`); no wrapper indirection.
 
 ## Adding a new endpoint
 
 1. Create `src/app/api/v1/<domain>/route.ts` (or sub-route) and implement handlers using `@/lib/services/*` (thin route → service → repository).
 2. Client fetches must use `/api/v1/<domain>` directly. Do not add rewrites or wrappers.
-3. Update client fetches to `/api/v1/<domain>`; rewrites guarantee old clients still work until removal.
+3. Update client fetches to `/api/v1/<domain>`; old clients on legacy paths 404 and must migrate to `/api/v1/*`.
 
 ## Removal notice (legacy unversioned paths)
 

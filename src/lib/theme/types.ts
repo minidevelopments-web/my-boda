@@ -31,6 +31,9 @@ export type ThemeRadius = {
   button: string;
 };
 
+export type ThemeSpacing = { section: string; content: string; block: string };
+export type ThemeShadows = { card: string };
+
 export type ThemeTokens = {
   id: ThemeId;
   label: string;
@@ -38,6 +41,8 @@ export type ThemeTokens = {
   colors: ThemeColors;
   typography: ThemeTypography;
   radius: ThemeRadius;
+  spacing: ThemeSpacing;
+  shadows: ThemeShadows;
 };
 
 /** Resolved tokens carry the runtime accentColor merged in */

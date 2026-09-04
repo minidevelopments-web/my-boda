@@ -32,6 +32,14 @@ export const themeTokens: Record<ThemeId, ThemeTokens> = {
       card: "0px", // classic uses sharp / no rounding on cards
       button: "0px",
     },
+    spacing: {
+      section: "6rem",
+      content: "4rem",
+      block: "2rem",
+    },
+    shadows: {
+      card: "0 1px 2px rgba(0,0,0,0.05)",
+    },
   },
   modern: {
     id: "modern",
@@ -56,6 +64,14 @@ export const themeTokens: Record<ThemeId, ThemeTokens> = {
       card: "0px",
       button: "0px",
     },
+    spacing: {
+      section: "6rem",
+      content: "4rem",
+      block: "2rem",
+    },
+    shadows: {
+      card: "0 1px 2px rgba(0,0,0,0.05)",
+    },
   },
   garden: {
     id: "garden",
@@ -79,6 +95,14 @@ export const themeTokens: Record<ThemeId, ThemeTokens> = {
     radius: {
       card: "24px", // garden is very rounded
       button: "9999px", // pill buttons
+    },
+    spacing: {
+      section: "6rem",
+      content: "4rem",
+      block: "2rem",
+    },
+    shadows: {
+      card: "0 1px 2px rgba(0,0,0,0.05)",
     },
   },
 };

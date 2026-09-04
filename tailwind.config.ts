@@ -19,6 +19,18 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      spacing: {
+        section: "var(--space-section)",
+        content: "var(--space-content)",
+        block: "var(--space-block)",
+      },
+      borderRadius: {
+        card: "var(--radius-card)",
+        button: "var(--radius-button)",
+      },
+      boxShadow: {
+        card: "var(--shadow-card)",
+      },
     },
   },
   plugins: [],

@@ -36,7 +36,7 @@ const ClassicElegance: FC<{ config: SiteConfig }> = ({ config }) => {
       }}
     >
       {/* Hero */}
-      <section className="mx-auto max-w-5xl px-6 py-24 text-center md:py-32">
+      <section className="mx-auto max-w-5xl px-6 py-content text-center md:py-section">
         <p
           className="mb-6 text-xs font-medium uppercase tracking-[0.3em] text-stone-500"
           style={{ color: tokens.colors.accent }}
@@ -75,7 +75,7 @@ const ClassicElegance: FC<{ config: SiteConfig }> = ({ config }) => {
 
       {/* Schedule */}
       <section className="border-t bg-white/60" style={{ borderColor: tokens.colors.border }}>
-        <div className="mx-auto max-w-5xl px-6 py-16">
+        <div className="mx-auto max-w-5xl px-6 py-content">
           <h2
             className="text-center font-serif text-3xl font-light tracking-wide"
             style={{ fontFamily: tokens.typography.headingFont }}
@@ -109,7 +109,7 @@ const ClassicElegance: FC<{ config: SiteConfig }> = ({ config }) => {
       </section>
 
       {/* Map placeholder */}
-      <section className="mx-auto max-w-5xl px-6 pb-16">
+      <section className="mx-auto max-w-5xl px-6 pb-content">
         <div className="rounded-none border bg-white p-2 shadow-sm" style={{ borderColor: tokens.colors.border }}>
           <div className="flex h-64 items-center justify-center text-center" style={{ backgroundColor: tokens.colors.background }}>
             <div>

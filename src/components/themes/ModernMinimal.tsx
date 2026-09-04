@@ -32,7 +32,7 @@ const ModernMinimal: FC<{ config: SiteConfig }> = ({ config }) => {
       style={{ backgroundColor: tokens.colors.background, color: tokens.colors.foreground }}
     >
       {/* Hero */}
-      <section className="mx-auto max-w-6xl px-6 py-20 md:py-28">
+      <section className="mx-auto max-w-6xl px-6 py-content md:py-section">
         <div className="grid gap-12 md:grid-cols-[1.1fr_0.9fr] md:items-center">
           <div>
             <p className="mb-4 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500">
@@ -81,7 +81,7 @@ const ModernMinimal: FC<{ config: SiteConfig }> = ({ config }) => {
 
       {/* Schedule */}
       <section className="border-y bg-zinc-50" style={{ borderColor: tokens.colors.border }}>
-        <div className="mx-auto max-w-6xl px-6 py-16">
+        <div className="mx-auto max-w-6xl px-6 py-content">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-semibold uppercase tracking-[0.2em]">Schedule</h2>
             <span className="text-xs uppercase tracking-widest text-zinc-400">3 events</span>
@@ -104,7 +104,7 @@ const ModernMinimal: FC<{ config: SiteConfig }> = ({ config }) => {
       </section>
 
       {/* Map placeholder */}
-      <section className="mx-auto max-w-6xl px-6 py-12">
+      <section className="mx-auto max-w-6xl px-6 py-content">
         <div className="grid gap-6 md:grid-cols-[1fr_1.5fr]">
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-widest">Venue</h3>

@@ -35,9 +35,9 @@ const GardenRomance: FC<{ config: SiteConfig }> = ({ config }) => {
       {/* Decorative top border — accent via tokens */}
       <div className="h-1 w-full" style={{ backgroundColor: tokens.colors.accent, opacity: 0.6 }} />
       {/* Hero */}
-      <section className="mx-auto max-w-5xl px-6 py-20 text-center md:py-28">
+      <section className="mx-auto max-w-5xl px-6 py-content text-center md:py-section">
         <div
-          className="mx-auto max-w-3xl border border-white bg-white/70 px-8 py-12 shadow-[0_8px_40px_rgba(0,0,0,0.04)] backdrop-blur md:px-16 md:py-16"
+          className="mx-auto max-w-3xl border border-white bg-white/70 px-8 py-content shadow-[0_8px_40px_rgba(0,0,0,0.04)] backdrop-blur md:px-16"
           style={{ borderRadius: tokens.radius.card }}
         >
           <p className="text-xs font-medium uppercase tracking-[0.25em] text-stone-400">Together with love</p>
@@ -78,7 +78,7 @@ const GardenRomance: FC<{ config: SiteConfig }> = ({ config }) => {
       </section>
 
       {/* Schedule */}
-      <section className="mx-auto max-w-5xl px-6 pb-12">
+      <section className="mx-auto max-w-5xl px-6 pb-content">
         <div className="bg-white p-8 shadow-sm md:p-12" style={{ borderRadius: tokens.radius.card }}>
           <h2 className="text-center font-serif text-2xl font-light" style={{ fontFamily: tokens.typography.headingFont }}>
             A Garden Celebration
@@ -115,7 +115,7 @@ const GardenRomance: FC<{ config: SiteConfig }> = ({ config }) => {
       </section>
 
       {/* Map placeholder */}
-      <section className="mx-auto max-w-5xl px-6 pb-16">
+      <section className="mx-auto max-w-5xl px-6 pb-content">
         <div
           className="overflow-hidden border border-white bg-white shadow-sm"
           style={{ borderRadius: tokens.radius.card }}

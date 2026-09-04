@@ -3,17 +3,23 @@
 import * as React from "react";
 import { useThemeOptional } from "@/components/theme/ThemeContext";
 
-type ButtonProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
-  variant?: "primary" | "secondary";
-  accentColor?: string;
-};
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
+  React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+    variant?: "primary" | "secondary";
+    accentColor?: string;
+    loading?: boolean;
+    href?: string;
+  };
 
 export function Button({
   variant = "primary",
   accentColor,
+  loading = false,
+  href,
   className = "",
   children,
   style,
+  disabled,
   ...props
 }: ButtonProps) {
   const themeCtx = useThemeOptional();
@@ -32,9 +38,28 @@ export function Button({
       ? { backgroundColor: resolvedAccent, ...style }
       : style;
 
+  if (href) {
+    return (
+      <a
+        href={href}
+        className={`${base} ${variantClass} ${className}`}
+        style={accentStyle}
+        {...props}
+      >
+        {children}
+      </a>
+    );
+  }
+
   return (
-    <a className={`${base} ${variantClass} ${className}`} style={accentStyle} {...props}>
-      {children}
-    </a>
+    <button
+      disabled={disabled || loading}
+      aria-busy={loading || undefined}
+      className={`${base} ${variantClass} ${className}`}
+      style={accentStyle}
+      {...props}
+    >
+      {loading ? "Sending..." : children}
+    </button>
   );
 }

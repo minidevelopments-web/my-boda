@@ -49,7 +49,10 @@ export function getThemeForConfig(config: SiteConfig): ResolvedThemeTokens {
 }
 
 /**
- * Helper to build CSS variable style for accent.
+ * Helper to build CSS variable style for accent + per-theme radius.
+ * The themed wrapper element carries these so Tailwind
+ * `rounded-card` / `rounded-button` (var(--radius-card/button) ->
+ * var(--theme-radius-*, ...)) resolve per theme (e.g. garden 24px/pill).
  */
 export function getThemeCssVars(tokens: ThemeTokens): React.CSSProperties {
   return {
@@ -58,5 +61,7 @@ export function getThemeCssVars(tokens: ThemeTokens): React.CSSProperties {
     ["--accent-muted" as any]: tokens.colors.accentMuted,
     ["--theme-bg" as any]: tokens.colors.background,
     ["--theme-fg" as any]: tokens.colors.foreground,
+    ["--theme-radius-card" as any]: tokens.radius.card,
+    ["--theme-radius-button" as any]: tokens.radius.button,
   } as React.CSSProperties;
 }

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { rsvpSchema } from "@/lib/validators";
+import { Button } from "@/components/ui/Button";
 
 type FormErrors = Record<string, string>;
 
@@ -290,13 +291,9 @@ export default function RsvpForm() {
         </p>
       )}
 
-      <button
-        type="submit"
-        disabled={submitting}
-        className="w-full rounded-md bg-black px-4 py-2 text-sm font-medium text-white hover:bg-black/90 disabled:opacity-50"
-      >
-        {submitting ? "Sending..." : "Send RSVP"}
-      </button>
+      <Button type="submit" loading={submitting} className="w-full">
+        Send RSVP
+      </Button>
     </form>
   );
 }

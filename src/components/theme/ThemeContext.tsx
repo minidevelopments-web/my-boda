@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useMemo } from "react";
 import type { SiteConfig } from "@/lib/config";
 import type { ResolvedThemeTokens } from "@/lib/theme/types";
-import { getThemeForConfig } from "@/lib/theme/service";
+import { getThemeForConfig, getThemeCssVars } from "@/lib/theme/service";
 
 export type ThemeContextValue = {
   tokens: ResolvedThemeTokens;
@@ -30,7 +30,13 @@ export function ThemeProvider({ config, children, tokens: override }: ThemeProvi
     };
   }, [config, override]);
 
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+  const style = useMemo(() => getThemeCssVars(value.tokens), [value.tokens]);
+
+  return (
+    <ThemeContext.Provider value={value}>
+      <div style={style}>{children}</div>
+    </ThemeContext.Provider>
+  );
 }
 
 /**

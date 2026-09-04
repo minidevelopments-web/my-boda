@@ -73,8 +73,8 @@ export async function verifySessionEdge(
  * Centralized authentication middleware.
  *
  * - Protects `/admin` (pages) → redirects unauthenticated users to `/admin/login`.
- * - Protects `/api/v1/guests*` and `/api/guests*` (API) → returns 401 JSON.
- * - Leaves public routes untouched: `/admin/login`, `/api/v1/auth`, `/api/auth`, `/api/v1/rsvp`, `/api/rsvp`.
+ * - Protects `/api/v1/guests*` (API) → returns 401 JSON.
+ * - Leaves public routes untouched: `/admin/login`, `/api/v1/auth`, `/api/v1/rsvp`.
  *
  * Individual route handlers still contain `isAdminRequest` checks as
  * defense-in-depth, but this middleware is the single source of truth
@@ -102,12 +102,11 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // Guest APIs: /api/v1/guests and /api/guests (and all sub-paths)
+  // Guest API: /api/v1/guests (and all sub-paths). Legacy unversioned
+  // paths were removed in #22 and now 404.
   const isGuestApi =
     pathname === "/api/v1/guests" ||
-    pathname.startsWith("/api/v1/guests/") ||
-    pathname === "/api/guests" ||
-    pathname.startsWith("/api/guests/");
+    pathname.startsWith("/api/v1/guests/");
 
   if (isGuestApi) {
     const token = req.cookies.get(ADMIN_COOKIE_NAME)?.value;
@@ -125,6 +124,5 @@ export const config = {
   matcher: [
     "/admin/:path*",
     "/api/v1/guests/:path*",
-    "/api/guests/:path*",
   ],
 };

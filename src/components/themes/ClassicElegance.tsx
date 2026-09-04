@@ -44,7 +44,7 @@ const ClassicElegance: FC<{ config: SiteConfig }> = ({ config }) => {
         >
           {effectiveConfig.coupleName}
         </h1>
-        <div className="mx-auto my-8 flex max-w-md items-center justify-center gap-4">
+        <div className="mx-auto my-8 flex max-w-md items-center justify-center gap-4" aria-hidden="true">
           <span className="h-px flex-1 bg-stone-200" />
           <span
             className="h-2 w-2 rotate-45 border"
@@ -78,14 +78,15 @@ const ClassicElegance: FC<{ config: SiteConfig }> = ({ config }) => {
             Schedule
           </h2>
           <div className="mx-auto mt-10 max-w-2xl">
-            <div className="relative border-l pl-8" style={{ borderColor: tokens.colors.border }}>
+            <ul className="relative border-l pl-8" style={{ borderColor: tokens.colors.border }}>
               {[
                 { time: "4:00 PM", title: "Ceremony", desc: "Join us as we say “I do”" },
                 { time: "5:30 PM", title: "Cocktail Hour", desc: "Drinks & hors d’oeuvres on the terrace" },
                 { time: "7:00 PM", title: "Reception", desc: "Dinner, dancing & celebration" },
               ].map((item) => (
-                <div key={item.title} className="relative mb-10 last:mb-0">
+                <li key={item.title} className="relative mb-10 last:mb-0">
                   <span
+                    aria-hidden="true"
                     className="absolute -left-[9px] top-1 h-2 w-2 rotate-45 border bg-white"
                     style={{ borderColor: tokens.colors.accent }}
                   />
@@ -96,9 +97,9 @@ const ClassicElegance: FC<{ config: SiteConfig }> = ({ config }) => {
                     {item.title}
                   </h3>
                   <p className="mt-1 text-sm text-stone-500">{item.desc}</p>
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </div>
       </section>

@@ -2,13 +2,10 @@
 
 import { FC } from "react";
 import { format, parseISO, isValid } from "date-fns";
-import { Inter } from "next/font/google";
 import type { SiteConfig } from "@/lib/config";
 import { Button } from "@/components/ui/Button";
 import { useThemeOptional } from "@/components/theme/ThemeContext";
 import { getThemeForConfig } from "@/lib/theme/service";
-
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 function formatDate(dateStr: string): string {
   try {
@@ -28,7 +25,7 @@ const ModernMinimal: FC<{ config: SiteConfig }> = ({ config }) => {
 
   return (
     <div
-      className={`${inter.variable} antialiased`}
+      className="antialiased"
       style={{ backgroundColor: tokens.colors.background, color: tokens.colors.foreground }}
     >
       {/* Hero */}
@@ -38,7 +35,10 @@ const ModernMinimal: FC<{ config: SiteConfig }> = ({ config }) => {
             <p className="mb-4 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-500">
               <span className="h-px w-8 bg-zinc-300" /> {dateFormatted}
             </p>
-            <h1 className="text-5xl font-black uppercase leading-[0.9] tracking-tighter md:text-7xl">
+            <h1
+              className="font-serif text-5xl font-black uppercase leading-[0.9] tracking-tighter md:text-7xl"
+              style={{ fontFamily: tokens.typography.headingFont }}
+            >
               {effectiveConfig.coupleName.split(/ & | and /i).map((part, i, arr) => (
                 <span key={i} className="block">
                   {part.trim()}

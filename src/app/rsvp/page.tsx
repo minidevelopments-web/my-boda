@@ -7,11 +7,11 @@ export default function RsvpPage() {
   return (
     <div className="mx-auto max-w-2xl px-6 py-content">
       <div className="mb-8 text-center">
-        <h1 className="text-3xl font-semibold tracking-tight">RSVP</h1>
-        <p className="mt-2 text-sm text-gray-600">
+        <h1 className="font-serif text-4xl font-light tracking-tight">RSVP</h1>
+        <p className="mx-auto mt-2 max-w-prose text-sm text-gray-600">
           Celebrate with {config.coupleName} — {config.venue} on {config.weddingDate}
         </p>
-        <p className="mt-1 text-sm text-gray-500">Let us know if you can make it. We can&apos;t wait to see you!</p>
+        <p className="mx-auto mt-1 max-w-prose text-sm text-gray-500">Let us know if you can make it. We can&apos;t wait to see you!</p>
       </div>
 
       <RsvpForm />

@@ -2,14 +2,10 @@
 
 import { FC } from "react";
 import { format, parseISO, isValid } from "date-fns";
-import { Playfair_Display, Inter } from "next/font/google";
 import type { SiteConfig } from "@/lib/config";
 import { Button } from "@/components/ui/Button";
 import { useThemeOptional } from "@/components/theme/ThemeContext";
 import { getThemeForConfig } from "@/lib/theme/service";
-
-const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 function formatDate(dateStr: string): string {
   try {
@@ -29,7 +25,6 @@ const ClassicElegance: FC<{ config: SiteConfig }> = ({ config }) => {
 
   return (
     <div
-      className={`${playfair.variable} ${inter.variable}`}
       style={{
         backgroundColor: tokens.colors.background,
         color: tokens.colors.foreground,

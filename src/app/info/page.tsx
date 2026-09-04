@@ -9,8 +9,8 @@ export default function InfoPage() {
   return (
     <ThemeProvider config={config}>
       <div className="mx-auto max-w-5xl px-6 py-content">
-        <h1 className="font-serif text-3xl font-light">Wedding Info</h1>
-        <p className="mt-2 text-sm text-stone-500">
+        <h1 className="font-serif text-4xl font-light tracking-tight">Wedding Info</h1>
+        <p className="mt-2 max-w-prose text-sm text-stone-500">
           {config.venue} — {config.weddingDate}
         </p>
 

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminPassword } from "@/lib/adminPassword";
+import { isValidLocale, pickLocale } from "@/lib/i18n";
 
 export const ADMIN_COOKIE_NAME = "admin_session";
 
@@ -82,14 +83,34 @@ export async function verifySessionEdge(
  */
 export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
+  const segs = pathname.split("/").filter(Boolean);
+  const maybeLang = segs[0];
+  if (pathname === "/") {
+    const cookie = req.cookies.get("locale")?.value ?? null;
+    const lang = pickLocale(req.headers.get("accept-language"), cookie);
+    const res = NextResponse.redirect(new URL(`/${lang}`, req.url));
+    res.cookies.set("locale", lang, { path: "/", maxAge: 31536000 });
+    return res;
+  }
+  if (maybeLang && !isValidLocale(maybeLang) && ["admin","api","rsvp","info","registry","_next"].includes(maybeLang)) {
+    // legacy unprefixed public path → prefix with detected locale
+    const cookie = req.cookies.get("locale")?.value ?? null;
+    const lang = pickLocale(req.headers.get("accept-language"), cookie);
+    return NextResponse.redirect(new URL(`/${lang}${pathname}`, req.url));
+  }
+  if (maybeLang && !isValidLocale(maybeLang)) {
+    return NextResponse.redirect(new URL(`/en${pathname}`, req.url));
+  }
+  // strip prefix for existing auth checks:
+  const stripped = "/" + segs.slice(1).join("/");
 
   // Public admin login — always allow (even if already authenticated)
-  if (pathname === "/admin/login" || pathname.startsWith("/admin/login/")) {
+  if (stripped === "/admin/login" || stripped.startsWith("/admin/login/")) {
     return NextResponse.next();
   }
 
   // Admin pages: /admin and /admin/*
-  const isAdminPage = pathname === "/admin" || pathname.startsWith("/admin/");
+  const isAdminPage = stripped === "/admin" || stripped.startsWith("/admin/");
   if (isAdminPage) {
     const token = req.cookies.get(ADMIN_COOKIE_NAME)?.value;
     const valid = await verifySessionEdge(token);
@@ -105,8 +126,8 @@ export async function middleware(req: NextRequest) {
   // Guest API: /api/v1/guests (and all sub-paths). Legacy unversioned
   // paths were removed in #22 and now 404.
   const isGuestApi =
-    pathname === "/api/v1/guests" ||
-    pathname.startsWith("/api/v1/guests/");
+    stripped === "/api/v1/guests" ||
+    stripped.startsWith("/api/v1/guests/");
 
   if (isGuestApi) {
     const token = req.cookies.get(ADMIN_COOKIE_NAME)?.value;
@@ -121,8 +142,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/admin/:path*",
-    "/api/v1/guests/:path*",
-  ],
+  matcher: ["/((?!_next|.*\\..*).*)"],
 };

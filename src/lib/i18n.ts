@@ -15,3 +15,14 @@ export function getDictionary(lang: string): Dictionary {
 }
 export { DEFAULT_LOCALE, SUPPORTED_LOCALES, isValidLocale };
 export type { Locale };
+export function pickLocale(acceptLanguage: string | null, cookie: string | null): Locale {
+  if (cookie && isValidLocale(cookie)) return cookie;
+  if (acceptLanguage) {
+    const tags = acceptLanguage.split(",").map((p) => p.split(";")[0].trim().toLowerCase());
+    for (const t of tags) {
+      const base = t.split("-")[0];
+      if (isValidLocale(base)) return base;
+    }
+  }
+  return DEFAULT_LOCALE;
+}

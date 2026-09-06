@@ -4,25 +4,26 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { getSiteConfig } from "@/lib/config";
 import type { Dictionary } from "@/lib/i18n";
-import type { Locale } from "@/i18n/locales";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 type HeaderProps = {
   config?: ReturnType<typeof getSiteConfig>;
-  lang?: Locale;
-  dict?: Dictionary;
+  lang: string;
+  dict: Dictionary;
 };
 
-export function Header({ config, lang = "en", dict }: HeaderProps = {}) {
+export function Header({ config, lang, dict }: HeaderProps) {
   // Allow prop or fallback to env via getSiteConfig for standalone usage
   // (client-safe: getSiteConfig only reads NEXT_PUBLIC_* env, inlined at build)
   const cfg = config ?? getSiteConfig();
   const pathname = usePathname();
-  const nav = dict?.nav ?? { home: "Home", rsvp: "RSVP", info: "Info", registry: "Registry" };
+  const rest = pathname.replace(/^\/[a-z]{2}(?=\/|$)/, "") || "/";
+  const nav = dict.nav;
   const NAV_LINKS = [
-    { href: `/${lang}`, label: nav.home },
-    { href: `/${lang}/rsvp`, label: nav.rsvp },
-    { href: `/${lang}/info`, label: nav.info },
-    { href: `/${lang}/registry`, label: nav.registry },
+    { path: "/", href: `/${lang}`, label: nav.home },
+    { path: "/rsvp", href: `/${lang}/rsvp`, label: nav.rsvp },
+    { path: "/info", href: `/${lang}/info`, label: nav.info },
+    { path: "/registry", href: `/${lang}/registry`, label: nav.registry },
   ];
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60">
@@ -35,12 +36,13 @@ export function Header({ config, lang = "en", dict }: HeaderProps = {}) {
             <Link
               key={link.href}
               href={link.href}
-              aria-current={pathname === link.href ? "page" : undefined}
+              aria-current={rest === link.path ? "page" : undefined}
               className="transition-colors hover:text-gray-600"
             >
               {link.label}
             </Link>
           ))}
+          <LanguageSwitcher lang={lang} />
         </nav>
       </div>
     </header>

@@ -1,0 +1,10 @@
+{
+  "nav": { "home": "Start", "rsvp": "RSVP", "info": "Infos", "registry": "Geschenkliste" },
+  "footer": { "tagline": "Eure Hochzeit ist privat. Eure Daten sollten es auch sein.", "credit": "Erstellt mit My Boda — Open-Source-Hochzeitsplattform" },
+  "home": { "title": "My Boda — Hochzeitsplattform", "description": "Eure Hochzeit ist privat. Eure Daten sollten es auch sein." },
+  "rsvp": { "title": "RSVP", "subtitle": "Sagt uns Bescheid, ob ihr dabei seid. Wir freuen uns auf euch!", "backHome": "Zurück zur Startseite", "send": "RSVP senden", "name": "Name", "email": "E-Mail", "successTitle": "Danke! Eure RSVP ist bei uns eingegangen.", "errors": { "nameRequired": "Name ist erforderlich", "invalidEmail": "Ungültige E-Mail" } },
+  "info": { "title": "Hochzeitsinfos", "schedule": "Ablauf", "venue": "Veranstaltungsort", "accommodations": "Unterkünfte", "emptySchedule": "Der Ablauf wird noch bekannt gegeben." },
+  "registry": { "title": "Geschenkliste" },
+  "admin": { "title": "Admin", "login": "Anmelden", "guests": "Gäste" },
+  "common": { "skipToContent": "Zum Inhalt springen", "backHome": "Zurück zur Startseite" }
+}

@@ -1,0 +1,10 @@
+{
+  "nav": { "home": "Inicio", "rsvp": "RSVP", "info": "Información", "registry": "Regalos" },
+  "footer": { "tagline": "Tu boda es privada. Tus datos también deberían serlo.", "credit": "Creado con My Boda — Plataforma de Bodas de Código Abierto" },
+  "home": { "title": "My Boda — Plataforma de Bodas", "description": "Tu boda es privada. Tus datos también deberían serlo." },
+  "rsvp": { "title": "RSVP", "subtitle": "¡Cuéntanos si puedes venir. ¡Estamos deseando verte!", "backHome": "Volver al inicio", "send": "Enviar RSVP", "name": "Nombre", "email": "Correo electrónico", "successTitle": "¡Gracias! Hemos recibido tu RSVP.", "errors": { "nameRequired": "El nombre es obligatorio", "invalidEmail": "Correo electrónico no válido" } },
+  "info": { "title": "Información de la boda", "schedule": "Programa", "venue": "Lugar", "accommodations": "Alojamiento", "emptySchedule": "Programa por anunciar." },
+  "registry": { "title": "Registro de regalos" },
+  "admin": { "title": "Administración", "login": "Iniciar sesión", "guests": "Invitados" },
+  "common": { "skipToContent": "Saltar al contenido", "backHome": "Volver al inicio" }
+}

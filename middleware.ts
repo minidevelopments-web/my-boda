@@ -73,7 +73,7 @@ export async function verifySessionEdge(
 /**
  * Centralized authentication middleware.
  *
- * - Protects `/admin` (pages) → redirects unauthenticated users to `/admin/login`.
+ * - Protects `/admin` (pages) → redirects unauthenticated users to `/{lang}/admin/login`.
  * - Protects `/api/v1/guests*` (API) → returns 401 JSON.
  * - Leaves public routes untouched: `/admin/login`, `/api/v1/auth`, `/api/v1/rsvp`.
  *
@@ -115,7 +115,9 @@ export async function middleware(req: NextRequest) {
     const token = req.cookies.get(ADMIN_COOKIE_NAME)?.value;
     const valid = await verifySessionEdge(token);
     if (!valid) {
-      const loginUrl = new URL("/admin/login", req.url);
+      // Locale-prefixed login: segs[0] is a valid locale here (else early return above)
+      const lang = maybeLang && isValidLocale(maybeLang) ? maybeLang : "en";
+      const loginUrl = new URL(`/${lang}/admin/login`, req.url);
       // Preserve requested path for post-login redirect UX (optional)
       // loginUrl.searchParams.set("next", pathname);
       return NextResponse.redirect(loginUrl);

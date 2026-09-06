@@ -3,6 +3,7 @@
 import { FC } from "react";
 import { format, parseISO, isValid } from "date-fns";
 import type { SiteConfig } from "@/lib/config";
+import type { Locale } from "@/i18n/locales";
 import { Button } from "@/components/ui/Button";
 import { useThemeOptional } from "@/components/theme/ThemeContext";
 import { getThemeForConfig } from "@/lib/theme/service";
@@ -17,7 +18,7 @@ function formatDate(dateStr: string): string {
   }
 }
 
-const ClassicElegance: FC<{ config: SiteConfig }> = ({ config }) => {
+const ClassicElegance: FC<{ config: SiteConfig; lang?: Locale }> = ({ config, lang = "en" }) => {
   const ctx = useThemeOptional();
   const tokens = ctx?.tokens ?? getThemeForConfig(config);
   const effectiveConfig = ctx?.config ?? config;
@@ -59,10 +60,10 @@ const ClassicElegance: FC<{ config: SiteConfig }> = ({ config }) => {
 
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
           {/* Button consumes accent via useTheme hook — no prop drilling */}
-          <Button href="/rsvp" className="rounded-none border border-transparent px-10">
+          <Button href={`/${lang}/rsvp`} className="rounded-none border border-transparent px-10">
             RSVP
           </Button>
-          <Button href="/info" variant="secondary" className="rounded-none border-stone-300 px-10">
+          <Button href={`/${lang}/info`} variant="secondary" className="rounded-none border-stone-300 px-10">
             Details
           </Button>
         </div>

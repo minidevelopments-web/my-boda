@@ -1,15 +1,17 @@
 import { StatsCards } from "@/components/admin/StatsCards";
 import { GuestTable } from "@/components/admin/GuestTable";
 import { guestService } from "@/lib/services/guestService";
+import type { Locale } from "@/lib/i18n";
 
 export const dynamic = "force-dynamic";
 
 type SearchParams = { page?: string; limit?: string };
 
-export default async function AdminPage({ searchParams }: { searchParams?: Promise<SearchParams> }) {
-  const params = searchParams ? await searchParams : {};
-  const page = Math.max(parseInt(params.page ?? "1", 10) || 1, 1);
-  const limitRaw = parseInt(params.limit ?? "50", 10) || 50;
+export default async function AdminPage({ params, searchParams }: { params: { lang: Locale }; searchParams?: Promise<SearchParams> }) {
+  const lang = params.lang;
+  const query = searchParams ? await searchParams : {};
+  const page = Math.max(parseInt(query.page ?? "1", 10) || 1, 1);
+  const limitRaw = parseInt(query.limit ?? "50", 10) || 50;
   const limit = Math.min(Math.max(limitRaw, 1), 100);
 
   const { data: guests, meta } = await guestService.getPaginatedGuests({ page, limit });
@@ -38,7 +40,7 @@ export default async function AdminPage({ searchParams }: { searchParams?: Promi
             const { ADMIN_COOKIE_NAME } = await import("@/lib/auth");
             const cookieStore = await cookies();
             cookieStore.delete(ADMIN_COOKIE_NAME);
-            redirect("/admin/login");
+            redirect(`/${lang}/admin/login`);
           }}
         >
           <button
@@ -61,7 +63,7 @@ export default async function AdminPage({ searchParams }: { searchParams?: Promi
           <div className="flex gap-2">
             {meta.page > 1 ? (
               <a
-                href={`/admin?page=${meta.page - 1}&limit=${meta.limit}`}
+                href={`/${lang}/admin?page=${meta.page - 1}&limit=${meta.limit}`}
                 className="rounded border px-3 py-1.5 hover:bg-gray-50"
               >
                 Previous
@@ -71,7 +73,7 @@ export default async function AdminPage({ searchParams }: { searchParams?: Promi
             )}
             {meta.page < meta.totalPages ? (
               <a
-                href={`/admin?page=${meta.page + 1}&limit=${meta.limit}`}
+                href={`/${lang}/admin?page=${meta.page + 1}&limit=${meta.limit}`}
                 className="rounded border px-3 py-1.5 hover:bg-gray-50"
               >
                 Next

@@ -3,6 +3,7 @@
 import { FC } from "react";
 import { format, parseISO, isValid } from "date-fns";
 import type { SiteConfig } from "@/lib/config";
+import type { Locale } from "@/i18n/locales";
 import { Button } from "@/components/ui/Button";
 import { useThemeOptional } from "@/components/theme/ThemeContext";
 import { getThemeForConfig } from "@/lib/theme/service";
@@ -17,7 +18,7 @@ function formatDate(dateStr: string): string {
   }
 }
 
-const GardenRomance: FC<{ config: SiteConfig }> = ({ config }) => {
+const GardenRomance: FC<{ config: SiteConfig; lang?: Locale }> = ({ config, lang = "en" }) => {
   const ctx = useThemeOptional();
   const tokens = ctx?.tokens ?? getThemeForConfig(config);
   const effectiveConfig = ctx?.config ?? config;
@@ -56,10 +57,10 @@ const GardenRomance: FC<{ config: SiteConfig }> = ({ config }) => {
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             {/* Buttons consume theme via context */}
-            <Button href="/rsvp" className="rounded-full px-10 shadow-sm">
+            <Button href={`/${lang}/rsvp`} className="rounded-full px-10 shadow-sm">
               RSVP
             </Button>
-            <Button href="/info" variant="secondary" className="rounded-full border-stone-200 bg-white px-10">
+            <Button href={`/${lang}/info`} variant="secondary" className="rounded-full border-stone-200 bg-white px-10">
               Our Story & Info
             </Button>
           </div>

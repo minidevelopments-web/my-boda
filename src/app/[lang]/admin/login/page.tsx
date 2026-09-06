@@ -1,10 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { isValidLocale } from "@/lib/i18n";
 
 export default function AdminLoginPage() {
   const router = useRouter();
+  const pathname = usePathname();
+  // Derive locale from /{lang}/admin/login so post-login lands on the same locale
+  const seg = (pathname ?? "").split("/").filter(Boolean)[0];
+  const lang = seg && isValidLocale(seg) ? seg : "en";
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -20,7 +25,7 @@ export default function AdminLoginPage() {
         body: JSON.stringify({ password }),
       });
       if (res.ok) {
-        router.push("/admin");
+        router.push(`/${lang}/admin`);
         router.refresh();
       } else {
         const data = await res.json().catch(() => ({}));

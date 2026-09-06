@@ -1,24 +1,26 @@
 import Link from "next/link";
 import RsvpForm from "@/components/rsvp/RsvpForm";
 import { getSiteConfig } from "@/lib/config";
+import { getDictionary, type Locale } from "@/lib/i18n";
 
-export default function RsvpPage() {
+export default function RsvpPage({ params }: { params: { lang: Locale } }) {
   const config = getSiteConfig();
+  const dict = getDictionary(params.lang);
   return (
     <div className="mx-auto max-w-2xl px-6 py-content">
       <div className="mb-8 text-center">
-        <h1 className="font-serif text-4xl font-light tracking-tight">RSVP</h1>
+        <h1 className="font-serif text-4xl font-light tracking-tight">{dict.rsvp.title}</h1>
         <p className="mx-auto mt-2 max-w-prose text-sm text-gray-600">
           Celebrate with {config.coupleName} — {config.venue} on {config.weddingDate}
         </p>
-        <p className="mx-auto mt-1 max-w-prose text-sm text-gray-500">Let us know if you can make it. We can&apos;t wait to see you!</p>
+        <p className="mx-auto mt-1 max-w-prose text-sm text-gray-500">{dict.rsvp.subtitle}</p>
       </div>
 
       <RsvpForm />
 
       <div className="mt-8 text-center">
-        <Link href="/" className="text-sm font-medium text-gray-600 hover:text-black underline">
-          ← Back to home
+        <Link href={`/${params.lang}`} className="text-sm font-medium text-gray-600 hover:text-black underline">
+          ← {dict.rsvp.backHome}
         </Link>
       </div>
     </div>

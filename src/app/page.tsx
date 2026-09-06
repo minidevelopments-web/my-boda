@@ -1,16 +1,16 @@
-import { getSiteConfig } from "@/lib/config";
-import { themes } from "@/lib/themes";
-import { ThemeProvider } from "@/components/theme/ThemeContext";
+import { redirect } from "next/navigation";
+import { headers, cookies } from "next/headers";
+import { pickLocale } from "@/lib/i18n";
 
-export default function Home() {
-  const config = getSiteConfig();
-  const theme = themes[config.theme] ?? themes.classic;
-  const Component = theme.Component;
-  // Provide theme tokens via context so all nested components (Button, Schedule)
-  // consume styling via useTheme() — no prop drilling.
-  return (
-    <ThemeProvider config={config}>
-      <Component config={config} />
-    </ThemeProvider>
-  );
+/**
+ * Root redirector (defense-in-depth: middleware already redirects "/" to
+ * /{lang} at the edge, this covers direct server-component rendering).
+ * Async cookies()/headers() per Next 15+ request APIs.
+ */
+export default async function RootPage() {
+  const cookieStore = await cookies();
+  const cookie = cookieStore.get("locale")?.value ?? null;
+  const headerStore = await headers();
+  const al = headerStore.get("accept-language");
+  redirect(`/${pickLocale(al, cookie)}`);
 }

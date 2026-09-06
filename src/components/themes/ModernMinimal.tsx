@@ -3,6 +3,7 @@
 import { FC } from "react";
 import { format, parseISO, isValid } from "date-fns";
 import type { SiteConfig } from "@/lib/config";
+import type { Locale } from "@/i18n/locales";
 import { Button } from "@/components/ui/Button";
 import { useThemeOptional } from "@/components/theme/ThemeContext";
 import { getThemeForConfig } from "@/lib/theme/service";
@@ -17,7 +18,7 @@ function formatDate(dateStr: string): string {
   }
 }
 
-const ModernMinimal: FC<{ config: SiteConfig }> = ({ config }) => {
+const ModernMinimal: FC<{ config: SiteConfig; lang?: Locale }> = ({ config, lang = "en" }) => {
   const ctx = useThemeOptional();
   const tokens = ctx?.tokens ?? getThemeForConfig(config);
   const effectiveConfig = ctx?.config ?? config;
@@ -51,10 +52,10 @@ const ModernMinimal: FC<{ config: SiteConfig }> = ({ config }) => {
             </p>
             <div className="mt-8 flex gap-3">
               {/* Accent consumed via context — no prop needed */}
-              <Button href="/rsvp" className="rounded-none bg-zinc-900 px-8 text-white hover:bg-zinc-800">
+              <Button href={`/${lang}/rsvp`} className="rounded-none bg-zinc-900 px-8 text-white hover:bg-zinc-800">
                 RSVP →
               </Button>
-              <Button href="/info" variant="secondary" className="rounded-none border-zinc-900 px-8">
+              <Button href={`/${lang}/info`} variant="secondary" className="rounded-none border-zinc-900 px-8">
                 Info
               </Button>
             </div>

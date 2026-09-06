@@ -1,0 +1,10 @@
+{
+  "nav": { "home": "Home", "rsvp": "RSVP", "info": "Info", "registry": "Registry" },
+  "footer": { "tagline": "Your wedding is private. Your data should be too.", "credit": "Created with My Boda — Open Source Wedding Platform" },
+  "home": { "title": "My Boda — Wedding Platform", "description": "Your wedding is private. Your data should be too." },
+  "rsvp": { "title": "RSVP", "subtitle": "Let us know if you can make it. We can't wait to see you!", "backHome": "Back to home", "send": "Send RSVP", "name": "Name", "email": "Email", "successTitle": "Thank you! Your RSVP has been received.", "errors": { "nameRequired": "Name is required", "invalidEmail": "Invalid email" } },
+  "info": { "title": "Wedding Info", "schedule": "Schedule", "venue": "Venue", "accommodations": "Accommodations", "emptySchedule": "Schedule to be announced." },
+  "registry": { "title": "Gift Registry" },
+  "admin": { "title": "Admin", "login": "Login", "guests": "Guests" },
+  "common": { "skipToContent": "Skip to content", "backHome": "Back to home" }
+}

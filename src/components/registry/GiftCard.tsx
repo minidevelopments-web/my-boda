@@ -3,7 +3,7 @@
 import { useState } from "react";
 import type { RegistryConfig } from "@/lib/config";
 
-export function GiftCard({ registry }: { registry: RegistryConfig }) {
+export function GiftCard({ registry, emptyTitle, emptySubtitle }: { registry: RegistryConfig; emptyTitle?: string; emptySubtitle?: string }) {
   const [copied, setCopied] = useState(false);
 
   const hasContent =
@@ -25,8 +25,8 @@ export function GiftCard({ registry }: { registry: RegistryConfig }) {
   if (!hasContent) {
     return (
       <div className="rounded border border-stone-200 bg-white p-6 text-center shadow-sm">
-        <p className="text-sm text-stone-500">Registry details to be announced.</p>
-        <p className="mt-2 text-xs text-stone-400">Your presence is the greatest gift.</p>
+        <p className="text-sm text-stone-500">{emptyTitle ?? "Registry details to be announced."}</p>
+        <p className="mt-2 text-xs text-stone-400">{emptySubtitle ?? "Your presence is the greatest gift."}</p>
       </div>
     );
   }

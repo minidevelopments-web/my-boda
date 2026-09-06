@@ -1,5 +1,8 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import RsvpForm from "@/components/rsvp/RsvpForm";
+import { getDictionary } from "@/lib/i18n";
+
+const messages = getDictionary("en").rsvp;
 
 // Mock fetch globally
 const mockFetch = jest.fn();
@@ -16,7 +19,7 @@ beforeEach(() => {
 
 describe("RsvpForm", () => {
   it("shows headcount only when attending", async () => {
-    render(<RsvpForm />);
+    render(<RsvpForm messages={messages} />);
     // By default attending is true or toggle exists — headcount hidden when not attending
     // Use role query to avoid matching "Dietary Notes" which contains "no"
     const attendingYes = screen.getByRole("radio", { name: /^yes$/i });
@@ -40,7 +43,7 @@ describe("RsvpForm", () => {
   });
 
   it("shows mealChoice only when attending", async () => {
-    render(<RsvpForm />);
+    render(<RsvpForm messages={messages} />);
     const attendingNo = screen.getByRole("radio", { name: /^no$/i });
     fireEvent.click(attendingNo);
     await waitFor(() => {
@@ -49,7 +52,7 @@ describe("RsvpForm", () => {
   });
 
   it("shows plusOneName only when plusOne is checked", async () => {
-    render(<RsvpForm />);
+    render(<RsvpForm messages={messages} />);
     expect(screen.queryByLabelText(/plus one name/i)).not.toBeInTheDocument();
     const plusOneCheckbox = screen.getByLabelText(/^plus one$/i);
     fireEvent.click(plusOneCheckbox);
@@ -63,7 +66,7 @@ describe("RsvpForm", () => {
   });
 
   it("validates required name and submits via fetch", async () => {
-    render(<RsvpForm />);
+    render(<RsvpForm messages={messages} />);
     const submit = screen.getByRole("button", { name: /submit|send rsvp/i });
     fireEvent.click(submit);
     await waitFor(() => {
@@ -88,7 +91,7 @@ describe("RsvpForm", () => {
   });
 
   it("shows success message after successful submit", async () => {
-    render(<RsvpForm />);
+    render(<RsvpForm messages={messages} />);
     fireEvent.change(screen.getByLabelText(/^name/i), { target: { value: "Lena" } });
     fireEvent.click(screen.getByRole("button", { name: /submit|send rsvp/i }));
     await waitFor(() => {

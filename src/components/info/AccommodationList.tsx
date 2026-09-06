@@ -1,8 +1,16 @@
 import type { Accommodation } from "@/lib/config";
 
-export function AccommodationList({ items }: { items: Accommodation[] }) {
+export function AccommodationList({
+  items,
+  emptyMessage,
+  visitLabel,
+}: {
+  items: Accommodation[];
+  emptyMessage?: string;
+  visitLabel?: string;
+}) {
   if (!items || items.length === 0) {
-    return <p className="text-sm text-stone-500">Accommodation details to be announced.</p>;
+    return <p className="text-sm text-stone-500">{emptyMessage ?? "Accommodation details to be announced."}</p>;
   }
   return (
     <div className="grid gap-4 sm:grid-cols-2">
@@ -17,7 +25,7 @@ export function AccommodationList({ items }: { items: Accommodation[] }) {
               rel="noopener noreferrer"
               className="mt-2 inline-block text-sm underline hover:text-stone-700"
             >
-              Visit website
+              {visitLabel ?? "Visit website"}
             </a>
           )}
         </div>

@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { rsvpSchema } from "@/lib/validators";
+import { makeRsvpSchema } from "@/lib/validators";
+import { getDictionary, type Dictionary } from "@/lib/i18n";
 import { Button } from "@/components/ui/Button";
 
 type FormErrors = Record<string, string>;
 
-export default function RsvpForm() {
+export default function RsvpForm({ messages = getDictionary("en").rsvp }: { messages?: Dictionary["rsvp"] }) {
   // Form state
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -58,7 +59,7 @@ export default function RsvpForm() {
       plusOneName: plusOne && plusOneName.trim() ? plusOneName.trim() : null,
     };
 
-    const parsed = rsvpSchema.safeParse(payload);
+    const parsed = makeRsvpSchema(messages).safeParse(payload);
     if (!parsed.success) {
       const fieldErrors: FormErrors = {};
       for (const issue of parsed.error.issues) {
@@ -96,7 +97,7 @@ export default function RsvpForm() {
   if (success) {
     return (
       <div className="rounded-lg border bg-green-50 p-6 text-center" role="status" aria-live="polite">
-        <h3 ref={successRef} tabIndex={-1} className="text-lg font-semibold text-green-800 focus:outline-none">Thank you! Your RSVP has been received.</h3>
+        <h3 ref={successRef} tabIndex={-1} className="text-lg font-semibold text-green-800 focus:outline-none">{messages.successTitle}</h3>
         <p className="mt-2 text-sm text-green-700">We can&apos;t wait to celebrate with you.</p>
         <button
           type="button"
@@ -137,7 +138,7 @@ export default function RsvpForm() {
       {/* Name */}
       <div>
         <label htmlFor="rsvp-name" className="block text-sm font-medium">
-          Name <span aria-hidden="true" className="text-red-600">*</span>
+          {messages.name} <span aria-hidden="true" className="text-red-600">*</span>
         </label>
         <input
           id="rsvp-name"
@@ -161,7 +162,7 @@ export default function RsvpForm() {
       {/* Email */}
       <div>
         <label htmlFor="rsvp-email" className="block text-sm font-medium">
-          Email <span className="text-gray-500 font-normal">(optional)</span>
+          {messages.email} <span className="text-gray-500 font-normal">(optional)</span>
         </label>
         <input
           id="rsvp-email"
@@ -328,7 +329,7 @@ export default function RsvpForm() {
       )}
 
       <Button type="submit" loading={submitting} className="w-full">
-        Send RSVP
+        {messages.send}
       </Button>
     </form>
   );

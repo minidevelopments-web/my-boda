@@ -1,15 +1,17 @@
 type Props = {
   venueMapUrl: string;
   venue: string;
+  fallbackNote?: string;
+  openLabel?: string;
 };
 
-export function MapEmbed({ venueMapUrl, venue }: Props) {
+export function MapEmbed({ venueMapUrl, venue, fallbackNote, openLabel }: Props) {
   if (!venueMapUrl) {
     return (
       <div className="rounded border border-stone-200 bg-stone-50 p-6 text-center">
         <p className="text-sm font-medium text-stone-600">{venue}</p>
         <p className="mt-2 text-xs text-stone-400">
-          Map link not configured. Venue details above.
+          {fallbackNote ?? "Map link not configured. Venue details above."}
         </p>
         <a
           href={`https://maps.google.com/?q=${encodeURIComponent(venue)}`}
@@ -17,7 +19,7 @@ export function MapEmbed({ venueMapUrl, venue }: Props) {
           rel="noopener noreferrer"
           className="mt-3 inline-block text-sm underline hover:text-stone-700"
         >
-          Open in Google Maps
+          {openLabel ?? "Open in Google Maps"}
         </a>
       </div>
     );
@@ -40,7 +42,7 @@ export function MapEmbed({ venueMapUrl, venue }: Props) {
           rel="noopener noreferrer"
           className="text-xs underline hover:text-stone-700"
         >
-          Open in Google Maps
+          {openLabel ?? "Open in Google Maps"}
         </a>
       </div>
     </div>

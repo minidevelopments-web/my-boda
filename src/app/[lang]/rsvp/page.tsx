@@ -6,17 +6,20 @@ import { getDictionary, type Locale } from "@/lib/i18n";
 export default function RsvpPage({ params }: { params: { lang: Locale } }) {
   const config = getSiteConfig();
   const dict = getDictionary(params.lang);
+  const weddingDate = new Intl.DateTimeFormat(params.lang, { dateStyle: "long" }).format(
+    new Date(config.weddingDate)
+  );
   return (
     <div className="mx-auto max-w-2xl px-6 py-content">
       <div className="mb-8 text-center">
         <h1 className="font-serif text-4xl font-light tracking-tight">{dict.rsvp.title}</h1>
         <p className="mx-auto mt-2 max-w-prose text-sm text-gray-600">
-          Celebrate with {config.coupleName} — {config.venue} on {config.weddingDate}
+          Celebrate with {config.coupleName} — {config.venue} on {weddingDate}
         </p>
         <p className="mx-auto mt-1 max-w-prose text-sm text-gray-500">{dict.rsvp.subtitle}</p>
       </div>
 
-      <RsvpForm />
+      <RsvpForm messages={dict.rsvp} />
 
       <div className="mt-8 text-center">
         <Link href={`/${params.lang}`} className="text-sm font-medium text-gray-600 hover:text-black underline">

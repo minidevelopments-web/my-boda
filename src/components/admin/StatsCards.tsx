@@ -3,26 +3,42 @@ type GuestWithRsvp = {
   rsvp?: { attending: boolean } | null;
 };
 
+type Labels = {
+  totalGuests?: string;
+  confirmed?: string;
+  declined?: string;
+  pending?: string;
+};
+
 type Props = {
   guests: GuestWithRsvp[];
   total?: number;
   confirmed?: number;
   declined?: number;
   pending?: number;
+  labels?: Labels;
 };
 
-export function StatsCards({ guests, total: totalProp, confirmed: confirmedProp, declined: declinedProp, pending: pendingProp }: Props) {
+const DEFAULT_LABELS: Required<Labels> = {
+  totalGuests: "Total Guests",
+  confirmed: "Confirmed",
+  declined: "Declined",
+  pending: "Pending",
+};
+
+export function StatsCards({ guests, total: totalProp, confirmed: confirmedProp, declined: declinedProp, pending: pendingProp, labels }: Props) {
   const total = totalProp ?? guests.length;
   const confirmed = confirmedProp ?? guests.filter((g) => g.rsvp?.attending === true).length;
   const declined = declinedProp ?? guests.filter((g) => g.rsvp?.attending === false).length;
   const responded = confirmed + declined;
   const pending = pendingProp ?? total - responded;
 
+  const t = { ...DEFAULT_LABELS, ...labels };
   const cards = [
-    { label: "Total Guests", value: total },
-    { label: "Confirmed", value: confirmed },
-    { label: "Declined", value: declined },
-    { label: "Pending", value: pending },
+    { label: t.totalGuests, value: total },
+    { label: t.confirmed, value: confirmed },
+    { label: t.declined, value: declined },
+    { label: t.pending, value: pending },
   ];
 
   return (

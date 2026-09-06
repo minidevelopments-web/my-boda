@@ -1,10 +1,118 @@
 {
-  "nav": { "home": "Accueil", "rsvp": "RSVP", "info": "Informations", "registry": "Liste de cadeaux" },
-  "footer": { "tagline": "Votre mariage est privé. Vos données devraient l'être aussi.", "credit": "Créé avec My Boda — Plateforme de Mariage Open Source" },
-  "home": { "title": "My Boda — Plateforme de Mariage", "description": "Votre mariage est privé. Vos données devraient l'être aussi." },
-  "rsvp": { "title": "RSVP", "subtitle": "Dites-nous si vous pouvez venir. Nous avons hâte de vous voir !", "backHome": "Retour à l'accueil", "send": "Envoyer le RSVP", "name": "Nom", "email": "E-mail", "emailPlaceholder": "you@example.com", "namePlaceholder": "Votre nom complet", "optional": "(facultatif)", "attendingQuestion": "Serez-vous présent ?", "yes": "Oui", "no": "Non", "headcount": "Nombre d'invités", "mealChoice": "Choix du menu", "mealPlaceholder": "Sélectionnez un menu", "mealVegetarian": "Végétarien", "mealVegan": "Vegan", "mealMeat": "Viande", "mealFish": "Poisson", "dietaryNotes": "Régimes alimentaires", "dietaryPlaceholder": "Allergies, restrictions, etc.", "plusOne": "Accompagnant", "plusOneName": "Nom de l'accompagnant", "plusOneNamePlaceholder": "Nom de l'accompagnant", "messageLabel": "Message", "messagePlaceholder": "Laissez un mot pour les mariés", "errorSummary": "Veuillez corriger les points suivants avant l'envoi :", "successTitle": "Merci ! Nous avons bien reçu votre RSVP.", "successSubtitle": "Nous avons hâte de célébrer avec vous.", "submitAnother": "Envoyer une autre réponse", "submitErrorFallback": "Une erreur est survenue lors de l'envoi de votre RSVP. Vérifiez vos informations et réessayez.", "networkError": "Erreur réseau", "celebrateWith": "Célébrez avec {couple} — {venue} le {date}", "errors": { "nameRequired": "Le nom est requis", "invalidEmail": "E-mail invalide" } },
-  "info": { "title": "Informations sur le mariage", "schedule": "Programme", "venue": "Lieu", "accommodations": "Hébergement", "emptySchedule": "Programme à annoncer.", "emptyAccommodations": "Détails d'hébergement à annoncer.", "visitWebsite": "Visiter le site web", "mapFallback": "Lien de carte non configuré. Détails du lieu ci-dessus.", "openInMaps": "Ouvrir dans Google Maps" },
-  "registry": { "title": "Liste de cadeaux", "subtitle": "Votre présence est notre plus beau cadeau. Pour ceux qui souhaitent contribuer :", "emptyTitle": "Détails de la liste de cadeaux à annoncer.", "emptySubtitle": "Votre présence est le plus beau des cadeaux." },
-  "admin": { "title": "Admin", "login": "Connexion", "guests": "Invités" },
-  "common": { "skipToContent": "Aller au contenu", "backHome": "Retour à l'accueil" }
+  "nav": {
+    "home": "Accueil",
+    "rsvp": "RSVP",
+    "info": "Informations",
+    "registry": "Liste de cadeaux"
+  },
+  "footer": {
+    "tagline": "Votre mariage est privé. Vos données devraient l'être aussi.",
+    "credit": "Créé avec My Boda — Plateforme de Mariage Open Source"
+  },
+  "home": {
+    "title": "My Boda — Plateforme de Mariage",
+    "description": "Votre mariage est privé. Vos données devraient l'être aussi."
+  },
+  "rsvp": {
+    "title": "RSVP",
+    "subtitle": "Dites-nous si vous pouvez venir. Nous avons hâte de vous voir !",
+    "backHome": "Retour à l'accueil",
+    "send": "Envoyer le RSVP",
+    "name": "Nom",
+    "email": "E-mail",
+    "emailPlaceholder": "you@example.com",
+    "namePlaceholder": "Votre nom complet",
+    "optional": "(facultatif)",
+    "attendingQuestion": "Serez-vous présent ?",
+    "yes": "Oui",
+    "no": "Non",
+    "headcount": "Nombre d'invités",
+    "mealChoice": "Choix du menu",
+    "mealPlaceholder": "Sélectionnez un menu",
+    "mealVegetarian": "Végétarien",
+    "mealVegan": "Vegan",
+    "mealMeat": "Viande",
+    "mealFish": "Poisson",
+    "dietaryNotes": "Régimes alimentaires",
+    "dietaryPlaceholder": "Allergies, restrictions, etc.",
+    "plusOne": "Accompagnant",
+    "plusOneName": "Nom de l'accompagnant",
+    "plusOneNamePlaceholder": "Nom de l'accompagnant",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Laissez un mot pour les mariés",
+    "errorSummary": "Veuillez corriger les points suivants avant l'envoi :",
+    "successTitle": "Merci ! Nous avons bien reçu votre RSVP.",
+    "successSubtitle": "Nous avons hâte de célébrer avec vous.",
+    "submitAnother": "Envoyer une autre réponse",
+    "submitErrorFallback": "Une erreur est survenue lors de l'envoi de votre RSVP. Vérifiez vos informations et réessayez.",
+    "networkError": "Erreur réseau",
+    "celebrateWith": "Célébrez avec {couple} — {venue} le {date}",
+    "errors": {
+      "nameRequired": "Le nom est requis",
+      "invalidEmail": "E-mail invalide"
+    },
+    "api": {
+      "guestNotFound": "Invité introuvable",
+      "internalError": "Erreur interne du serveur"
+    }
+  },
+  "info": {
+    "title": "Informations sur le mariage",
+    "schedule": "Programme",
+    "venue": "Lieu",
+    "accommodations": "Hébergement",
+    "emptySchedule": "Programme à annoncer.",
+    "emptyAccommodations": "Détails d'hébergement à annoncer.",
+    "visitWebsite": "Visiter le site web",
+    "mapFallback": "Lien de carte non configuré. Détails du lieu ci-dessus.",
+    "openInMaps": "Ouvrir dans Google Maps"
+  },
+  "registry": {
+    "title": "Liste de cadeaux",
+    "subtitle": "Votre présence est notre plus beau cadeau. Pour ceux qui souhaitent contribuer :",
+    "emptyTitle": "Détails de la liste de cadeaux à annoncer.",
+    "emptySubtitle": "Votre présence est le plus beau des cadeaux."
+  },
+  "admin": {
+    "title": "Admin",
+    "login": "Connexion",
+    "guests": "Invités",
+    "guestManagement": "Gestion des invités",
+    "logout": "Déconnexion",
+    "totalGuests": "Total des invités",
+    "confirmed": "Confirmés",
+    "declined": "Refusés",
+    "pending": "En attente",
+    "searchPlaceholder": "Rechercher des invités...",
+    "searchLabel": "Rechercher des invités",
+    "filterLabel": "Filtrer par catégorie",
+    "allCategories": "Toutes les catégories",
+    "exportCsv": "Exporter CSV",
+    "name": "Nom",
+    "category": "Catégorie",
+    "plusOne": "Accompagnant",
+    "attending": "Présence",
+    "mealChoice": "Menu",
+    "respondedAt": "Réponse le",
+    "noGuests": "Aucun invité trouvé",
+    "editCategory": "Modifier la catégorie",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "pageOf": "Page {page} sur {totalPages} — {total} invités au total",
+    "showing": "Affichage de {shown} sur {total} invités. Utilisez la pagination pour tout voir.",
+    "yes": "oui",
+    "no": "non",
+    "loginTitle": "Connexion admin",
+    "loginSubtitle": "Entrez le mot de passe admin pour accéder au tableau de bord.",
+    "password": "Mot de passe",
+    "signIn": "Se connecter",
+    "signingIn": "Connexion...",
+    "invalidPassword": "Mot de passe invalide",
+    "networkError": "Erreur réseau",
+    "editCategoryFor": "Modifier la catégorie de {name}"
+  },
+  "common": {
+    "skipToContent": "Aller au contenu",
+    "backHome": "Retour à l'accueil"
+  }
 }

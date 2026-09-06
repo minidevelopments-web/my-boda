@@ -3,21 +3,23 @@
 type Props = {
   value: string;
   onChange: (value: string) => void;
+  label?: string;
+  allLabel?: string;
 };
 
 const categories = ["all", "family", "friends", "colleagues", "other"] as const;
 
-export function CategoryFilter({ value, onChange }: Props) {
+export function CategoryFilter({ value, onChange, label = "Filter by category", allLabel = "All categories" }: Props) {
   return (
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      aria-label="Filter by category"
+      aria-label={label}
       className="rounded border px-3 py-2 text-sm"
     >
       {categories.map((c) => (
         <option key={c} value={c}>
-          {c === "all" ? "All categories" : c}
+          {c === "all" ? allLabel : c}
         </option>
       ))}
     </select>

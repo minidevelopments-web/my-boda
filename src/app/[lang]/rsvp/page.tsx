@@ -3,10 +3,11 @@ import RsvpForm from "@/components/rsvp/RsvpForm";
 import { getSiteConfig } from "@/lib/config";
 import { getDictionary, type Locale } from "@/lib/i18n";
 
-export default function RsvpPage({ params }: { params: { lang: Locale } }) {
+export default async function RsvpPage({ params }: { params: Promise<{ lang: Locale }> }) {
+  const { lang } = await params;
   const config = getSiteConfig();
-  const dict = getDictionary(params.lang);
-  const weddingDate = new Intl.DateTimeFormat(params.lang, { dateStyle: "long" }).format(
+  const dict = getDictionary(lang);
+  const weddingDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).format(
     new Date(config.weddingDate)
   );
   return (
@@ -25,7 +26,7 @@ export default function RsvpPage({ params }: { params: { lang: Locale } }) {
       <RsvpForm messages={dict.rsvp} />
 
       <div className="mt-8 text-center">
-        <Link href={`/${params.lang}`} className="text-sm font-medium text-gray-600 hover:text-black underline">
+        <Link href={`/${lang}`} className="text-sm font-medium text-gray-600 hover:text-black underline">
           ← {dict.rsvp.backHome}
         </Link>
       </div>

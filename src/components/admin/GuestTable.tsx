@@ -21,14 +21,62 @@ type Guest = {
   rsvp?: Rsvp;
 };
 
+type AdminDict = {
+  searchPlaceholder?: string;
+  searchLabel?: string;
+  filterLabel?: string;
+  allCategories?: string;
+  exportCsv?: string;
+  name?: string;
+  category?: string;
+  plusOne?: string;
+  attending?: string;
+  mealChoice?: string;
+  respondedAt?: string;
+  noGuests?: string;
+  editCategory?: string;
+  editCategoryFor?: string;
+  yes?: string;
+  no?: string;
+};
+
 type Props = {
   guests: Guest[];
+  lang?: string;
+  dict?: AdminDict;
+};
+
+const DEFAULT_DICT: Required<AdminDict> = {
+  searchPlaceholder: "Search guests...",
+  searchLabel: "Search guests",
+  filterLabel: "Filter by category",
+  allCategories: "All categories",
+  exportCsv: "Export CSV",
+  name: "Name",
+  category: "Category",
+  plusOne: "Plus One",
+  attending: "Attending",
+  mealChoice: "Meal Choice",
+  respondedAt: "Responded At",
+  noGuests: "No guests found",
+  editCategory: "Edit category",
+  editCategoryFor: "Edit category for {name}",
+  yes: "yes",
+  no: "no",
 };
 
 type SortKey = "name" | "category" | "plusOne" | "attending" | "mealChoice" | "respondedAt";
 type SortDir = "asc" | "desc";
 
-export function GuestTable({ guests: initialGuests }: Props) {
+export function GuestTable({ guests: initialGuests, lang = "en", dict }: Props) {
+  const t = { ...DEFAULT_DICT, ...dict };
+  const formatDate = (d: string | Date) => {
+    try {
+      return new Intl.DateTimeFormat(lang).format(new Date(d as string));
+    } catch {
+      return new Date(d as string).toLocaleDateString();
+    }
+  };
   const [guests, setGuests] = useState<Guest[]>(initialGuests);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
@@ -149,18 +197,18 @@ export function GuestTable({ guests: initialGuests }: Props) {
       <div className="flex flex-wrap items-center gap-3">
         <input
           type="text"
-          placeholder="Search guests..."
+          placeholder={t.searchPlaceholder}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          aria-label="Search guests"
+          aria-label={t.searchLabel}
           className="min-w-[200px] flex-1 rounded border px-3 py-2 text-sm md:flex-none"
         />
-        <CategoryFilter value={category} onChange={setCategory} />
+        <CategoryFilter value={category} onChange={setCategory} label={t.filterLabel} allLabel={t.allCategories} />
         <button
           onClick={handleDownloadCSV}
           className="rounded bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800"
         >
-          Export CSV
+          {t.exportCsv}
         </button>
       </div>
 
@@ -168,18 +216,18 @@ export function GuestTable({ guests: initialGuests }: Props) {
         <table className="w-full text-left text-sm">
           <thead className="bg-gray-50">
             <tr>
-              <th className="cursor-pointer px-3 py-2 font-medium" onClick={() => handleSort("name")}>Name {sortKey === "name" ? (sortDir === "asc" ? "↑" : "↓") : ""}</th>
-              <th className="cursor-pointer px-3 py-2 font-medium" onClick={() => handleSort("category")}>Category {sortKey === "category" ? (sortDir === "asc" ? "↑" : "↓") : ""}</th>
-              <th className="cursor-pointer px-3 py-2 font-medium" onClick={() => handleSort("plusOne")}>Plus One {sortKey === "plusOne" ? (sortDir === "asc" ? "↑" : "↓") : ""}</th>
-              <th className="cursor-pointer px-3 py-2 font-medium" onClick={() => handleSort("attending")}>Attending {sortKey === "attending" ? (sortDir === "asc" ? "↑" : "↓") : ""}</th>
-              <th className="cursor-pointer px-3 py-2 font-medium" onClick={() => handleSort("mealChoice")}>Meal Choice {sortKey === "mealChoice" ? (sortDir === "asc" ? "↑" : "↓") : ""}</th>
-              <th className="cursor-pointer px-3 py-2 font-medium" onClick={() => handleSort("respondedAt")}>Responded At {sortKey === "respondedAt" ? (sortDir === "asc" ? "↑" : "↓") : ""}</th>
+              <th className="cursor-pointer px-3 py-2 font-medium" onClick={() => handleSort("name")}>{t.name} {sortKey === "name" ? (sortDir === "asc" ? "↑" : "↓") : ""}</th>
+              <th className="cursor-pointer px-3 py-2 font-medium" onClick={() => handleSort("category")}>{t.category} {sortKey === "category" ? (sortDir === "asc" ? "↑" : "↓") : ""}</th>
+              <th className="cursor-pointer px-3 py-2 font-medium" onClick={() => handleSort("plusOne")}>{t.plusOne} {sortKey === "plusOne" ? (sortDir === "asc" ? "↑" : "↓") : ""}</th>
+              <th className="cursor-pointer px-3 py-2 font-medium" onClick={() => handleSort("attending")}>{t.attending} {sortKey === "attending" ? (sortDir === "asc" ? "↑" : "↓") : ""}</th>
+              <th className="cursor-pointer px-3 py-2 font-medium" onClick={() => handleSort("mealChoice")}>{t.mealChoice} {sortKey === "mealChoice" ? (sortDir === "asc" ? "↑" : "↓") : ""}</th>
+              <th className="cursor-pointer px-3 py-2 font-medium" onClick={() => handleSort("respondedAt")}>{t.respondedAt} {sortKey === "respondedAt" ? (sortDir === "asc" ? "↑" : "↓") : ""}</th>
             </tr>
           </thead>
           <tbody>
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-3 py-6 text-center text-gray-500">No guests found</td>
+                <td colSpan={6} className="px-3 py-6 text-center text-gray-500">{t.noGuests}</td>
               </tr>
             ) : (
               filtered.map((g) => (
@@ -192,7 +240,7 @@ export function GuestTable({ guests: initialGuests }: Props) {
                         onChange={(e) => handleCategoryChange(g.id, e.target.value)}
                         onBlur={() => setEditingId(null)}
                         autoFocus
-                        aria-label="Edit category"
+                        aria-label={t.editCategory}
                         className="rounded border px-2 py-1 text-sm"
                       >
                         <option value="family">family</option>
@@ -201,15 +249,15 @@ export function GuestTable({ guests: initialGuests }: Props) {
                         <option value="other">other</option>
                       </select>
                     ) : (
-                      <button onClick={() => setEditingId(g.id)} className="rounded px-2 py-1 hover:bg-gray-100" aria-label={`Edit category for ${g.name}`}>
+                      <button onClick={() => setEditingId(g.id)} className="rounded px-2 py-1 hover:bg-gray-100" aria-label={t.editCategoryFor.replace("{name}", g.name)}>
                         {g.category}
                       </button>
                     )}
                   </td>
-                  <td className="px-3 py-2">{g.plusOne ? "yes" : "no"}</td>
-                  <td className="px-3 py-2">{g.rsvp?.attending === true ? "yes" : g.rsvp?.attending === false ? "no" : ""}</td>
+                  <td className="px-3 py-2">{g.plusOne ? t.yes : t.no}</td>
+                  <td className="px-3 py-2">{g.rsvp?.attending === true ? t.yes : g.rsvp?.attending === false ? t.no : ""}</td>
                   <td className="px-3 py-2">{(g.rsvp?.mealChoice as string) || ""}</td>
-                  <td className="px-3 py-2">{g.rsvp?.respondedAt ? new Date(g.rsvp.respondedAt as string).toLocaleDateString() : ""}</td>
+                  <td className="px-3 py-2">{g.rsvp?.respondedAt ? formatDate(g.rsvp.respondedAt as string) : ""}</td>
                 </tr>
               ))
             )}

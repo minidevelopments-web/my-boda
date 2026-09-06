@@ -82,13 +82,13 @@ export default function RsvpForm({ messages = getDictionary("en").rsvp }: { mess
         const msg =
           typeof json?.error === "string"
             ? json.error
-            : "Something went wrong sending your RSVP. Please check your details and try again.";
+            : messages.submitErrorFallback;
         setSubmitError(msg);
         return;
       }
       setSuccess(true);
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : "Network error");
+      setSubmitError(err instanceof Error ? err.message : messages.networkError);
     } finally {
       setSubmitting(false);
     }
@@ -98,7 +98,7 @@ export default function RsvpForm({ messages = getDictionary("en").rsvp }: { mess
     return (
       <div className="rounded-lg border bg-green-50 p-6 text-center" role="status" aria-live="polite">
         <h3 ref={successRef} tabIndex={-1} className="text-lg font-semibold text-green-800 focus:outline-none">{messages.successTitle}</h3>
-        <p className="mt-2 text-sm text-green-700">We can&apos;t wait to celebrate with you.</p>
+        <p className="mt-2 text-sm text-green-700">{messages.successSubtitle}</p>
         <button
           type="button"
           onClick={() => {
@@ -109,7 +109,7 @@ export default function RsvpForm({ messages = getDictionary("en").rsvp }: { mess
           }}
           className="mt-4 text-sm font-medium text-green-800 underline"
         >
-          Submit another response
+          {messages.submitAnother}
         </button>
       </div>
     );
@@ -126,7 +126,7 @@ export default function RsvpForm({ messages = getDictionary("en").rsvp }: { mess
           className="rounded-md border border-red-200 bg-red-50 p-4 focus:outline-none"
         >
           <h2 id="rsvp-error-summary-heading" className="text-sm font-semibold text-red-800">
-            Please fix the following before sending:
+            {messages.errorSummary}
           </h2>
           <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-red-700">
             {Object.values(errors).map((message) => (
@@ -150,7 +150,7 @@ export default function RsvpForm({ messages = getDictionary("en").rsvp }: { mess
           aria-invalid={!!errors.name}
           aria-describedby={errors.name ? "error-name" : undefined}
           className="mt-1 w-full rounded-md border px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
-          placeholder="Your full name"
+            placeholder={messages.namePlaceholder}
         />
         {errors.name && (
           <p id="error-name" className="mt-1 text-sm text-red-600">
@@ -162,7 +162,7 @@ export default function RsvpForm({ messages = getDictionary("en").rsvp }: { mess
       {/* Email */}
       <div>
         <label htmlFor="rsvp-email" className="block text-sm font-medium">
-          {messages.email} <span className="text-gray-500 font-normal">(optional)</span>
+          {messages.email} <span className="text-gray-500 font-normal">{messages.optional}</span>
         </label>
         <input
           id="rsvp-email"
@@ -172,7 +172,7 @@ export default function RsvpForm({ messages = getDictionary("en").rsvp }: { mess
           aria-invalid={!!errors.email}
           aria-describedby={errors.email ? "error-email" : undefined}
           className="mt-1 w-full rounded-md border px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
-          placeholder="you@example.com"
+            placeholder={messages.emailPlaceholder}
         />
         {errors.email && (
           <p id="error-email" className="mt-1 text-sm text-red-600">
@@ -183,7 +183,7 @@ export default function RsvpForm({ messages = getDictionary("en").rsvp }: { mess
 
       {/* Attending toggle */}
       <fieldset>
-        <legend className="block text-sm font-medium">Will you be attending?</legend>
+        <legend className="block text-sm font-medium">{messages.attendingQuestion}</legend>
         <div className="mt-2 flex gap-4">
           <label className="flex min-h-[44px] min-w-[44px] items-center gap-2 text-sm">
             <input
@@ -192,9 +192,9 @@ export default function RsvpForm({ messages = getDictionary("en").rsvp }: { mess
               value="yes"
               checked={attending === true}
               onChange={() => setAttending(true)}
-              aria-label="Yes"
+              aria-label={messages.yes}
             />
-            Yes
+            {messages.yes}
           </label>
           <label className="flex min-h-[44px] min-w-[44px] items-center gap-2 text-sm">
             <input
@@ -203,9 +203,9 @@ export default function RsvpForm({ messages = getDictionary("en").rsvp }: { mess
               value="no"
               checked={attending === false}
               onChange={() => setAttending(false)}
-              aria-label="No"
+              aria-label={messages.no}
             />
-            No
+            {messages.no}
           </label>
         </div>
       </fieldset>
@@ -215,7 +215,7 @@ export default function RsvpForm({ messages = getDictionary("en").rsvp }: { mess
         <>
           <div>
             <label htmlFor="rsvp-headcount" className="block text-sm font-medium">
-              Number of Guests
+              {messages.headcount}
             </label>
             <input
               id="rsvp-headcount"
@@ -224,7 +224,7 @@ export default function RsvpForm({ messages = getDictionary("en").rsvp }: { mess
               max={10}
               value={headcount}
               onChange={(e) => setHeadcount(Number(e.target.value) || 1)}
-              aria-label="headcount"
+              aria-label={messages.headcount}
               aria-invalid={!!errors.headcount}
               aria-describedby={errors.headcount ? "error-headcount" : undefined}
               className="mt-1 w-full rounded-md border px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
@@ -238,35 +238,35 @@ export default function RsvpForm({ messages = getDictionary("en").rsvp }: { mess
 
           <div>
             <label htmlFor="rsvp-mealChoice" className="block text-sm font-medium">
-              Meal Choice
+              {messages.mealChoice}
             </label>
             <select
               id="rsvp-mealChoice"
               value={mealChoice}
               onChange={(e) => setMealChoice(e.target.value)}
-              aria-label="mealChoice"
+              aria-label={messages.mealChoice}
               className="mt-1 w-full rounded-md border px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
             >
-              <option value="">Select a meal</option>
-              <option value="vegetarian">Vegetarian</option>
-              <option value="vegan">Vegan</option>
-              <option value="meat">Meat</option>
-              <option value="fish">Fish</option>
+              <option value="">{messages.mealPlaceholder}</option>
+              <option value="vegetarian">{messages.mealVegetarian}</option>
+              <option value="vegan">{messages.mealVegan}</option>
+              <option value="meat">{messages.mealMeat}</option>
+              <option value="fish">{messages.mealFish}</option>
             </select>
           </div>
 
           <div>
             <label htmlFor="rsvp-dietaryNotes" className="block text-sm font-medium">
-              Dietary Notes
+              {messages.dietaryNotes}
             </label>
             <textarea
               id="rsvp-dietaryNotes"
               value={dietaryNotes}
               onChange={(e) => setDietaryNotes(e.target.value)}
-              aria-label="dietaryNotes"
+              aria-label={messages.dietaryNotes}
               rows={3}
               className="mt-1 w-full rounded-md border px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
-              placeholder="Allergies, restrictions, etc."
+              placeholder={messages.dietaryPlaceholder}
             />
           </div>
         </>
@@ -280,27 +280,27 @@ export default function RsvpForm({ messages = getDictionary("en").rsvp }: { mess
             type="checkbox"
             checked={plusOne}
             onChange={(e) => setPlusOne(e.target.checked)}
-            aria-label="Plus One"
+            aria-label={messages.plusOne}
           />
-          Plus One
+          {messages.plusOne}
         </label>
       </div>
 
       {plusOne && (
         <div>
-          <label htmlFor="rsvp-plusOneName" className="block text-sm font-medium">
-            Plus One Name
-          </label>
-          <input
-            id="rsvp-plusOneName"
-            type="text"
-            value={plusOneName}
-            onChange={(e) => setPlusOneName(e.target.value)}
-            aria-label="plusOneName"
-            aria-invalid={!!errors.plusOneName}
-            className="mt-1 w-full rounded-md border px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
-            placeholder="Plus one name"
-          />
+            <label htmlFor="rsvp-plusOneName" className="block text-sm font-medium">
+              {messages.plusOneName}
+            </label>
+            <input
+              id="rsvp-plusOneName"
+              type="text"
+              value={plusOneName}
+              onChange={(e) => setPlusOneName(e.target.value)}
+              aria-label={messages.plusOneName}
+              aria-invalid={!!errors.plusOneName}
+              className="mt-1 w-full rounded-md border px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+              placeholder={messages.plusOneNamePlaceholder}
+            />
           {errors.plusOneName && <p className="mt-1 text-sm text-red-600">{errors.plusOneName}</p>}
         </div>
       )}
@@ -308,16 +308,16 @@ export default function RsvpForm({ messages = getDictionary("en").rsvp }: { mess
       {/* Message */}
       <div>
         <label htmlFor="rsvp-message" className="block text-sm font-medium">
-          Message <span className="text-gray-500 font-normal">(optional)</span>
+          {messages.messageLabel} <span className="text-gray-500 font-normal">{messages.optional}</span>
         </label>
         <textarea
           id="rsvp-message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          aria-label="message"
+          aria-label={messages.messageLabel}
           rows={4}
           className="mt-1 w-full rounded-md border px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
-          placeholder="Leave a note for the couple"
+          placeholder={messages.messagePlaceholder}
         />
         {errors.message && <p className="mt-1 text-sm text-red-600">{errors.message}</p>}
       </div>

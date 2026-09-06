@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import type { SiteConfig, ThemeId } from "@/lib/config";
 import type { Locale } from "@/i18n/locales";
+import type { Dictionary } from "@/lib/i18n";
 import ClassicElegance from "@/components/themes/ClassicElegance";
 import ModernMinimal from "@/components/themes/ModernMinimal";
 import GardenRomance from "@/components/themes/GardenRomance";
@@ -10,7 +11,7 @@ import type { ThemeTokens } from "@/lib/theme/types";
 export type ThemeDef = {
   id: ThemeId;
   label: string;
-  Component: FC<{ config: SiteConfig; lang?: Locale }>;
+  Component: FC<{ config: SiteConfig; lang?: Locale; dict?: Dictionary }>;
   preview: string;
   /** Static design tokens for this theme (accent overlaid at runtime) */
   tokens: ThemeTokens;

@@ -14,7 +14,10 @@ export default function RsvpPage({ params }: { params: { lang: Locale } }) {
       <div className="mb-8 text-center">
         <h1 className="font-serif text-4xl font-light tracking-tight">{dict.rsvp.title}</h1>
         <p className="mx-auto mt-2 max-w-prose text-sm text-gray-600">
-          Celebrate with {config.coupleName} — {config.venue} on {weddingDate}
+          {dict.rsvp.celebrateWith
+            .replace("{couple}", config.coupleName)
+            .replace("{venue}", config.venue)
+            .replace("{date}", weddingDate)}
         </p>
         <p className="mx-auto mt-1 max-w-prose text-sm text-gray-500">{dict.rsvp.subtitle}</p>
       </div>

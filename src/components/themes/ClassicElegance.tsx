@@ -4,6 +4,7 @@ import { FC } from "react";
 import { format, parseISO, isValid } from "date-fns";
 import type { SiteConfig } from "@/lib/config";
 import type { Locale } from "@/i18n/locales";
+import type { Dictionary } from "@/lib/i18n";
 import { Button } from "@/components/ui/Button";
 import { useThemeOptional } from "@/components/theme/ThemeContext";
 import { getThemeForConfig } from "@/lib/theme/service";
@@ -18,7 +19,7 @@ function formatDate(dateStr: string): string {
   }
 }
 
-const ClassicElegance: FC<{ config: SiteConfig; lang?: Locale }> = ({ config, lang = "en" }) => {
+const ClassicElegance: FC<{ config: SiteConfig; lang?: Locale; dict?: Dictionary }> = ({ config, lang = "en", dict }) => {
   const ctx = useThemeOptional();
   const tokens = ctx?.tokens ?? getThemeForConfig(config);
   const effectiveConfig = ctx?.config ?? config;
@@ -61,10 +62,10 @@ const ClassicElegance: FC<{ config: SiteConfig; lang?: Locale }> = ({ config, la
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
           {/* Button consumes accent via useTheme hook — no prop drilling */}
           <Button href={`/${lang}/rsvp`} className="rounded-none border border-transparent px-10">
-            RSVP
+            {dict?.nav.rsvp ?? "RSVP"}
           </Button>
           <Button href={`/${lang}/info`} variant="secondary" className="rounded-none border-stone-300 px-10">
-            Details
+            {dict?.nav.info ?? "Details"}
           </Button>
         </div>
       </section>

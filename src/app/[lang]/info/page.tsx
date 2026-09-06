@@ -27,12 +27,12 @@ export default function InfoPage({ params }: { params: { lang: Locale } }) {
 
         <section className="mt-12">
           <h2 className="mb-6 text-lg font-semibold">{dict.info.venue}</h2>
-          <MapEmbed venueMapUrl={config.venueMapUrl} venue={config.venue} />
+          <MapEmbed venueMapUrl={config.venueMapUrl} venue={config.venue} fallbackNote={dict.info.mapFallback} openLabel={dict.info.openInMaps} />
         </section>
 
         <section className="mt-12">
           <h2 className="mb-6 text-lg font-semibold">{dict.info.accommodations}</h2>
-          <AccommodationList items={config.accommodations} />
+          <AccommodationList items={config.accommodations} emptyMessage={dict.info.emptyAccommodations} visitLabel={dict.info.visitWebsite} />
         </section>
       </div>
     </ThemeProvider>

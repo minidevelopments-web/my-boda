@@ -109,7 +109,19 @@
     "signingIn": "Wird angemeldet...",
     "invalidPassword": "Ungültiges Passwort",
     "networkError": "Netzwerkfehler",
-    "editCategoryFor": "Kategorie von {name} bearbeiten"
+    "editCategoryFor": "Kategorie von {name} bearbeiten",
+    "categories": {
+      "family": "Familie",
+      "friends": "Freunde",
+      "colleagues": "Kollegen",
+      "other": "Sonstige"
+    },
+    "meals": {
+      "vegetarian": "Vegetarisch",
+      "vegan": "Vegan",
+      "meat": "Fleisch",
+      "fish": "Fisch"
+    }
   },
   "common": {
     "skipToContent": "Zum Inhalt springen",

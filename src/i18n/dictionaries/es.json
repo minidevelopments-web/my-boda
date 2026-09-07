@@ -109,7 +109,19 @@
     "signingIn": "Iniciando sesión...",
     "invalidPassword": "Contraseña no válida",
     "networkError": "Error de red",
-    "editCategoryFor": "Editar categoría de {name}"
+    "editCategoryFor": "Editar categoría de {name}",
+    "categories": {
+      "family": "Familia",
+      "friends": "Amigos",
+      "colleagues": "Colegas",
+      "other": "Otros"
+    },
+    "meals": {
+      "vegetarian": "Vegetariano",
+      "vegan": "Vegano",
+      "meat": "Carne",
+      "fish": "Pescado"
+    }
   },
   "common": {
     "skipToContent": "Saltar al contenido",

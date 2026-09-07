@@ -1,7 +1,6 @@
 "use client";
 
 import { FC } from "react";
-import { format, parseISO, isValid } from "date-fns";
 import type { SiteConfig } from "@/lib/config";
 import type { Locale } from "@/i18n/locales";
 import type { Dictionary } from "@/lib/i18n";
@@ -9,11 +8,11 @@ import { Button } from "@/components/ui/Button";
 import { useThemeOptional } from "@/components/theme/ThemeContext";
 import { getThemeForConfig } from "@/lib/theme/service";
 
-function formatDate(dateStr: string): string {
+function formatDate(dateStr: string, lang: string): string {
   try {
-    const d = parseISO(dateStr);
-    if (!isValid(d)) return dateStr;
-    return format(d, "MMMM d, yyyy");
+    const d = new Date(dateStr);
+    if (Number.isNaN(d.getTime())) return dateStr;
+    return new Intl.DateTimeFormat(lang, { dateStyle: "long" }).format(d);
   } catch {
     return dateStr;
   }
@@ -23,7 +22,7 @@ const GardenRomance: FC<{ config: SiteConfig; lang?: Locale; dict?: Dictionary }
   const ctx = useThemeOptional();
   const tokens = ctx?.tokens ?? getThemeForConfig(config);
   const effectiveConfig = ctx?.config ?? config;
-  const dateFormatted = formatDate(effectiveConfig.weddingDate);
+  const dateFormatted = formatDate(effectiveConfig.weddingDate, lang);
 
   return (
     <div

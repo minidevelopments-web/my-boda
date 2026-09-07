@@ -5,11 +5,12 @@ type Props = {
   onChange: (value: string) => void;
   label?: string;
   allLabel?: string;
+  categoryLabels?: Record<string, string>;
 };
 
 const categories = ["all", "family", "friends", "colleagues", "other"] as const;
 
-export function CategoryFilter({ value, onChange, label = "Filter by category", allLabel = "All categories" }: Props) {
+export function CategoryFilter({ value, onChange, label = "Filter by category", allLabel = "All categories", categoryLabels }: Props) {
   return (
     <select
       value={value}
@@ -19,7 +20,7 @@ export function CategoryFilter({ value, onChange, label = "Filter by category", 
     >
       {categories.map((c) => (
         <option key={c} value={c}>
-          {c === "all" ? allLabel : c}
+          {c === "all" ? allLabel : (categoryLabels?.[c] ?? c)}
         </option>
       ))}
     </select>

@@ -92,14 +92,37 @@ export async function middleware(req: NextRequest) {
     res.cookies.set("locale", lang, { path: "/", maxAge: 31536000 });
     return res;
   }
-  if (maybeLang && !isValidLocale(maybeLang) && ["admin","api","rsvp","info","registry","_next"].includes(maybeLang)) {
+  // Top-level /api/* is locale-independent: API locale comes from the
+  // Accept-Language header, not the URL. Never redirect API requests.
+  if (segs[0] === "api") {
+    const isGuestApi =
+      pathname === "/api/v1/guests" ||
+      pathname.startsWith("/api/v1/guests/");
+    if (isGuestApi) {
+      const token = req.cookies.get(ADMIN_COOKIE_NAME)?.value;
+      const valid = await verifySessionEdge(token);
+      if (!valid) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      }
+    }
+    return NextResponse.next();
+  }
+  if (maybeLang && !isValidLocale(maybeLang) && ["admin","rsvp","info","registry","_next"].includes(maybeLang)) {
     // legacy unprefixed public path → prefix with detected locale
     const cookie = req.cookies.get("locale")?.value ?? null;
     const lang = pickLocale(req.headers.get("accept-language"), cookie);
-    return NextResponse.redirect(new URL(`/${lang}${pathname}`, req.url));
+    const res = NextResponse.redirect(new URL(`/${lang}${pathname}`, req.url));
+    res.cookies.set("locale", lang, { path: "/", maxAge: 31536000 });
+    return res;
   }
   if (maybeLang && !isValidLocale(maybeLang)) {
-    return NextResponse.redirect(new URL(`/en${pathname}`, req.url));
+    // invalid locale prefix → strip it and fall back to /en/...
+    const rest = segs.slice(1).join("/");
+    const res = NextResponse.redirect(
+      new URL(rest ? `/en/${rest}` : "/en", req.url)
+    );
+    res.cookies.set("locale", "en", { path: "/", maxAge: 31536000 });
+    return res;
   }
   // strip prefix for existing auth checks:
   const stripped = "/" + segs.slice(1).join("/");

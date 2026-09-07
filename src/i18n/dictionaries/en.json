@@ -109,7 +109,19 @@
     "signingIn": "Signing in...",
     "invalidPassword": "Invalid password",
     "networkError": "Network error",
-    "editCategoryFor": "Edit category for {name}"
+    "editCategoryFor": "Edit category for {name}",
+    "categories": {
+      "family": "Family",
+      "friends": "Friends",
+      "colleagues": "Colleagues",
+      "other": "Other"
+    },
+    "meals": {
+      "vegetarian": "Vegetarian",
+      "vegan": "Vegan",
+      "meat": "Meat",
+      "fish": "Fish"
+    }
   },
   "common": {
     "skipToContent": "Skip to content",

@@ -38,6 +38,8 @@ type AdminDict = {
   editCategoryFor?: string;
   yes?: string;
   no?: string;
+  categories?: Record<string, string>;
+  meals?: Record<string, string>;
 };
 
 type Props = {
@@ -63,6 +65,18 @@ const DEFAULT_DICT: Required<AdminDict> = {
   editCategoryFor: "Edit category for {name}",
   yes: "yes",
   no: "no",
+  categories: {
+    family: "Family",
+    friends: "Friends",
+    colleagues: "Colleagues",
+    other: "Other",
+  },
+  meals: {
+    vegetarian: "Vegetarian",
+    vegan: "Vegan",
+    meat: "Meat",
+    fish: "Fish",
+  },
 };
 
 type SortKey = "name" | "category" | "plusOne" | "attending" | "mealChoice" | "respondedAt";
@@ -74,7 +88,7 @@ export function GuestTable({ guests: initialGuests, lang = "en", dict }: Props) 
     try {
       return new Intl.DateTimeFormat(lang).format(new Date(d as string));
     } catch {
-      return new Date(d as string).toLocaleDateString();
+      return new Date(d as string).toLocaleDateString(lang);
     }
   };
   const [guests, setGuests] = useState<Guest[]>(initialGuests);
@@ -203,7 +217,7 @@ export function GuestTable({ guests: initialGuests, lang = "en", dict }: Props) 
           aria-label={t.searchLabel}
           className="min-w-[200px] flex-1 rounded border px-3 py-2 text-sm md:flex-none"
         />
-        <CategoryFilter value={category} onChange={setCategory} label={t.filterLabel} allLabel={t.allCategories} />
+        <CategoryFilter value={category} onChange={setCategory} label={t.filterLabel} allLabel={t.allCategories} categoryLabels={t.categories} />
         <button
           onClick={handleDownloadCSV}
           className="rounded bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800"
@@ -243,20 +257,20 @@ export function GuestTable({ guests: initialGuests, lang = "en", dict }: Props) 
                         aria-label={t.editCategory}
                         className="rounded border px-2 py-1 text-sm"
                       >
-                        <option value="family">family</option>
-                        <option value="friends">friends</option>
-                        <option value="colleagues">colleagues</option>
-                        <option value="other">other</option>
+                        <option value="family">{t.categories?.family ?? "family"}</option>
+                        <option value="friends">{t.categories?.friends ?? "friends"}</option>
+                        <option value="colleagues">{t.categories?.colleagues ?? "colleagues"}</option>
+                        <option value="other">{t.categories?.other ?? "other"}</option>
                       </select>
                     ) : (
                       <button onClick={() => setEditingId(g.id)} className="rounded px-2 py-1 hover:bg-gray-100" aria-label={t.editCategoryFor.replace("{name}", g.name)}>
-                        {g.category}
+                        {t.categories?.[g.category] ?? g.category}
                       </button>
                     )}
                   </td>
                   <td className="px-3 py-2">{g.plusOne ? t.yes : t.no}</td>
                   <td className="px-3 py-2">{g.rsvp?.attending === true ? t.yes : g.rsvp?.attending === false ? t.no : ""}</td>
-                  <td className="px-3 py-2">{(g.rsvp?.mealChoice as string) || ""}</td>
+                  <td className="px-3 py-2">{(t.meals?.[(g.rsvp?.mealChoice as string)] ?? (g.rsvp?.mealChoice as string)) || ""}</td>
                   <td className="px-3 py-2">{g.rsvp?.respondedAt ? formatDate(g.rsvp.respondedAt as string) : ""}</td>
                 </tr>
               ))

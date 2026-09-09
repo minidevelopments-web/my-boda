@@ -12,13 +12,11 @@ services:
         NEXT_PUBLIC_ACCOMMODATIONS_JSON: ${NEXT_PUBLIC_ACCOMMODATIONS_JSON:-}
         NEXT_PUBLIC_REGISTRY_JSON: ${NEXT_PUBLIC_REGISTRY_JSON:-}
         NEXT_PUBLIC_VENUE_MAP_URL: ${NEXT_PUBLIC_VENUE_MAP_URL:-}
-        DATABASE_URL: ${DATABASE_URL:-file:/app/data/dev.db}
+        DATABASE_URL: ${DATABASE_URL:-postgresql://myboda:myboda@postgres:5432/myboda}
     ports:
       - "3000:3000"
-    expose:
-      - "3000"
     environment:
-      - DATABASE_URL=file:/app/data/dev.db
+      - DATABASE_URL=postgresql://myboda:myboda@postgres:5432/myboda
       - NEXT_PUBLIC_COUPLE_NAME=${NEXT_PUBLIC_COUPLE_NAME:-Alex & Sam}
       - NEXT_PUBLIC_WEDDING_DATE=${NEXT_PUBLIC_WEDDING_DATE:-2027-06-12}
       - NEXT_PUBLIC_VENUE=${NEXT_PUBLIC_VENUE:-Villa del Sol, Barcelona}
@@ -29,34 +27,25 @@ services:
       - NEXT_PUBLIC_REGISTRY_JSON=${NEXT_PUBLIC_REGISTRY_JSON:-}
       - NEXT_PUBLIC_VENUE_MAP_URL=${NEXT_PUBLIC_VENUE_MAP_URL:-}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD:-}
-    volumes:
-      - sqlite_data:/app/data
-    healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3000/ || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+    depends_on:
+      postgres:
+        condition: service_healthy
     restart: unless-stopped
 
-  # Optional Postgres for production — uncomment to use Postgres instead of SQLite.
-  # Update DATABASE_URL in .env to e.g. postgresql://user:password@postgres:5432/myboda
-  # and set datasource provider to "postgresql" in prisma/schema.prisma.
-  # postgres:
-  #   image: postgres:16-alpine
-  #   environment:
-  #     POSTGRES_USER: myboda
-  #     POSTGRES_PASSWORD: myboda
-  #     POSTGRES_DB: myboda
-  #   volumes:
-  #     - postgres_data:/var/lib/postgresql/data
-  #   healthcheck:
-  #     test: ["CMD-SHELL", "pg_isready -U myboda"]
-  #     interval: 10s
-  #     timeout: 5s
-  #     retries: 5
-  #   restart: unless-stopped
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: myboda
+      POSTGRES_PASSWORD: myboda
+      POSTGRES_DB: myboda
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myboda"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
 
 volumes:
-  sqlite_data:
-  # postgres_data:
+  postgres_data:

@@ -35,11 +35,10 @@ export const rsvpService = {
    * Throws Error("Guest not found") when guestId is provided but missing,
    * to preserve the previous API 404 contract.
    *
-   * DB note: `prisma.$transaction` on SQLite (better-sqlite3) is single-writer
-   * and serialized via file lock — safe for single-container deploys but will
-   * serialize concurrent RSVP submissions. For high concurrency switch provider
-   * to "postgresql" in prisma/schema.prisma and use the postgres service in
-   * docker-compose.yml (see Dockerfile header and schema comments).
+    * DB note: `prisma.$transaction` on Postgres supports concurrent writers
+    * with full ACID semantics — safe for multi-instance deploys (Vercel,
+    * Docker `postgres` service). Keep RSVP submit inside this transaction
+    * boundary so guest upsert + RSVP upsert stay atomic.
    */
   async submitRsvp(input: RsvpInput) {
     const { name, email, attending, headcount, mealChoice, dietaryNotes, message, guestId, category, plusOne, plusOneName } = input;

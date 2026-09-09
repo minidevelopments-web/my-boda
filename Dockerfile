@@ -1,22 +1,12 @@
 # syntax=docker/dockerfile:1
 #
-# Multi-stage build for smaller production image (~150MB vs ~400MB).
-# - deps: installs all deps (including devDeps needed for build) + native toolchain for better-sqlite3
-# - builder: generates Prisma client and builds Next.js (needs devDeps)
-# - runner: production-only deps via `npm prune --omit=dev`, no build toolchain
-#
-# SQLite note (better-sqlite3): single-writer, file-locked — suitable for single-instance
-# deployments (e.g. single container with volume). For multi-instance / concurrent writers,
-# switch to Postgres: uncomment the `postgres` service in docker-compose.yml,
-# set DATABASE_URL=postgresql://user:password@postgres:5432/myboda and change
-# provider to "postgresql" in prisma/schema.prisma (see that file for details).
+# Postgres production — DATABASE_URL must be postgresql://...
 
 FROM node:20-alpine AS base
 WORKDIR /app
 
 # ---- deps: install all dependencies (dev + prod) with native build tools ----
 FROM base AS deps
-RUN apk add --no-cache python3 make g++
 COPY package.json package-lock.json* ./
 RUN npm ci
 

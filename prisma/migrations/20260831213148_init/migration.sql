@@ -6,7 +6,7 @@ CREATE TABLE "Guest" (
     "category" TEXT NOT NULL DEFAULT 'family',
     "plusOne" BOOLEAN NOT NULL DEFAULT false,
     "plusOneName" TEXT,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- CreateTable
@@ -18,7 +18,7 @@ CREATE TABLE "RsvpResponse" (
     "mealChoice" TEXT,
     "dietaryNotes" TEXT,
     "message" TEXT,
-    "respondedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "respondedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "RsvpResponse_guestId_fkey" FOREIGN KEY ("guestId") REFERENCES "Guest" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 

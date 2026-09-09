@@ -5,7 +5,7 @@
 FROM node:20-alpine AS base
 WORKDIR /app
 
-# ---- deps: install all dependencies (dev + prod) with native build tools ----
+# ---- deps: install all dependencies (dev + prod; no native toolchain needed, pg is pure JS) ----
 FROM base AS deps
 COPY package.json package-lock.json* ./
 RUN npm ci
@@ -57,10 +57,10 @@ COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/next.config.mjs ./next.config.mjs
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/package-lock.json ./package-lock.json
-# Copy node_modules built in deps/builder (includes native better-sqlite3 bindings)
+# Copy node_modules built in deps/builder
 COPY --from=builder /app/node_modules ./node_modules
 
-# Drop devDeps to halve image size; compiled native bindings are preserved
+# Drop devDeps to halve image size
 RUN npm prune --omit=dev && npm cache clean --force
 
 EXPOSE 3000

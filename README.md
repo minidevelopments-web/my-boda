@@ -10,8 +10,7 @@ An open-core, self-hosted wedding platform — no tracking, no vendor lock-in, n
 
 <p align="center">
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/your-org/my-boda)
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/github/your-org/my-boda)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/minidevelopments-web/my-boda)
 
 </p>
 
@@ -99,10 +98,10 @@ All variables are documented in [`.env.example`](.env.example). Copy it to `.env
 | `NEXT_PUBLIC_ACCOMMODATIONS_JSON` | public | `""` | Accommodations `[{name,url?,note?}]` |
 | `NEXT_PUBLIC_REGISTRY_JSON` | public | `""` | Registry `{iban?,bizum?,links:[{label,url}],message?}` |
 | `NEXT_PUBLIC_VENUE_MAP_URL` | public | `""` | Google/Apple Maps URL for `/info` |
-| `DATABASE_URL` | server | `file:./data/dev.db` (`file:/app/data/dev.db` in Docker) | SQLite (default) or `postgresql://…` |
+| `DATABASE_URL` | server | `postgresql://myboda:myboda@postgres:5432/myboda` | Postgres (Vercel, Neon, Supabase, or Docker `postgres` service) |
 | `ADMIN_PASSWORD` | server | `admin123` | Admin dashboard password (HMAC-hashed, httpOnly cookie) |
 
-`NEXT_PUBLIC_*` vars are inlined at build time — rebuild after changing them (`docker compose up --build`).
+`NEXT_PUBLIC_*` vars are inlined at build time — rebuild after changing them (`docker compose up --build`, or Redeploy on Vercel).
 
 ---
 

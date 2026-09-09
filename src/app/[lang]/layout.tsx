@@ -18,10 +18,28 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const { lang: raw } = await params;
   const lang = isValidLocale(raw) ? raw : "en";
   const dict = getDictionary(lang);
+  const title = dict.home.title;
+  const description = dict.home.description;
   return {
-    title: dict.home.title,
-    description: dict.home.description,
+    title,
+    description,
     alternates: { languages: { en: "/en", es: "/es", fr: "/fr", de: "/de", pt: "/pt" } },
+    icons: {
+      icon: [{ url: "/favicon.ico" }, { url: "/favicon.svg", type: "image/svg+xml" }],
+      apple: "/apple-touch-icon.png",
+    },
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      images: [{ url: "/og-image.png", width: 1200, height: 630, alt: title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/og-image.png"],
+    },
   };
 }
 

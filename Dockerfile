@@ -25,7 +25,6 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN mkdir -p ./public
 
 # Build args for Next.js public env (inlined at build time)
 ARG NEXT_PUBLIC_COUPLE_NAME

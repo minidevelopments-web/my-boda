@@ -27,7 +27,7 @@ Three handcrafted themes — switch with a single env var, no rebuild of content
 | Warm serif, editorial layout | Clean sans, generous whitespace | Soft florals, romantic palette |
 | `NEXT_PUBLIC_THEME=classic` | `NEXT_PUBLIC_THEME=modern` | `NEXT_PUBLIC_THEME=garden` |
 
-> GIF placeholders — replace `docs/assets/theme-*.gif` with screen recordings of each theme. See [docs/THEMES.md](docs/THEMES.md) for how to add a new theme.
+> Theme previews live in `docs/assets/` (`hero-banner.png`, `theme-classic.gif`, `theme-modern.gif`, `theme-garden.gif`). To refresh them, capture each theme at 800×500 and overwrite the matching file. See [docs/THEMES.md](docs/THEMES.md) for how to add a new theme.
 
 ---
 

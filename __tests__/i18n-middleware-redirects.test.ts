@@ -34,3 +34,10 @@ test("legacy unprefixed public path gains locale prefix", async () => {
   const res = await middleware(req("/info", "es-ES,es;q=0.9"));
   expect(res.headers.get("location")).toBe("http://localhost/es/info");
 });
+
+test("all root guest paths redirect to localized equivalent", async () => {
+  for (const p of ["/rsvp", "/info", "/registry", "/admin"]) {
+    const res = await middleware(req(p, "es-ES,es;q=0.9"));
+    expect(res.headers.get("location")).toBe(`http://localhost/es${p}`);
+  }
+});

@@ -1,4 +1,5 @@
 import type { Accommodation } from "@/lib/config";
+import { Card } from "@/components/ui/Card";
 
 export function AccommodationList({
   items,
@@ -15,7 +16,7 @@ export function AccommodationList({
   return (
     <div className="grid gap-4 sm:grid-cols-2">
       {items.map((acc, idx) => (
-        <div key={`${acc.name}-${idx}`} className="rounded border border-stone-200 bg-white p-4 shadow-sm">
+        <Card key={`${acc.name}-${idx}`} className="p-4">
           <h3 className="font-medium">{acc.name}</h3>
           {acc.note && <p className="mt-1 text-sm text-stone-500">{acc.note}</p>}
           {acc.url && (
@@ -28,7 +29,7 @@ export function AccommodationList({
               {visitLabel ?? "Visit website"}
             </a>
           )}
-        </div>
+        </Card>
       ))}
     </div>
   );

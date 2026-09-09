@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { makeRsvpSchema } from "@/lib/validators";
 import { getDictionary, type Dictionary } from "@/lib/i18n";
 import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
 
 type FormErrors = Record<string, string>;
 
@@ -136,50 +137,35 @@ export default function RsvpForm({ messages = getDictionary("en").rsvp }: { mess
         </div>
       )}
       {/* Name */}
-      <div>
-        <label htmlFor="rsvp-name" className="block text-sm font-medium">
-          {messages.name} <span aria-hidden="true" className="text-red-600">*</span>
-        </label>
-        <input
-          id="rsvp-name"
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-          aria-required="true"
-          aria-invalid={!!errors.name}
-          aria-describedby={errors.name ? "error-name" : undefined}
-          className="mt-1 w-full rounded-md border px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
-            placeholder={messages.namePlaceholder}
-        />
-        {errors.name && (
-          <p id="error-name" className="mt-1 text-sm text-red-600">
-            {errors.name}
-          </p>
-        )}
-      </div>
+      <Input
+        id="rsvp-name"
+        type="text"
+        label={
+          <>
+            {messages.name} <span aria-hidden="true" className="text-red-600">*</span>
+          </>
+        }
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        required
+        placeholder={messages.namePlaceholder}
+        error={errors.name ?? null}
+      />
 
       {/* Email */}
-      <div>
-        <label htmlFor="rsvp-email" className="block text-sm font-medium">
-          {messages.email} <span className="text-gray-500 font-normal">{messages.optional}</span>
-        </label>
-        <input
-          id="rsvp-email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          aria-invalid={!!errors.email}
-          aria-describedby={errors.email ? "error-email" : undefined}
-          className="mt-1 w-full rounded-md border px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
-            placeholder={messages.emailPlaceholder}
-        />
-        {errors.email && (
-          <p id="error-email" className="mt-1 text-sm text-red-600">
-            {errors.email}
-          </p>
-        )}
-      </div>
+      <Input
+        id="rsvp-email"
+        type="email"
+        label={
+          <>
+            {messages.email} <span className="text-gray-500 font-normal">{messages.optional}</span>
+          </>
+        }
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder={messages.emailPlaceholder}
+        error={errors.email ?? null}
+      />
 
       {/* Attending toggle */}
       <fieldset>
@@ -213,28 +199,17 @@ export default function RsvpForm({ messages = getDictionary("en").rsvp }: { mess
       {/* Conditional: headcount + mealChoice + dietaryNotes when attending */}
       {attending && (
         <>
-          <div>
-            <label htmlFor="rsvp-headcount" className="block text-sm font-medium">
-              {messages.headcount}
-            </label>
-            <input
-              id="rsvp-headcount"
-              type="number"
-              min={1}
-              max={10}
-              value={headcount}
-              onChange={(e) => setHeadcount(Number(e.target.value) || 1)}
-              aria-label={messages.headcount}
-              aria-invalid={!!errors.headcount}
-              aria-describedby={errors.headcount ? "error-headcount" : undefined}
-              className="mt-1 w-full rounded-md border px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
-            />
-            {errors.headcount && (
-              <p id="error-headcount" className="mt-1 text-sm text-red-600">
-                {errors.headcount}
-              </p>
-            )}
-          </div>
+          <Input
+            id="rsvp-headcount"
+            type="number"
+            label={messages.headcount}
+            min={1}
+            max={10}
+            value={headcount}
+            onChange={(e) => setHeadcount(Number(e.target.value) || 1)}
+            aria-label={messages.headcount}
+            error={errors.headcount ?? null}
+          />
 
           <div>
             <label htmlFor="rsvp-mealChoice" className="block text-sm font-medium">
@@ -287,22 +262,16 @@ export default function RsvpForm({ messages = getDictionary("en").rsvp }: { mess
       </div>
 
       {plusOne && (
-        <div>
-            <label htmlFor="rsvp-plusOneName" className="block text-sm font-medium">
-              {messages.plusOneName}
-            </label>
-            <input
-              id="rsvp-plusOneName"
-              type="text"
-              value={plusOneName}
-              onChange={(e) => setPlusOneName(e.target.value)}
-              aria-label={messages.plusOneName}
-              aria-invalid={!!errors.plusOneName}
-              className="mt-1 w-full rounded-md border px-3 py-2 text-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
-              placeholder={messages.plusOneNamePlaceholder}
-            />
-          {errors.plusOneName && <p className="mt-1 text-sm text-red-600">{errors.plusOneName}</p>}
-        </div>
+        <Input
+          id="rsvp-plusOneName"
+          type="text"
+          label={messages.plusOneName}
+          value={plusOneName}
+          onChange={(e) => setPlusOneName(e.target.value)}
+          aria-label={messages.plusOneName}
+          placeholder={messages.plusOneNamePlaceholder}
+          error={errors.plusOneName ?? null}
+        />
       )}
 
       {/* Message */}

@@ -2,6 +2,8 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { CategoryFilter } from "./CategoryFilter";
+import { Input } from "@/components/ui/Input";
+import { Badge } from "@/components/ui/Badge";
 
 type Rsvp = {
   attending: boolean | null;
@@ -209,14 +211,16 @@ export function GuestTable({ guests: initialGuests, lang = "en", dict }: Props) 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-wrap items-center gap-3">
-        <input
-          type="text"
-          placeholder={t.searchPlaceholder}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          aria-label={t.searchLabel}
-          className="min-w-[200px] flex-1 rounded border px-3 py-2 text-sm md:flex-none"
-        />
+        <div className="min-w-[200px] flex-1 md:flex-none">
+          <Input
+            type="text"
+            placeholder={t.searchPlaceholder}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            aria-label={t.searchLabel}
+            label=""
+          />
+        </div>
         <CategoryFilter value={category} onChange={setCategory} label={t.filterLabel} allLabel={t.allCategories} categoryLabels={t.categories} />
         <button
           onClick={handleDownloadCSV}
@@ -269,8 +273,24 @@ export function GuestTable({ guests: initialGuests, lang = "en", dict }: Props) 
                     )}
                   </td>
                   <td className="px-3 py-2">{g.plusOne ? t.yes : t.no}</td>
-                  <td className="px-3 py-2">{g.rsvp?.attending === true ? t.yes : g.rsvp?.attending === false ? t.no : ""}</td>
-                  <td className="px-3 py-2">{(t.meals?.[(g.rsvp?.mealChoice as string)] ?? (g.rsvp?.mealChoice as string)) || ""}</td>
+                  <td className="px-3 py-2">
+                    {g.rsvp?.attending === true ? (
+                      <Badge variant="success">{t.yes}</Badge>
+                    ) : g.rsvp?.attending === false ? (
+                      <Badge variant="warning">{t.no}</Badge>
+                    ) : (
+                      ""
+                    )}
+                  </td>
+                  <td className="px-3 py-2">
+                    {(t.meals?.[(g.rsvp?.mealChoice as string)] ?? (g.rsvp?.mealChoice as string)) ? (
+                      <Badge variant="info">
+                        {(t.meals?.[(g.rsvp?.mealChoice as string)] ?? (g.rsvp?.mealChoice as string)) || ""}
+                      </Badge>
+                    ) : (
+                      ""
+                    )}
+                  </td>
                   <td className="px-3 py-2">{g.rsvp?.respondedAt ? formatDate(g.rsvp.respondedAt as string) : ""}</td>
                 </tr>
               ))

@@ -1,3 +1,5 @@
+import { Card } from "@/components/ui/Card";
+
 type GuestWithRsvp = {
   id: string;
   rsvp?: { attending: boolean } | null;
@@ -44,10 +46,10 @@ export function StatsCards({ guests, total: totalProp, confirmed: confirmedProp,
   return (
     <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
       {cards.map((c) => (
-        <div key={c.label} className="rounded-lg border bg-white p-4 shadow-sm">
+        <Card key={c.label} className="rounded-lg p-4">
           <p className="text-sm text-gray-500">{c.label}</p>
           <p className="mt-1 text-2xl font-bold">{c.value}</p>
-        </div>
+        </Card>
       ))}
     </div>
   );

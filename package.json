@@ -17,10 +17,8 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
-    "@prisma/adapter-better-sqlite3": "^7.10.0",
     "@prisma/client": "^7.10.0",
     "@tailwindcss/postcss": "^4.3.3",
-    "better-sqlite3": "^13.0.3",
     "date-fns": "^4.4.0",
     "next": "^16.3.4",
     "papaparse": "^5.4.1",
@@ -33,7 +31,6 @@
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.1.0",
-    "@types/better-sqlite3": "^9.6.0",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.12.12",
     "@types/papaparse": "^5.3.14",
@@ -51,8 +48,6 @@
     "typescript": "^5.4.5"
   },
   "allowScripts": {
-    "better-sqlite3@13.0.3": true,
-    "better-sqlite3@12.11.1": true,
     "prisma@7.10.0": true,
     "@prisma/engines@7.10.0": true
   }

@@ -6,12 +6,12 @@ This guide covers deploying my-boda on your own infrastructure with Docker, conf
 
 - A VPS / NAS / home server with Docker Engine ≥ 24 and Docker Compose v2
 - A domain name (optional but recommended) with DNS access
-- ~512 MB RAM, 1 vCPU, 2 GB disk is enough (SQLite, no heavy deps)
+- ~512 MB RAM, 1 vCPU, 2 GB disk is enough (Postgres via compose, no heavy deps)
 
 ## 1. Docker Quick Start
 
 ```bash
-git clone https://github.com/your-org/my-boda.git
+git clone https://github.com/minidevelopments-web/my-boda.git
 cd my-boda
 cp .env.example .env
 # Edit .env — at minimum set NEXT_PUBLIC_COUPLE_NAME, NEXT_PUBLIC_WEDDING_DATE,
@@ -25,10 +25,10 @@ Open `http://YOUR_SERVER_IP:3000`. Admin at `/admin`.
 
 ### What the compose file does
 
-- Builds from `Dockerfile` (Node 20 Alpine, `better-sqlite3` native deps, `prisma generate`, `next build`)
+- Builds from `Dockerfile` (Node 20 Alpine, `prisma generate`, `next build`)
 - Exposes `3000:3000` and `expose: 3000`
-- Sets `DATABASE_URL=file:/app/data/dev.db` (SQLite file inside container; build arg `DATABASE_URL=file:./data/dev.db` for host)
-- Persists DB via named volume `sqlite_data:/app/data` — survives rebuilds (isolated from `/app/prisma` migrations)
+- Sets `DATABASE_URL=postgresql://myboda:myboda@postgres:5432/myboda` (Postgres service; same default as the build arg)
+- Persists DB via named volume `postgres_data:/var/lib/postgresql/data` — survives rebuilds
 - `restart: unless-stopped` — survives host reboots
 - `healthcheck` polls `http://localhost:3000/` every 30s (start period 40s)
 
@@ -39,23 +39,22 @@ git pull
 docker compose up --build -d
 ```
 
-SQLite data is preserved in the `sqlite_data` volume.
+Postgres data is preserved in the `postgres_data` volume.
 
-### Using Postgres (optional)
+### Postgres (default — `postgres:16-alpine` service)
 
-For larger guest lists or managed DB preference:
+Compose already wires the `postgres` service — no extra steps needed:
 
-1. Uncomment the `postgres` service in `docker-compose.yml`.
-2. Change `prisma/schema.prisma` datasource provider to `postgresql` (if you switch permanently).
-3. Set in `.env`:
+1. `prisma/schema.prisma` datasource provider is `postgresql`.
+2. `DATABASE_URL` defaults in `.env` / compose to:
    ```
    DATABASE_URL="postgresql://myboda:myboda@postgres:5432/myboda"
    ```
-4. Run migration:
+3. Run migration:
    ```bash
    docker compose exec app npx prisma migrate deploy
    ```
-5. `docker compose up --build -d`
+4. `docker compose up --build -d`
 
 Do not mix SQLite and Postgres URLs without migrating — see Migration below.
 
@@ -64,7 +63,7 @@ Do not mix SQLite and Postgres URLs without migrating — see Migration below.
 All vars are in `.env.example` with comments. Key groups:
 
 - `NEXT_PUBLIC_*` — inlined at **build time**. After changing any of them, rebuild: `docker compose up --build -d`.
-- `DATABASE_URL` — server-only. SQLite default is `file:/app/data/dev.db` in container / `file:./data/dev.db` locally (backed by `sqlite_data:/app/data` volume).
+- `DATABASE_URL` — server-only. Default is `postgresql://myboda:myboda@postgres:5432/myboda` (backed by the `postgres_data` volume).
 - `ADMIN_PASSWORD` — server-only. Compared via HMAC hash; session is httpOnly cookie with 7-day expiry. Change from default before exposing publicly.
 
 See [README.md](../README.md#environment-variables) table and `.env.example` header comments for every var.
@@ -125,7 +124,7 @@ No code change needed for the domain itself — the app has no hardcoded host.
 
 ## 5. Migration
 
-### SQLite → Postgres
+### SQLite → Postgres (legacy migration path — only if you ran the old SQLite stack)
 
 ```bash
 # 1. Export guests as CSV from /admin (or via API)
@@ -140,7 +139,7 @@ docker compose exec app npx prisma migrate deploy
 #    Alternatively, use `pgloader` or Prisma's `db push` for manual migration.
 ```
 
-### Host migration
+### Host migration (SQLite legacy path — for Postgres use `pg_dump` / `pg_restore` instead, see below)
 
 ```bash
 # On old host
@@ -156,7 +155,7 @@ For Postgres, use `pg_dump` / `pg_restore` instead.
 
 ## 6. Backup
 
-### SQLite (default)
+### SQLite (legacy/dev-only — the compose default is Postgres)
 
 The DB is a single file at volume `sqlite_data` → `/app/data/dev.db` inside the container.
 

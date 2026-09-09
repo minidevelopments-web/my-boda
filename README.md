@@ -33,7 +33,7 @@ Three handcrafted themes — switch with a single env var, no rebuild of content
 ## Quick Start
 
 ```bash
-git clone https://github.com/your-org/my-boda.git
+git clone https://github.com/minidevelopments-web/my-boda.git
 cd my-boda
 cp .env.example .env   # edit couple name, date, venue, passwords
 docker compose up --build -d
@@ -111,15 +111,15 @@ All variables are documented in [`.env.example`](.env.example). Copy it to `.env
 |---|---|---|
 | Framework | [Next.js](https://nextjs.org) (App Router, Turbopack) | `16.3.4` |
 | UI | React `19.1.1`, Tailwind CSS `4.3.3`, `@tailwindcss/postcss` `4.3.3` | latest |
-| Database | Prisma `7.10.0` + `@prisma/adapter-better-sqlite3` `7.10.0` (driverAdapters) | `7.10.0` |
-| SQLite driver | `better-sqlite3` `13.0.3` (`@types/better-sqlite3` `9.6.0`) | `13.0.3` |
+| Database | Prisma `7.10.0` + `@prisma/adapter-pg` `7.10.0` (driverAdapters) | `7.10.0` |
+| Postgres driver | `pg` `8.23.0` (`@types/pg` `8.23.1`) | `8.23.0` |
 | Validation | Zod `4.5.4` | `4.5.4` |
 | Dates | `date-fns` `4.4.0` | `4.4.0` |
 | CSV | `papaparse` `5.4.1` | `5.4.1` |
 | Language | TypeScript `5.4.5` | `5.4.5` |
 | Container | Docker + `docker-compose.yml` (Node 20 Alpine) | — |
 
-Prisma uses the **driverAdapters** pattern: `datasource db { provider = "sqlite" }` has no `url` — the URL lives in `prisma.config.ts` for CLI and `src/lib/prisma.ts` (`new PrismaBetterSqlite3({ url })`) for runtime.
+Prisma uses the **driverAdapters** pattern: `datasource db { provider = "postgresql" }` has no `url` — the URL lives in `prisma.config.ts` (`datasource.url = env("DATABASE_URL")`) for CLI and `src/lib/prisma.ts` (`new PrismaPg(new Pool({ connectionString }))`) for runtime.
 
 ---
 
@@ -136,7 +136,7 @@ Prisma uses the **driverAdapters** pattern: `datasource db { provider = "sqlite"
 Contributions welcome — bug fixes, themes, translations, docs.
 
 ```bash
-git clone https://github.com/your-org/my-boda.git
+git clone https://github.com/minidevelopments-web/my-boda.git
 cd my-boda
 npm ci
 npx prisma generate

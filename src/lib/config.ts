@@ -125,7 +125,7 @@ export const publicEnvSchema = z.object({
 
 /** Server-only env vars — never exposed to browser */
 export const serverEnvSchema = z.object({
-  DATABASE_URL: z.string().min(1).optional().default("file:./data/dev.db"),
+  DATABASE_URL: z.string().min(1).optional().default("postgresql://myboda:myboda@localhost:5432/myboda"),
   ADMIN_PASSWORD: z.string().optional(),
   NODE_ENV: z.enum(["development", "production", "test"]).optional().default("development"),
 });
@@ -434,7 +434,7 @@ export function validateEnv(
   console.warn(`[config] ${message}`);
   // Build fallback env: apply defaults manually for required server fields
   const fallback: Env = {
-    DATABASE_URL: (rawEnv.DATABASE_URL as string) || "file:./data/dev.db",
+    DATABASE_URL: (rawEnv.DATABASE_URL as string) || "postgresql://myboda:myboda@localhost:5432/myboda",
     ADMIN_PASSWORD: (rawEnv.ADMIN_PASSWORD as string) || "",
     NODE_ENV: (rawEnv.NODE_ENV as Env["NODE_ENV"]) || "development",
     NEXT_PUBLIC_COUPLE_NAME: rawEnv.NEXT_PUBLIC_COUPLE_NAME,

@@ -194,7 +194,7 @@ export const ROLE_RANK: Record<string, number> = { GUEST: 0, PLANNER: 1, COUPLE:
 export function canAccess(role: string, area: Area): boolean {
   if (role === "SYSADMIN") return true;
   if (area === "guests" || area === "content") return role === "COUPLE" || role === "PLANNER";
-  if (area === "users") return role === "COUPLE"; // RESOLVED pre-flight 2026-09-18: spec governs — couple may create PLANNER users only (enforced in Task 3 planners endpoint); full user list/management stays SYSADMIN-only
+  if (area === "users") return false; // generic users area: SYSADMIN-only; narrow couple-creates-PLANNER exception lives in Task 3 POST /api/v1/admin/planners endpoint (requireRole COUPLE|SYSADMIN), not in this matrix — RESOLVED 2026-09-18
   return false; // system: sysadmin only
 }
 ```

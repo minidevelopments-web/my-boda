@@ -17,21 +17,24 @@ export default async function RsvpPage({ params }: { params: Promise<{ lang: Loc
   const sess = parseGuestSession((await cookies()).get(GUEST_COOKIE_NAME)?.value);
   let householdMax: number | undefined;
   let guestName: string | undefined;
+  let sessionValid = false;
   if (sess) {
     try {
       const household = await prisma.household.findUnique({
         where: { id: sess.householdId },
         include: { guests: true },
       });
-      if (household) {
+      if (household && !(household.expiresAt && household.expiresAt < new Date())) {
+        sessionValid = true;
         householdMax = household.maxGuests;
         guestName = household.guests.find((g) => g.id === sess.guestId)?.name;
       }
     } catch {
-      // DB unavailable (tests) — fall back to defaults below.
+      // DB unavailable (tests) — preserve legacy behavior: honor the session.
+      sessionValid = true;
     }
   }
-  const showGate = !sess;
+  const showGate = !sess || !sessionValid;
   return (
     <div className="mx-auto max-w-2xl px-6 py-content">
       <div className="mb-8 text-center">
@@ -46,7 +49,7 @@ export default async function RsvpPage({ params }: { params: Promise<{ lang: Loc
       </div>
 
       {showGate ? (
-        <InviteGate dict={(dict as any).invite ?? {}} lang={lang} />
+        <InviteGate dict={(dict as any).invite ?? {}} />
       ) : (
         <RsvpForm messages={dict.rsvp} householdMax={householdMax} initialName={guestName} />
       )}

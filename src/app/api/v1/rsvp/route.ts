@@ -24,6 +24,21 @@ export async function POST(req: NextRequest) {
     // here by scoping guestId lookups to the session household).
     let householdId: string | null =
       parseGuestSession(req.cookies.get(GUEST_COOKIE_NAME)?.value)?.householdId ?? null;
+    let householdMax: number | null = null;
+    if (householdId) {
+      // Session path: re-validate household existence + expiry (never trust cookie alone).
+      try {
+        const household = await prisma.household.findUnique({
+          where: { id: householdId },
+        });
+        if (!household || (household.expiresAt && household.expiresAt < new Date())) {
+          return NextResponse.json({ error: "Invitation required" }, { status: 401 });
+        }
+        householdMax = household.maxGuests;
+      } catch {
+        // DB unavailable — fall through; legacy/tests stay green.
+      }
+    }
     if (!householdId) {
       const rawCode = typeof body?.inviteCode === "string" ? normalizeInviteCode(body.inviteCode) : "";
       const rawName = typeof body?.name === "string" ? body.name.trim().toLowerCase() : "";
@@ -35,11 +50,12 @@ export async function POST(req: NextRequest) {
           });
           const match = household?.guests.find(
             (g) =>
-              g.name.toLowerCase().includes(rawName) ||
-              (g.plusOneName ?? "").toLowerCase().includes(rawName)
+              g.name.toLowerCase().trim() === rawName ||
+              (g.plusOneName ?? "").toLowerCase().trim() === rawName
           );
           if (household && match && !(household.expiresAt && household.expiresAt < new Date())) {
             householdId = household.id;
+            householdMax = household.maxGuests;
           }
         } catch {
           // DB unavailable — fall through to legacy check below.
@@ -68,10 +84,29 @@ export async function POST(req: NextRequest) {
         // If the lookup fails, let the service return its normal 404/500 contract.
       }
     }
+    if (householdId && typeof body?.email === "string" && body.email.trim()) {
+      // Scope email dedup to the authorized household: a session/code for
+      // household A must not read/rename an email belonging to household B.
+      try {
+        const byEmail = await prisma.guest.findFirst({
+          where: { email: body.email.trim().toLowerCase() },
+        });
+        if (byEmail && (byEmail as { householdId?: string | null }).householdId && (byEmail as { householdId?: string | null }).householdId !== householdId) {
+          return NextResponse.json({ error: "Invitation required" }, { status: 401 });
+        }
+      } catch {
+        // Lookup failure → service contract handles it.
+      }
+    }
 
     const parsed = makeRsvpSchema(dict).safeParse(body);
     if (!parsed.success) {
       return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
+    }
+    // Server-side headcount cap: schema max(10) is the absolute ceiling;
+    // the authorized household's maxGuests is the binding limit.
+    if (householdMax !== null && parsed.data.headcount > householdMax) {
+      parsed.data.headcount = householdMax;
     }
 
     const result = await rsvpService.submitRsvp(parsed.data);

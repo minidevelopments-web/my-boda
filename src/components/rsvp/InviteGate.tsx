@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-export default function InviteGate({ dict, lang }: { dict: any; lang: string }) {
+export default function InviteGate({ dict }: { dict: any }) {
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState<string | null>(null);

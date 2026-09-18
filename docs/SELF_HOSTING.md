@@ -231,5 +231,5 @@ values (bcrypt, non-reversible) — store encrypted.
 
 - `app` unhealthy: `docker compose logs app` — check `DATABASE_URL` and that `prisma generate` ran (Dockerfile does it).
 - `NEXT_PUBLIC_*` changes not visible: rebuild — `docker compose up --build -d` (they are build-time).
-- Admin login fails: ensure `ADMIN_PASSWORD` matches between build env and runtime; check cookie is `httpOnly` and not blocked by proxy.
+- Admin login fails: `ADMIN_PASSWORD` only seeds the first SYSADMIN via `/setup` when the User table is empty — afterwards logins use DB users; if locked out, reset via the users API/DB, not env match. Check cookie is `httpOnly` and not blocked by proxy.
 - Port 3000 in use: change `ports: ["3001:3000"]` in compose and update proxy target.

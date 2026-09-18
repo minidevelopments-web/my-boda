@@ -24,6 +24,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid code or name" }, { status: 400 });
     }
 
+    const limit = checkRateLimit(`guest:${ip}`);
+    if (!limit.allowed) {
+      const retryAfterSec = Math.ceil(limit.retryAfterMs / 1000);
+      return NextResponse.json({ error: "Too many attempts, try again later" }, { status: 429, headers: { "Retry-After": String(retryAfterSec) } });
+    }
+
     const household = await prisma.household.findUnique({
       where: { inviteCode: code },
       include: { guests: true },
@@ -33,11 +39,7 @@ export async function POST(req: NextRequest) {
         (g.plusOneName ?? "").toLowerCase().includes(name)
     );
     if (!household || !match || (household.expiresAt && household.expiresAt < new Date())) {
-      const limit = checkRateLimit(`guest:${ip}`);
-      if (!limit.allowed) {
-        const retryAfterSec = Math.ceil(limit.retryAfterMs / 1000);
-        return NextResponse.json({ error: "Too many attempts, try again later" }, { status: 429, headers: { "Retry-After": String(retryAfterSec) } });
-      }
+      checkRateLimit(`guest:${ip}`);
       return NextResponse.json({ error: "Invalid code or name" }, { status: 401 });
     }
 

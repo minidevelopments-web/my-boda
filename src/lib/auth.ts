@@ -88,7 +88,7 @@ export const isAdmin = isAdminRequest;
 
 // For server components using next/headers cookies()
 export function isAdminFromToken(token: string | undefined | null): boolean {
-  return verifySession(token);
+  return verifySession(token) || verifySessionWithAge(token, STAFF_MAX_AGE_MS);
 }
 
 export function createStaffSession(userId: string, role: string): string {

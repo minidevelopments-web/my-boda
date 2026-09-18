@@ -33,17 +33,22 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
     }
     const { sysadminEmail, sysadminPassword, coupleEmail, couplePassword } = parsed.data;
-    const [sysadmin, couple] = await Promise.all([
-      prisma.user.create({
+    try {
+      const sysadmin = await prisma.user.create({
         data: { email: sysadminEmail, passwordHash: await hashPassword(sysadminPassword), role: "SYSADMIN" },
         select: { id: true, email: true, role: true, createdAt: true },
-      }),
-      prisma.user.create({
+      });
+      const couple = await prisma.user.create({
         data: { email: coupleEmail, passwordHash: await hashPassword(couplePassword), role: "COUPLE" },
         select: { id: true, email: true, role: true, createdAt: true },
-      }),
-    ]);
-    return NextResponse.json({ data: { sysadmin, couple } }, { status: 201 });
+      });
+      return NextResponse.json({ data: { sysadmin, couple } }, { status: 201 });
+    } catch (e) {
+      if (typeof e === "object" && e !== null && "code" in e && (e as { code?: string }).code === "P2002") {
+        return NextResponse.json({ error: "Setup already completed" }, { status: 409 });
+      }
+      throw e;
+    }
   } catch (e) {
     console.error(e);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });

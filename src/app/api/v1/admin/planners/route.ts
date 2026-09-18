@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
     });
     return NextResponse.json({ data: user }, { status: 201 });
   } catch (e) {
-    if (e instanceof Error && e.message.includes("Unique constraint")) {
+    if (typeof e === "object" && e !== null && "code" in e && (e as { code?: string }).code === "P2002") {
       return NextResponse.json({ error: "Email already exists" }, { status: 409 });
     }
     console.error(e);

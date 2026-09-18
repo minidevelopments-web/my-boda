@@ -8,9 +8,10 @@ import { Input } from "@/components/ui/Input";
 
 type FormErrors = Record<string, string>;
 
-export default function RsvpForm({ messages = getDictionary("en").rsvp }: { messages?: Dictionary["rsvp"] }) {
+export default function RsvpForm({ messages = getDictionary("en").rsvp, householdMax, initialName }: { messages?: Dictionary["rsvp"]; householdMax?: number; initialName?: string }) {
+  const maxGuests = householdMax ?? 10;
   // Form state
-  const [name, setName] = useState("");
+  const [name, setName] = useState(initialName ?? "");
   const [email, setEmail] = useState("");
   const [attending, setAttending] = useState(true);
   const [headcount, setHeadcount] = useState(1);
@@ -47,7 +48,8 @@ export default function RsvpForm({ messages = getDictionary("en").rsvp }: { mess
 
     // Build payload for Zod validation
     // Coerce headcount to number, handle attending false -> headcount 1
-    const rawHeadcount = attending ? headcount : 1;
+    // Clamp to household.maxGuests (household isolation: guests cannot RSVP beyond their invite).
+    const rawHeadcount = attending ? Math.min(Number(headcount) || 1, maxGuests) : 1;
     const payload: Record<string, unknown> = {
       name: name.trim(),
       email: email.trim() || undefined,
@@ -204,7 +206,7 @@ export default function RsvpForm({ messages = getDictionary("en").rsvp }: { mess
             type="number"
             label={messages.headcount}
             min={1}
-            max={10}
+            max={maxGuests}
             value={headcount}
             onChange={(e) => setHeadcount(Number(e.target.value) || 1)}
             aria-label={messages.headcount}

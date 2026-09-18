@@ -1,7 +1,11 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
 import RsvpForm from "@/components/rsvp/RsvpForm";
+import InviteGate from "@/components/rsvp/InviteGate";
 import { getSiteConfig } from "@/lib/config";
 import { getDictionary, type Locale } from "@/lib/i18n";
+import { GUEST_COOKIE_NAME, parseGuestSession } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 
 export default async function RsvpPage({ params }: { params: Promise<{ lang: Locale }> }) {
   const { lang } = await params;
@@ -10,6 +14,24 @@ export default async function RsvpPage({ params }: { params: Promise<{ lang: Loc
   const weddingDate = new Intl.DateTimeFormat(lang, { dateStyle: "long" }).format(
     new Date(config.weddingDate)
   );
+  const sess = parseGuestSession((await cookies()).get(GUEST_COOKIE_NAME)?.value);
+  let householdMax: number | undefined;
+  let guestName: string | undefined;
+  if (sess) {
+    try {
+      const household = await prisma.household.findUnique({
+        where: { id: sess.householdId },
+        include: { guests: true },
+      });
+      if (household) {
+        householdMax = household.maxGuests;
+        guestName = household.guests.find((g) => g.id === sess.guestId)?.name;
+      }
+    } catch {
+      // DB unavailable (tests) — fall back to defaults below.
+    }
+  }
+  const showGate = !sess;
   return (
     <div className="mx-auto max-w-2xl px-6 py-content">
       <div className="mb-8 text-center">
@@ -23,7 +45,11 @@ export default async function RsvpPage({ params }: { params: Promise<{ lang: Loc
         <p className="mx-auto mt-1 max-w-prose text-sm text-gray-500">{dict.rsvp.subtitle}</p>
       </div>
 
-      <RsvpForm messages={dict.rsvp} />
+      {showGate ? (
+        <InviteGate dict={(dict as any).invite ?? {}} lang={lang} />
+      ) : (
+        <RsvpForm messages={dict.rsvp} householdMax={householdMax} initialName={guestName} />
+      )}
 
       <div className="mt-8 text-center">
         <Link href={`/${lang}`} className="text-sm font-medium text-gray-600 hover:text-black underline">

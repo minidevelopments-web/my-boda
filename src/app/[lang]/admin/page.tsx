@@ -1,6 +1,10 @@
+import { cookies } from "next/headers";
 import { StatsCards } from "@/components/admin/StatsCards";
 import { GuestTable } from "@/components/admin/GuestTable";
+import Checklist from "@/components/onboarding/Checklist";
 import { guestService } from "@/lib/services/guestService";
+import { prisma } from "@/lib/prisma";
+import { ADMIN_COOKIE_NAME, parseStaffSession } from "@/lib/auth";
 import { getDictionary, type Locale } from "@/lib/i18n";
 
 export const dynamic = "force-dynamic";
@@ -16,6 +20,11 @@ export default async function AdminPage({ params, searchParams }: { params: Prom
   const limit = Math.min(Math.max(limitRaw, 1), 100);
 
   const { data: guests, meta } = await guestService.getPaginatedGuests({ page, limit });
+  const role = parseStaffSession((await cookies()).get(ADMIN_COOKIE_NAME)?.value)?.role ?? null;
+  const [responded, households] = await Promise.all([
+    prisma.rsvpResponse.count().catch(() => 0),
+    prisma.household.count().catch(() => 0),
+  ]);
 
   // Serialize dates to strings for client component
   const serialized = guests.map((g) => ({
@@ -60,6 +69,17 @@ export default async function AdminPage({ params, searchParams }: { params: Prom
           </button>
         </form>
       </div>
+      <Checklist
+        responded={responded}
+        total={meta.total}
+        codesSent={households}
+        labels={{ title: dict.guestManagement, cta: dict.exportCsv }}
+      />
+      {role === "PLANNER" && (
+        <p className="mt-4 rounded border border-yellow-200 bg-yellow-50 px-4 py-2 text-sm text-yellow-800">
+          Planner view — guest management only.
+        </p>
+      )}
       <StatsCards
         guests={serialized as any}
         labels={{ totalGuests: dict.totalGuests, confirmed: dict.confirmed, declined: dict.declined, pending: dict.pending }}

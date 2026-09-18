@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { isAdminRequest } from "@/lib/auth";
+import { isAdminRequest, parseStaffSession } from "@/lib/auth";
 
 /**
  * Centralized admin guard for API routes.
@@ -25,6 +25,15 @@ import { isAdminRequest } from "@/lib/auth";
  */
 export function requireAdmin(req: NextRequest): NextResponse | null {
   if (!isAdminRequest(req)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  return null;
+}
+
+export function requireRole(req: NextRequest, ...allowed: string[]): NextResponse | null {
+  const token = req.cookies.get("admin_session")?.value;
+  const sess = parseStaffSession(token);
+  if (!sess?.role || !allowed.includes(sess.role)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   return null;

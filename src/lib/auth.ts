@@ -17,6 +17,10 @@ import { getAdminPassword } from "./adminPassword";
 export { getAdminPassword };
 
 export const ADMIN_COOKIE_NAME = "admin_session";
+export const GUEST_COOKIE_NAME = "guest_session";
+
+const STAFF_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
+const GUEST_MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000;
 
 export function getAuthSecret(): string {
   const pw = getAdminPassword();
@@ -74,7 +78,10 @@ export function createSessionToken(): string {
 
 export function isAdminRequest(req: NextRequest): boolean {
   const token = req.cookies.get(ADMIN_COOKIE_NAME)?.value;
-  return verifySession(token);
+  if (verifySession(token)) return true;
+  // Accept role-bearing staff sessions (userId.role.ts.rand) whose
+  // timestamp is not the first payload segment — see parseStaffSession.
+  return verifySessionWithAge(token, STAFF_MAX_AGE_MS);
 }
 
 export const isAdmin = isAdminRequest;
@@ -82,4 +89,52 @@ export const isAdmin = isAdminRequest;
 // For server components using next/headers cookies()
 export function isAdminFromToken(token: string | undefined | null): boolean {
   return verifySession(token);
+}
+
+export function createStaffSession(userId: string, role: string): string {
+  const payload = `${userId}.${role}.${Date.now()}.${crypto.randomBytes(8).toString("hex")}`;
+  return signSession(payload);
+}
+
+export function parseStaffSession(token: string | null | undefined): { userId: string; role?: string } | null {
+  if (!verifySessionWithAge(token, STAFF_MAX_AGE_MS)) return null;
+  const payload = token!.slice(0, token!.lastIndexOf("."));
+  const [userId, role] = payload.split(".");
+  if (!userId) return null;
+  return role && ["COUPLE", "PLANNER", "SYSADMIN"].includes(role) ? { userId, role } : { userId };
+}
+
+export function createGuestSession(householdId: string, guestId: string): string {
+  const payload = `g.${householdId}.${guestId}.${Date.now()}.${crypto.randomBytes(8).toString("hex")}`;
+  return signSession(payload);
+}
+
+export function parseGuestSession(token: string | null | undefined): { householdId: string; guestId: string } | null {
+  if (!verifySessionWithAge(token, GUEST_MAX_AGE_MS)) return null;
+  const payload = token!.slice(0, token!.lastIndexOf("."));
+  const parts = payload.split(".");
+  if (parts[0] !== "g" || !parts[1] || !parts[2]) return null;
+  return { householdId: parts[1], guestId: parts[2] };
+}
+
+export function verifySessionWithAge(token: string | null | undefined, maxAge: number): boolean {
+  if (!token) return false;
+  const secret = getAuthSecret();
+  if (!secret) return false;
+  const lastDot = token.lastIndexOf(".");
+  if (lastDot === -1) return false;
+  const payload = token.slice(0, lastDot);
+  const sig = token.slice(lastDot + 1);
+  const expected = crypto.createHmac("sha256", secret).update(payload).digest("hex");
+  if (sig.length !== expected.length) return false;
+  try {
+    if (!crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected))) return false;
+  } catch {
+    return false;
+  }
+  const ts = Number(payload.split(".").slice(-2, -1)[0]);
+  if (!Number.isFinite(ts)) return false;
+  if (Date.now() - ts > maxAge) return false;
+  if (ts > Date.now() + 60 * 1000) return false;
+  return true;
 }

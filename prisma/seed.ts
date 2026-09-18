@@ -1,6 +1,22 @@
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
+import bcrypt from "bcryptjs";
+
+// guestNeedsSetup(): true when User table empty → /setup must run.
+// Bootstrap (run manually, never commit real passwords):
+//   ADMIN_EMAIL=sysadmin@example.com ADMIN_BOOTSTRAP_PW='...' npx prisma db seed
+async function bootstrapSysadmin(db: PrismaClient) {
+  const adminEmail = process.env.ADMIN_EMAIL;
+  const bootstrapPw = process.env.ADMIN_BOOTSTRAP_PW;
+  if (adminEmail && bootstrapPw) {
+    const exists = await db.user.count();
+    if (exists === 0) {
+      await db.user.create({ data: { email: adminEmail, passwordHash: await bcrypt.hash(bootstrapPw, 12), role: "SYSADMIN" } });
+      console.log(`[seed] bootstrap sysadmin ${adminEmail}`);
+    }
+  }
+}
 
 const databaseUrl = process.env.DATABASE_URL ?? "postgresql://myboda:myboda@localhost:5432/myboda";
 const pool = new Pool({ connectionString: databaseUrl });
@@ -8,6 +24,7 @@ const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
+  await bootstrapSysadmin(prisma);
   // Clear existing
   await prisma.rsvpResponse.deleteMany();
   await prisma.guest.deleteMany();

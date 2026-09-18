@@ -13,6 +13,9 @@ model Guest {
   category    String       @default("family") // family | friends | colleagues | other
   plusOne     Boolean      @default(false)
   plusOneName String?
+  householdId    String?
+  household      Household? @relation(fields: [householdId], references: [id], onDelete: SetNull)
+  inviteCodeUsed String?
   createdAt   DateTime     @default(now())
   rsvp        RsvpResponse?
 
@@ -29,4 +32,28 @@ model RsvpResponse {
   dietaryNotes String?
   message      String?
   respondedAt  DateTime @default(now())
+}
+
+enum Role {
+  COUPLE
+  PLANNER
+  SYSADMIN
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(PLANNER)
+  createdAt    DateTime @default(now())
+}
+
+model Household {
+  id         String    @id @default(cuid())
+  label      String
+  inviteCode String    @unique
+  maxGuests  Int       @default(2)
+  expiresAt  DateTime?
+  createdAt  DateTime  @default(now())
+  guests     Guest[]
 }

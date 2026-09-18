@@ -22,9 +22,10 @@ jest.mock("@/lib/prisma", () => ({
   },
 }));
 
-// Ensure auth guard passes in tests — set env and mock requireAdmin to bypass
+// Ensure auth guard passes in tests — set env and mock requireRole to bypass
 jest.mock("@/lib/requireAdmin", () => ({
   requireAdmin: () => null,
+  requireRole: () => null,
 }));
 
 describe("guestRepository pagination", () => {

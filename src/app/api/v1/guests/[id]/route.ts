@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { guestUpdateSchema } from "@/lib/validators";
-import { requireAdmin } from "@/lib/requireAdmin";
+import { requireRole } from "@/lib/requireAdmin";
 import { guestService } from "@/lib/services/guestService";
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  const guard = requireAdmin(req);
+  const guard = requireRole(req, "COUPLE", "PLANNER", "SYSADMIN");
   if (guard) return guard;
   try {
     const { id } = await params;

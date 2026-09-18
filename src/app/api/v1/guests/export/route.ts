@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireAdmin } from "@/lib/requireAdmin";
+import { requireRole } from "@/lib/requireAdmin";
 import { guestService } from "@/lib/services/guestService";
 
 const CSV_HEADERS = [
@@ -56,7 +56,7 @@ function guestToCsvRow(g: {
 }
 
 export async function GET(req: NextRequest) {
-  const guard = requireAdmin(req);
+  const guard = requireRole(req, "COUPLE", "PLANNER", "SYSADMIN");
   if (guard) return guard;
 
   // Optional ?limit guard for export — caps total rows streamed (defense against accidental huge exports).

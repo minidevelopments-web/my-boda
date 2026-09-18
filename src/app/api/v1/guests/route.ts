@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireAdmin } from "@/lib/requireAdmin";
+import { requireRole } from "@/lib/requireAdmin";
 import { guestService } from "@/lib/services/guestService";
 
 function parsePagination(req: NextRequest): { page?: number; limit?: number } | null | undefined {
@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
   // Primary auth is enforced by middleware.ts (edge, single source of truth).
   // This per-handler guard is defense-in-depth and keeps unit tests honest
   // when handlers are invoked directly without middleware.
-  const guard = requireAdmin(req);
+  const guard = requireRole(req, "COUPLE", "PLANNER", "SYSADMIN");
   if (guard) return guard;
   try {
     const pagination = parsePagination(req);

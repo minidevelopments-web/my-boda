@@ -73,6 +73,7 @@ export default async function AdminPage({ params, searchParams }: { params: Prom
         responded={responded}
         total={meta.total}
         codesSent={households}
+        lang={lang}
         labels={{ title: dict.guestManagement, cta: dict.exportCsv }}
       />
       {role === "PLANNER" && (

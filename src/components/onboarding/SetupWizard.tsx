@@ -9,14 +9,14 @@ type Dict = {
 
 const inputCls = "w-full rounded border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black";
 
-export default function SetupWizard({ dict }: { dict?: Dict }) {
+export default function SetupWizard({ dict, lang }: { dict?: Dict; lang?: string }) {
   const d = dict ?? {};
+  const locale = lang ?? "en";
   const [step, setStep] = useState(1);
   const [sysadminEmail, setSysadminEmail] = useState("");
   const [sysadminPassword, setSysadminPassword] = useState("");
   const [coupleEmail, setCoupleEmail] = useState("");
   const [couplePassword, setCouplePassword] = useState("");
-  const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
   const [previewCode] = useState(() =>
@@ -33,14 +33,9 @@ export default function SetupWizard({ dict }: { dict?: Dict }) {
     else { const b = await res.json().catch(() => ({})); setError((b as { error?: string }).error ?? "Setup failed"); }
   }
 
-  async function importCsv(e: React.FormEvent) {
-    e.preventDefault(); setError(null);
-    if (!file) { setStep(4); return; }
-    const form = new FormData();
-    form.append("file", file);
-    const res = await fetch("/api/v1/guests/import", { method: "POST", body: form });
-    if (res.ok) setStep(4);
-    else { const b = await res.json().catch(() => ({})); setError((b as { error?: string }).error ?? "Import failed"); }
+  function skipImport() {
+    setError(null);
+    setStep(4);
   }
 
   return (
@@ -70,15 +65,16 @@ export default function SetupWizard({ dict }: { dict?: Dict }) {
         </form>
       )}
       {step === 3 && (
-        <form onSubmit={importCsv} className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3">
           <h1 className="text-xl font-bold">{(d.step3 as string) ?? "Add guests"}</h1>
-          <input aria-label="guest csv" type="file" accept=".csv" onChange={(e) => setFile(e.target.files?.[0] ?? null)} className={inputCls} />
+          <p className="text-sm text-gray-600">Import guests from the admin CSV flow after setup.</p>
+          <a href={`/${locale}/admin?tab=guests`} className="rounded border px-4 py-2 text-center text-sm hover:bg-gray-50">Go to admin CSV flow</a>
           {error && <p role="alert" className="text-sm text-red-600">{error}</p>}
           <div className="flex gap-2">
             <button type="button" onClick={() => setStep(2)} className="rounded border px-4 py-2 text-sm">{(d.back as string) ?? "Back"}</button>
-            <button className="rounded bg-black px-4 py-2 text-sm text-white">{(d.next as string) ?? "Continue"}</button>
+            <button type="button" onClick={skipImport} className="rounded bg-black px-4 py-2 text-sm text-white">{(d.next as string) ?? "Continue"}</button>
           </div>
-        </form>
+        </div>
       )}
       {step === 4 && (
         <div className="flex flex-col gap-3">

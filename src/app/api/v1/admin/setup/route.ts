@@ -33,19 +33,27 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
     }
     const { sysadminEmail, sysadminPassword, coupleEmail, couplePassword } = parsed.data;
+    const sysadminHash = await hashPassword(sysadminPassword);
+    const coupleHash = await hashPassword(couplePassword);
     try {
-      const sysadmin = await prisma.user.create({
-        data: { email: sysadminEmail, passwordHash: await hashPassword(sysadminPassword), role: "SYSADMIN" },
-        select: { id: true, email: true, role: true, createdAt: true },
-      });
-      const couple = await prisma.user.create({
-        data: { email: coupleEmail, passwordHash: await hashPassword(couplePassword), role: "COUPLE" },
-        select: { id: true, email: true, role: true, createdAt: true },
+      const [sysadmin, couple] = await prisma.$transaction(async (tx) => {
+        const s = await tx.user.create({
+          data: { email: sysadminEmail, passwordHash: sysadminHash, role: "SYSADMIN" },
+          select: { id: true, email: true, role: true, createdAt: true },
+        });
+        const c = await tx.user.create({
+          data: { email: coupleEmail, passwordHash: coupleHash, role: "COUPLE" },
+          select: { id: true, email: true, role: true, createdAt: true },
+        });
+        return [s, c] as const;
       });
       return NextResponse.json({ data: { sysadmin, couple } }, { status: 201 });
     } catch (e) {
       if (typeof e === "object" && e !== null && "code" in e && (e as { code?: string }).code === "P2002") {
-        return NextResponse.json({ error: "Setup already completed" }, { status: 409 });
+        return NextResponse.json(
+          { error: "Setup conflict: users already exist. Contact sysadmin or reset DB and retry setup." },
+          { status: 409 }
+        );
       }
       throw e;
     }

@@ -194,7 +194,8 @@ export const ROLE_RANK: Record<string, number> = { GUEST: 0, PLANNER: 1, COUPLE:
 export function canAccess(role: string, area: Area): boolean {
   if (role === "SYSADMIN") return true;
   if (area === "guests" || area === "content") return role === "COUPLE" || role === "PLANNER";
-  return false; // users + system: sysadmin only (couple creates planners via users-lite, see Task 3)
+  if (area === "users") return role === "COUPLE"; // RESOLVED pre-flight 2026-09-18: spec governs — couple may create PLANNER users only (enforced in Task 3 planners endpoint); full user list/management stays SYSADMIN-only
+  return false; // system: sysadmin only
 }
 ```
 
@@ -349,7 +350,9 @@ APIs (skeletons — full Zod validation + rate-limit inside):
 - `POST /api/v1/auth` body `{ email, password }` → `verifyPassword` → `createStaffSession` → set `admin_session`. Legacy compat: if `User.count()===0` and body `{ password }` matches `isValidPassword`, allow once (bootstrap window) then force `/setup`.
 - `POST /api/v1/auth/logout` → clear `admin_session` (+ `guest_session` if present).
 - `POST /api/v1/admin/setup` body `{ sysadminEmail, sysadminPassword, coupleEmail, couplePassword }` → 403 unless `User.count()===0` → create both, min-length 12 enforced by Zod.
-- `GET|POST /api/v1/admin/users` → `requireRole(req,"SYSADMIN")` → list (no hashes) / create `{ email, password, role }`.
+- `GET /api/v1/admin/users` → `requireRole(req,"SYSADMIN")` → list (no hashes).
+- `POST /api/v1/admin/users` → `requireRole(req,"SYSADMIN")` → create `{ email, password, role }` any role.
+- `POST /api/v1/admin/planners` → `requireRole(req,"COUPLE","SYSADMIN")` → create `{ email, password }` with forced `role: "PLANNER"` only (RESOLVED pre-flight 2026-09-18: spec governs — couple creates planners; returns 403 if role other than PLANNER attempted).
 - `POST /api/v1/guest/verify` body `{ code, name }` → normalize code → find Household + Guest name match (case-insensitive contains) → `createGuestSession` → set `guest_session`, 429 on 5 bad tries/IP.
 
 - [ ] **Step 4: Run tests**
@@ -413,7 +416,8 @@ function parseRoleEdge(token: string): string | null {
 Routing (inside `middleware()`, after locale strip, before `next()`):
 - `stripped === "/setup"` → always allow (page itself checks `User.count` client-side via `/api/v1/admin/setup` GET).
 - `stripped === "/login"` → always allow.
-- `stripped === "/admin/system"` or `/api/v1/admin/*` → require role `SYSADMIN` else 401 (API) or 307 `/{lang}/login?next=...` (page).
+- `stripped === "/admin/system"` or `/api/v1/admin/users*` → require role `SYSADMIN` else 401 (API) or 307 `/{lang}/login?next=...` (page).
+- `POST /api/v1/admin/planners` → require `COUPLE|SYSADMIN` (spec-governs resolution: couple creates planners only).
 - `stripped === "/admin"` or `/admin/*`, `/api/v1/guests*` → require `COUPLE|PLANNER|SYSADMIN`, legacy role-less token → redirect login (forces re-login post-upgrade).
 - Guest verify API `/api/v1/guest/verify`, `/api/v1/rsvp`, `/api/v1/auth` → always allow (rate-limited inside handler).
 

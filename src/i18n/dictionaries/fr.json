@@ -126,5 +126,34 @@
   "common": {
     "skipToContent": "Aller au contenu",
     "backHome": "Retour à l'accueil"
+  },
+  "setup": {
+    "title": "Préparez votre mariage",
+    "step1": "Créez votre compte",
+    "step2": "Détails du mariage",
+    "step3": "Ajoutez des invités",
+    "step4": "Partagez les codes d'invitation"
+  },
+  "login": {
+    "title": "Se connecter",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "submit": "Se connecter"
+  },
+  "help": {
+    "title": "Comment ça marche",
+    "guest": "Saisissez votre code d'invitation + nom pour confirmer.",
+    "planner": "Gérez invités et programme. Ni utilisateurs ni système.",
+    "couple": "Contrôle total : invités, codes, contenu.",
+    "sysadmin": "Vous pouvez tout voir : utilisateurs, état, sauvegardes."
+  },
+  "invite": {
+    "findInvitation": "Trouvez votre invitation",
+    "invalidCode": "Invitation introuvable — vérifiez l'orthographe."
+  },
+  "system": {
+    "title": "Système",
+    "health": "Base de données OK",
+    "users": "Utilisateurs"
   }
 }

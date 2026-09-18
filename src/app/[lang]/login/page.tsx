@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { getDictionary, isValidLocale } from "@/lib/i18n";
 
@@ -10,7 +10,18 @@ function safeNext(raw: string | null): string | null {
   return null;
 }
 
+// Client page — useSearchParams() is wrapped in Suspense (see LoginPage above)
+// so static prerender succeeds; the ?next= redirect resolves client-side.
+
 export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
+  );
+}
+
+function LoginForm() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

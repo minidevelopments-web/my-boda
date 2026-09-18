@@ -126,5 +126,34 @@
   "common": {
     "skipToContent": "Saltar al contenido",
     "backHome": "Volver al inicio"
+  },
+  "setup": {
+    "title": "Prepara tu boda",
+    "step1": "Crea tu cuenta",
+    "step2": "Detalles de la boda",
+    "step3": "Añade invitados",
+    "step4": "Comparte códigos de invitación"
+  },
+  "login": {
+    "title": "Iniciar sesión",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "submit": "Entrar"
+  },
+  "help": {
+    "title": "Cómo funciona",
+    "guest": "Introduce tu código de invitación + nombre para confirmar asistencia.",
+    "planner": "Gestiona invitados y programa. Sin usuarios ni sistema.",
+    "couple": "Control total: invitados, códigos, contenido.",
+    "sysadmin": "Puedes verlo todo: usuarios, estado, copias de seguridad."
+  },
+  "invite": {
+    "findInvitation": "Encuentra tu invitación",
+    "invalidCode": "No encontramos esa invitación — revisa la ortografía."
+  },
+  "system": {
+    "title": "Sistema",
+    "health": "Base de datos OK",
+    "users": "Usuarios"
   }
 }

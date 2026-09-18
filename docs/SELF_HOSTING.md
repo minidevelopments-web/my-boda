@@ -194,6 +194,39 @@ cat backup.sql | docker compose exec -T postgres psql -U myboda myboda
 
 No object storage — all data is in the DB.
 
+## 7. Users & Roles
+
+Roles: guest (invite-code only), planner, couple, sysadmin — see
+[ROLES.md](./ROLES.md) for the full matrix.
+
+**Bootstrap (first run only):**
+
+```bash
+# Option A — via the setup wizard (recommended):
+# open https://yourdomain.com/en/setup, create the sysadmin + couple accounts.
+# POST /api/v1/admin/setup returns 403 once any User exists.
+
+# Option B — via seed script (headless):
+ADMIN_EMAIL=sysadmin@example.com ADMIN_BOOTSTRAP_PW='long-random-secret' npx prisma db seed
+# Creates a SYSADMIN only when the User table is empty; otherwise a no-op.
+```
+
+**Rotation:** sysadmins manage accounts via the users API
+(`GET/POST /api/v1/admin/users`, sysadmin-only; couples can create planners
+via `POST /api/v1/admin/planners`). To rotate a password, delete + recreate
+the user or update `passwordHash` with `bcrypt.hash(pw, 12)`.
+
+**Backup:** Postgres holds everything (guests, RSVPs, users, households):
+
+```bash
+docker compose exec postgres pg_dump -U myboda myboda > backup.sql
+# Restore:
+cat backup.sql | docker compose exec -T postgres psql -U myboda myboda
+```
+
+Keep at least 7 daily dumps off-host. Note: dumps contain `passwordHash`
+values (bcrypt, non-reversible) — store encrypted.
+
 ## Troubleshooting
 
 - `app` unhealthy: `docker compose logs app` — check `DATABASE_URL` and that `prisma generate` ran (Dockerfile does it).

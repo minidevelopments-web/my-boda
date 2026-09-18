@@ -126,5 +126,34 @@
   "common": {
     "skipToContent": "Skip to content",
     "backHome": "Back to home"
+  },
+  "setup": {
+    "title": "Set up your wedding",
+    "step1": "Create your account",
+    "step2": "Wedding details",
+    "step3": "Add guests",
+    "step4": "Share invite codes"
+  },
+  "login": {
+    "title": "Sign in",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign in"
+  },
+  "help": {
+    "title": "How this works",
+    "guest": "Enter your invite code + name to RSVP.",
+    "planner": "Manage guests and schedule. No users or system.",
+    "couple": "Full control: guests, codes, content.",
+    "sysadmin": "You can see anything: users, health, backups."
+  },
+  "invite": {
+    "findInvitation": "Find your invitation",
+    "invalidCode": "We couldn't find that invitation — check spelling."
+  },
+  "system": {
+    "title": "System",
+    "health": "Database OK",
+    "users": "Users"
   }
 }

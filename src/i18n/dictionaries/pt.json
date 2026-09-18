@@ -126,5 +126,34 @@
   "common": {
     "skipToContent": "Pular para o conteúdo",
     "backHome": "Voltar ao início"
+  },
+  "setup": {
+    "title": "Prepare o seu casamento",
+    "step1": "Crie a sua conta",
+    "step2": "Detalhes do casamento",
+    "step3": "Adicione convidados",
+    "step4": "Partilhe códigos de convite"
+  },
+  "login": {
+    "title": "Entrar",
+    "email": "E-mail",
+    "password": "Palavra-passe",
+    "submit": "Entrar"
+  },
+  "help": {
+    "title": "Como funciona",
+    "guest": "Introduza o seu código de convite + nome para confirmar.",
+    "planner": "Gira convidados e programa. Sem utilizadores nem sistema.",
+    "couple": "Controlo total: convidados, códigos, conteúdo.",
+    "sysadmin": "Pode ver tudo: utilizadores, estado, cópias de segurança."
+  },
+  "invite": {
+    "findInvitation": "Encontre o seu convite",
+    "invalidCode": "Não encontrámos esse convite — verifique a ortografia."
+  },
+  "system": {
+    "title": "Sistema",
+    "health": "Base de dados OK",
+    "users": "Utilizadores"
   }
 }

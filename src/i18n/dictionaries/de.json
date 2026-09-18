@@ -126,5 +126,34 @@
   "common": {
     "skipToContent": "Zum Inhalt springen",
     "backHome": "Zurück zur Startseite"
+  },
+  "setup": {
+    "title": "Richte deine Hochzeit ein",
+    "step1": "Erstelle dein Konto",
+    "step2": "Hochzeitsdetails",
+    "step3": "Füge Gäste hinzu",
+    "step4": "Teile Einladungscodes"
+  },
+  "login": {
+    "title": "Anmelden",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "submit": "Anmelden"
+  },
+  "help": {
+    "title": "So funktioniert's",
+    "guest": "Gib deinen Einladungscode + Namen ein, um zuzusagen.",
+    "planner": "Verwalte Gäste und Ablauf. Keine Benutzer oder System.",
+    "couple": "Volle Kontrolle: Gäste, Codes, Inhalte.",
+    "sysadmin": "Du kannst alles sehen: Benutzer, Status, Backups."
+  },
+  "invite": {
+    "findInvitation": "Finde deine Einladung",
+    "invalidCode": "Diese Einladung wurde nicht gefunden — prüfe die Schreibweise."
+  },
+  "system": {
+    "title": "System",
+    "health": "Datenbank OK",
+    "users": "Benutzer"
   }
 }

@@ -2,7 +2,7 @@
 
 > **Your wedding is private. Your data should be too.**
 
-An open-core, self-hosted wedding platform — no tracking, no vendor lock-in, no guest data sold. You own the site, the database, and the domain. Deploy in one click or `docker-compose up` on any VPS.
+A source-available, self-hosted wedding platform — no tracking, no vendor lock-in, no guest data sold. You own the site, the database, and the domain. Deploy in one click or `docker-compose up` on any VPS.
 
 <p align="center">
   <img src="docs/assets/hero-banner.png" alt="my-boda hero banner — three themes preview" width="860" />
@@ -69,7 +69,7 @@ All copy is env-driven — no hardcoded couple data in the repo.
 
 ## Self-Hosting vs Cloud
 
-| | **Self-Hosted (this repo, MIT)** | **Cloud (planned Phase 2)** |
+| | **Self-Hosted (this repo, free for non-commercial)** | **Cloud (planned Phase 2)** |
 |---|---|---|
 | **Hosting** | Your VPS / NAS / Raspberry Pi | Managed on my-boda.cloud |
 | **Cost** | ~€3–5/mo VPS + domain (~€10/yr) | Flat-fee one-time pass (no per-guest fees) |
@@ -151,7 +151,11 @@ npm run dev
 
 ## License
 
-MIT — self-hosted core is free and open. See [LICENSE](LICENSE). You may self-host, fork, and modify freely. A future managed cloud offering may add paid convenience features without restricting the open core.
+my-boda is **source-available**: free for non-commercial, self-hosted use under the [PolyForm Noncommercial License 1.0.0](LICENSE). You may self-host, fork, and modify it for your own wedding, a friend's wedding, or any non-commercial purpose.
+
+If you charge money to host, set up, or run a site for someone else — wedding planners, agencies, hosting providers — that is commercial use and needs a [commercial license](COMMERCIAL.md): 5% of gross revenue, US$100/year minimum.
+
+Commercial use without a license is not permitted. See [COMMERCIAL.md](COMMERCIAL.md) for the terms, or email minidevelopments@gmail.com to get one. Contributions are accepted under the [CLA](CLA.md).
 
 ---
 
@@ -159,5 +163,5 @@ MIT — self-hosted core is free and open. See [LICENSE](LICENSE). You may self-
 
 Made with care for couples who value privacy. Your wedding is private. Your data should be too.
 
-> Attribution note: built as an open-core wedding platform. If you self-host, a small footer attribution link is appreciated but not required — remove it in `src/components/Header.tsx` / `Footer` if you prefer.
+> Attribution note: built as a source-available wedding platform. If you self-host, a small footer attribution link is appreciated but not required — remove it in `src/components/Header.tsx` / `Footer` if you prefer.
 

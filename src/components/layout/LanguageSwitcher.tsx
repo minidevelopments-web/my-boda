@@ -16,13 +16,14 @@ export function LanguageSwitcher({ lang }: { lang: string }) {
       : pathname || "/";
   const normalizedRest = rest.startsWith("/") ? rest : `/${rest}`;
   return (
-    <nav aria-label="Language">
+    <nav aria-label="Language" className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
       {SUPPORTED_LOCALES.map((l) => (
         <Link
           key={l}
           href={`/${l}${normalizedRest === "/" ? "" : normalizedRest}`}
           hrefLang={l}
           aria-current={l === lang ? "page" : undefined}
+          className="hover:text-stone-900 aria-[current=page]:font-semibold aria-[current=page]:text-stone-900"
           onClick={() => {
             document.cookie = `locale=${l}; path=/; max-age=31536000; SameSite=Lax`;
           }}

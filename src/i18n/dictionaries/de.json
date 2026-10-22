@@ -3,7 +3,8 @@
     "home": "Start",
     "rsvp": "RSVP",
     "info": "Infos",
-    "registry": "Geschenkliste"
+    "registry": "Geschenkliste",
+    "pricing": "Preise"
   },
   "footer": {
     "tagline": "Eure Hochzeit ist privat. Eure Daten sollten es auch sein.",
@@ -155,5 +156,189 @@
     "title": "System",
     "health": "Datenbank OK",
     "users": "Benutzer"
+  },
+  "pricing": {
+    "metaTitle": "Preise — my-boda",
+    "metaDescription": "my-boda kostenlos selbst hosten, für 79 € von uns hosten lassen oder eine kommerzielle Lizenz für Kundenehen erhalten.",
+    "badge": "Quellcode verfügbar · selbst gehostet oder verwaltet",
+    "title": "Eine Hochzeit. Ein Preis. Keine Überraschungen.",
+    "subtitle": "Betreibe es selbst kostenlos. Lass es uns für 79 € hosten. Berechne Kundenehen mit einer fairen Lizenz.",
+    "hero": {
+      "primary": "Selbst hosten",
+      "secondary": "Preise für Unternehmen",
+      "note": "Keine Kosten pro Gast. Kein Tracking. Alles exportierbar."
+    },
+    "nav": {
+      "couples": "Für Paare",
+      "business": "Für Unternehmen",
+      "compare": "Vergleichen",
+      "faq": "Fragen"
+    },
+    "couples": {
+      "eyebrow": "Für Paare",
+      "title": "Du entscheidest, wie viel du selbst machst",
+      "subtitle": "Gleiche Website, gleiche Funktionen. Der einzige Unterschied: Wer den Server am Laufen hält."
+    },
+    "selfHost": {
+      "name": "Selbst gehostet",
+      "price": "0 €",
+      "period": "nicht kommerziell",
+      "description": "Installiere es auf deinem VPS, NAS oder Raspberry Pi. Kostenlos für deine Hochzeit oder jede Veranstaltung, für die du nichts berechnest.",
+      "features": [
+        "Unbegrenzte Gäste",
+        "Alle drei Themes",
+        "RSVP und Gästeverwaltung",
+        "CSV-Export",
+        "Deine Domain und deine Daten",
+        "Community-Support"
+      ],
+      "cta": "Von GitHub deployen",
+      "note": "Nur nicht-kommerzielle Nutzung. Kommerzielle Nutzung erfordert die Unternehmenslizenz."
+    },
+    "hosted": {
+      "name": "Hosted Pro",
+      "badge": "Die Wahl der meisten Paare",
+      "price": "79 €",
+      "period": "einmalig · 12 Monate",
+      "description": "Wir betreiben es auf unserer Infrastruktur, damit du die Hochzeit planst und nicht den Server.",
+      "features": [
+        "Alles aus Selbst gehostet",
+        "Eigene Domain inklusive",
+        "Tägliche Backups",
+        "Verwaltete Updates",
+        "E-Mail-Support für 12 Monate",
+        "Deine Daten jederzeit exportierbar"
+      ],
+      "cta": "Per E-Mail bestellen",
+      "note": "Einrichtung per E-Mail. Das Hosting läuft 12 Monate ab Einrichtung."
+    },
+    "business": {
+      "eyebrow": "Für Unternehmen",
+      "title": "Baue auf my-boda",
+      "description": "Eine kommerzielle Lizenz für Planer, Agenturen und Hoster, die ihre Arbeit berechnen. Betreibe unbegrenzt viele Kundenehen auf deiner eigenen Infrastruktur.",
+      "price": "5 % des Bruttoumsatzes",
+      "minimum": "Mindestens 100 US$ pro Jahr oder 5 %, wenn das höher ist.",
+      "features": [
+        "Unbegrenzte Kundenseiten",
+        "Du behältst 95 % deiner Einnahmen",
+        "Selbst gehostet: deine Infrastruktur, die Daten deiner Kunden",
+        "Dauerhafte Lizenz für die erhaltene Version",
+        "Eine Abrechnung pro Jahr",
+        "Für deine eigene Kundenarbeit, nicht für den Weiterverkauf"
+      ],
+      "cta": "Lizenz anfragen",
+      "secondary": "Bedingungen lesen",
+      "note": "Unsicher, ob du sie brauchst? Wenn du niemandem etwas berechnest, nicht."
+    },
+    "compare": {
+      "title": "Auf einen Blick vergleichen",
+      "featureLabel": "Merkmal",
+      "columns": [
+        "Selbst gehostet",
+        "Hosted Pro",
+        "Unternehmen"
+      ],
+      "rows": [
+        {
+          "label": "Für wen",
+          "values": [
+            "Paare, nicht kommerziell",
+            "Paare",
+            "Planer, Agenturen, Hoster"
+          ]
+        },
+        {
+          "label": "Hosting",
+          "values": [
+            "Dein VPS oder NAS",
+            "Von uns verwaltet",
+            "Dein VPS oder NAS"
+          ]
+        },
+        {
+          "label": "Eigene Domain",
+          "values": [
+            "Ja",
+            "Inklusive",
+            "Ja"
+          ]
+        },
+        {
+          "label": "Gäste",
+          "values": [
+            "Unbegrenzt",
+            "Unbegrenzt",
+            "Unbegrenzt"
+          ]
+        },
+        {
+          "label": "Backups",
+          "values": [
+            "Deine Verantwortung",
+            "Täglich",
+            "Deine Verantwortung"
+          ]
+        },
+        {
+          "label": "Support",
+          "values": [
+            "Community",
+            "E-Mail, 12 Monate",
+            "E-Mail"
+          ]
+        },
+        {
+          "label": "Kundenseiten",
+          "values": [
+            "—",
+            "—",
+            "Unbegrenzt"
+          ]
+        },
+        {
+          "label": "Preis",
+          "values": [
+            "Kostenlos",
+            "79 € einmalig",
+            "5 % oder 100 US$/Jahr min."
+          ]
+        }
+      ]
+    },
+    "faq": {
+      "title": "Fragen",
+      "items": [
+        {
+          "q": "Ist die selbst gehostete Version wirklich kostenlos?",
+          "a": "Ja — für deine eigene Hochzeit oder jede Veranstaltung, für die du nichts berechnest. Für kommerzielle Nutzung ist sie nicht kostenlos."
+        },
+        {
+          "q": "Was gilt als kommerzielle Nutzung?",
+          "a": "Wenn du jemandem Geld dafür berechnest, eine my-boda-Website zu hosten, einzurichten oder zu betreiben, oder sie als Teil eines bezahlten Angebots nutzt. Planer, Agenturen und Hoster brauchen die kommerzielle Lizenz."
+        },
+        {
+          "q": "Was passiert nach den 12 Monaten Hosted Pro?",
+          "a": "Das Hosting läuft 12 Monate ab Einrichtung. Wir melden uns vor Ablauf: Du kannst verlängern oder deine Daten exportieren und selbst hosten."
+        },
+        {
+          "q": "Kann ich zwischen Hosting und Selbsthosting wechseln?",
+          "a": "Ja. Deine Daten lassen sich exportieren, und derselbe Code läuft überall."
+        },
+        {
+          "q": "Berechnet ihr pro Gast?",
+          "a": "Nein. Ein Preis pro Website, unbegrenzte Gäste, in allen Tarifen."
+        },
+        {
+          "q": "Wie bezahle ich?",
+          "a": "Schreib uns — wir senden dir die Rechnung und die nächsten Schritte."
+        }
+      ]
+    },
+    "final": {
+      "title": "Bereit, wenn du es bist",
+      "subtitle": "Starte kostenlos auf deinem eigenen Server oder lass uns das Hosting übernehmen.",
+      "primary": "Von GitHub deployen",
+      "secondary": "Schreib uns"
+    }
   }
 }

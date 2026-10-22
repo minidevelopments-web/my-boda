@@ -3,7 +3,8 @@
     "home": "Home",
     "rsvp": "RSVP",
     "info": "Info",
-    "registry": "Registry"
+    "registry": "Registry",
+    "pricing": "Pricing"
   },
   "footer": {
     "tagline": "Your wedding is private. Your data should be too.",
@@ -155,5 +156,189 @@
     "title": "System",
     "health": "Database OK",
     "users": "Users"
+  },
+  "pricing": {
+    "metaTitle": "Pricing — my-boda",
+    "metaDescription": "Self-host my-boda for free, have us host it for €79, or get a commercial license for client weddings.",
+    "badge": "Source-available · self-hosted or managed",
+    "title": "One wedding. One price. No surprises.",
+    "subtitle": "Run it yourself for free. Let us host it for €79. Charge for client weddings with a fair license.",
+    "hero": {
+      "primary": "Start self-hosting",
+      "secondary": "See business pricing",
+      "note": "No per-guest fees. No tracking. Export everything."
+    },
+    "nav": {
+      "couples": "For couples",
+      "business": "For business",
+      "compare": "Compare",
+      "faq": "FAQ"
+    },
+    "couples": {
+      "eyebrow": "For couples",
+      "title": "Choose how much you want to run",
+      "subtitle": "Same site, same features. The only difference is who keeps the server awake."
+    },
+    "selfHost": {
+      "name": "Self-host",
+      "price": "€0",
+      "period": "non-commercial",
+      "description": "Install it on your own VPS, NAS or Raspberry Pi. Free for your own wedding or any event you don't charge for.",
+      "features": [
+        "Unlimited guests",
+        "All three themes",
+        "RSVP and guest admin",
+        "CSV export",
+        "Your domain and your data",
+        "Community support"
+      ],
+      "cta": "Deploy from GitHub",
+      "note": "Non-commercial use only. Commercial use needs the business license."
+    },
+    "hosted": {
+      "name": "Hosted Pro",
+      "badge": "Most couples",
+      "price": "€79",
+      "period": "one-time · 12 months",
+      "description": "We run it on our infrastructure so you can plan the wedding instead of the server.",
+      "features": [
+        "Everything in Self-host",
+        "Custom domain included",
+        "Daily backups",
+        "Managed updates",
+        "Email support for 12 months",
+        "Your data exportable at any time"
+      ],
+      "cta": "Order by email",
+      "note": "Set up by email. Hosting runs for 12 months from setup."
+    },
+    "business": {
+      "eyebrow": "For business",
+      "title": "Build on my-boda",
+      "description": "A commercial license for planners, agencies and hosts who charge for the work. Run unlimited client weddings on your own infrastructure.",
+      "price": "5% of gross revenue",
+      "minimum": "US$100 per year minimum, or 5% if higher.",
+      "features": [
+        "Unlimited client sites",
+        "You keep 95% of what you charge",
+        "Self-hosted: your infrastructure, your client data",
+        "Perpetual license for the version you receive",
+        "One statement per year",
+        "For your own client work, not resale"
+      ],
+      "cta": "Request a license",
+      "secondary": "Read the terms",
+      "note": "Not sure whether you need one? If you don't charge anyone, you don't."
+    },
+    "compare": {
+      "title": "Compare at a glance",
+      "featureLabel": "Feature",
+      "columns": [
+        "Self-host",
+        "Hosted Pro",
+        "Business"
+      ],
+      "rows": [
+        {
+          "label": "Who it's for",
+          "values": [
+            "Couples, non-commercial",
+            "Couples",
+            "Planners, agencies, hosts"
+          ]
+        },
+        {
+          "label": "Hosting",
+          "values": [
+            "Your VPS or NAS",
+            "Managed by us",
+            "Your VPS or NAS"
+          ]
+        },
+        {
+          "label": "Custom domain",
+          "values": [
+            "Yes",
+            "Included",
+            "Yes"
+          ]
+        },
+        {
+          "label": "Guests",
+          "values": [
+            "Unlimited",
+            "Unlimited",
+            "Unlimited"
+          ]
+        },
+        {
+          "label": "Backups",
+          "values": [
+            "Your responsibility",
+            "Daily",
+            "Your responsibility"
+          ]
+        },
+        {
+          "label": "Support",
+          "values": [
+            "Community",
+            "Email, 12 months",
+            "Email"
+          ]
+        },
+        {
+          "label": "Client sites",
+          "values": [
+            "—",
+            "—",
+            "Unlimited"
+          ]
+        },
+        {
+          "label": "Price",
+          "values": [
+            "Free",
+            "€79 once",
+            "5% or US$100/yr min."
+          ]
+        }
+      ]
+    },
+    "faq": {
+      "title": "Questions",
+      "items": [
+        {
+          "q": "Is the self-hosted version really free?",
+          "a": "Yes — for your own wedding or any event you don't charge for. It is not free for commercial use."
+        },
+        {
+          "q": "What counts as commercial use?",
+          "a": "Charging someone to host, configure or run a my-boda site, or using it as part of a paid service. Planners, agencies and hosts need the commercial license."
+        },
+        {
+          "q": "What happens after the 12 months of Hosted Pro?",
+          "a": "Hosting runs for 12 months from setup. We'll email you before the term ends: you can renew, or export your data and move to self-hosting."
+        },
+        {
+          "q": "Can I move between hosted and self-hosted?",
+          "a": "Yes. Your data can be exported and the same code runs anywhere."
+        },
+        {
+          "q": "Do you charge per guest?",
+          "a": "No. One price per site, unlimited guests, on every plan."
+        },
+        {
+          "q": "How do I pay?",
+          "a": "Email us and we'll send the invoice and the next steps."
+        }
+      ]
+    },
+    "final": {
+      "title": "Ready when you are",
+      "subtitle": "Start free on your own server, or let us handle the hosting.",
+      "primary": "Deploy from GitHub",
+      "secondary": "Email us"
+    }
   }
 }

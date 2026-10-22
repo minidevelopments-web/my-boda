@@ -3,7 +3,8 @@
     "home": "Accueil",
     "rsvp": "RSVP",
     "info": "Informations",
-    "registry": "Liste de cadeaux"
+    "registry": "Liste de cadeaux",
+    "pricing": "Tarifs"
   },
   "footer": {
     "tagline": "Votre mariage est privé. Vos données devraient l'être aussi.",
@@ -155,5 +156,189 @@
     "title": "Système",
     "health": "Base de données OK",
     "users": "Utilisateurs"
+  },
+  "pricing": {
+    "metaTitle": "Tarifs — my-boda",
+    "metaDescription": "Auto-hébergez my-boda gratuitement, laissez-nous l'héberger pour 79 €, ou obtenez une licence commerciale pour les mariages de vos clients.",
+    "badge": "Code disponible · auto-hébergé ou géré",
+    "title": "Un mariage. Un prix. Sans surprise.",
+    "subtitle": "Hébergez-le vous-même gratuitement. Laissez-nous l'héberger pour 79 €. Facturez vos mariages clients avec une licence équitable.",
+    "hero": {
+      "primary": "Commencer l'auto-hébergement",
+      "secondary": "Voir les tarifs entreprise",
+      "note": "Pas de frais par invité. Pas de suivi. Exportez tout."
+    },
+    "nav": {
+      "couples": "Pour les couples",
+      "business": "Pour les entreprises",
+      "compare": "Comparer",
+      "faq": "Questions"
+    },
+    "couples": {
+      "eyebrow": "Pour les couples",
+      "title": "Choisissez ce que vous voulez gérer",
+      "subtitle": "Même site, mêmes fonctionnalités. La seule différence, c'est qui garde le serveur allumé."
+    },
+    "selfHost": {
+      "name": "Auto-hébergé",
+      "price": "0 €",
+      "period": "non commercial",
+      "description": "Installez-le sur votre VPS, NAS ou Raspberry Pi. Gratuit pour votre mariage ou tout événement que vous ne facturez pas.",
+      "features": [
+        "Invités illimités",
+        "Les trois thèmes",
+        "RSVP et gestion des invités",
+        "Export CSV",
+        "Votre domaine et vos données",
+        "Support communautaire"
+      ],
+      "cta": "Déployer depuis GitHub",
+      "note": "Usage non commercial uniquement. L'usage commercial nécessite la licence entreprise."
+    },
+    "hosted": {
+      "name": "Hébergé Pro",
+      "badge": "Le choix des couples",
+      "price": "79 €",
+      "period": "paiement unique · 12 mois",
+      "description": "Nous l'exploitons sur notre infrastructure pour que vous organisiez le mariage, pas le serveur.",
+      "features": [
+        "Tout ce qui est dans Auto-hébergé",
+        "Nom de domaine inclus",
+        "Sauvegardes quotidiennes",
+        "Mises à jour gérées",
+        "Support e-mail pendant 12 mois",
+        "Vos données exportables à tout moment"
+      ],
+      "cta": "Commander par e-mail",
+      "note": "Mise en place par e-mail. L'hébergement dure 12 mois à partir de la mise en service."
+    },
+    "business": {
+      "eyebrow": "Pour les entreprises",
+      "title": "Construisez sur my-boda",
+      "description": "Une licence commerciale pour les wedding planners, agences et hébergeurs qui facturent leur travail. Gérez un nombre illimité de mariages clients sur votre propre infrastructure.",
+      "price": "5 % du chiffre d'affaires brut",
+      "minimum": "100 US$ par an minimum, ou 5 % si c'est plus élevé.",
+      "features": [
+        "Sites clients illimités",
+        "Vous gardez 95 % de ce que vous facturez",
+        "Auto-hébergé : votre infrastructure, les données de vos clients",
+        "Licence perpétuelle pour la version reçue",
+        "Une déclaration par an",
+        "Pour vos propres clients, pas pour la revente"
+      ],
+      "cta": "Demander une licence",
+      "secondary": "Lire les conditions",
+      "note": "Vous ne savez pas si vous en avez besoin ? Si vous ne facturez personne, non."
+    },
+    "compare": {
+      "title": "Comparer en un coup d'œil",
+      "featureLabel": "Caractéristique",
+      "columns": [
+        "Auto-hébergé",
+        "Hébergé Pro",
+        "Entreprise"
+      ],
+      "rows": [
+        {
+          "label": "Pour qui",
+          "values": [
+            "Couples, non commercial",
+            "Couples",
+            "Wedding planners, agences, hébergeurs"
+          ]
+        },
+        {
+          "label": "Hébergement",
+          "values": [
+            "Votre VPS ou NAS",
+            "Géré par nous",
+            "Votre VPS ou NAS"
+          ]
+        },
+        {
+          "label": "Domaine personnalisé",
+          "values": [
+            "Oui",
+            "Inclus",
+            "Oui"
+          ]
+        },
+        {
+          "label": "Invités",
+          "values": [
+            "Illimités",
+            "Illimités",
+            "Illimités"
+          ]
+        },
+        {
+          "label": "Sauvegardes",
+          "values": [
+            "À votre charge",
+            "Quotidiennes",
+            "À votre charge"
+          ]
+        },
+        {
+          "label": "Support",
+          "values": [
+            "Communauté",
+            "E-mail, 12 mois",
+            "E-mail"
+          ]
+        },
+        {
+          "label": "Sites clients",
+          "values": [
+            "—",
+            "—",
+            "Illimités"
+          ]
+        },
+        {
+          "label": "Prix",
+          "values": [
+            "Gratuit",
+            "79 € une fois",
+            "5 % ou 100 US$/an min."
+          ]
+        }
+      ]
+    },
+    "faq": {
+      "title": "Questions",
+      "items": [
+        {
+          "q": "La version auto-hébergée est-elle vraiment gratuite ?",
+          "a": "Oui, pour votre mariage ou tout événement que vous ne facturez pas. Elle n'est pas gratuite pour un usage commercial."
+        },
+        {
+          "q": "Qu'est-ce qu'un usage commercial ?",
+          "a": "Facturer quelqu'un pour héberger, configurer ou exploiter un site my-boda, ou l'utiliser dans le cadre d'un service payant. Les wedding planners, agences et hébergeurs ont besoin de la licence commerciale."
+        },
+        {
+          "q": "Que se passe-t-il après les 12 mois d'Hébergé Pro ?",
+          "a": "L'hébergement dure 12 mois à partir de la mise en service. Nous vous écrirons avant la fin : vous pourrez renouveler ou exporter vos données et passer à l'auto-hébergement."
+        },
+        {
+          "q": "Puis-je passer de l'hébergement à l'auto-hébergement ?",
+          "a": "Oui. Vos données sont exportables et le même code fonctionne partout."
+        },
+        {
+          "q": "Facturez-vous par invité ?",
+          "a": "Non. Un prix par site, invités illimités, sur toutes les offres."
+        },
+        {
+          "q": "Comment payer ?",
+          "a": "Écrivez-nous : nous vous enverrons la facture et les prochaines étapes."
+        }
+      ]
+    },
+    "final": {
+      "title": "Prêt quand vous l'êtes",
+      "subtitle": "Commencez gratuitement sur votre serveur, ou laissez-nous gérer l'hébergement.",
+      "primary": "Déployer depuis GitHub",
+      "secondary": "Nous écrire"
+    }
   }
 }

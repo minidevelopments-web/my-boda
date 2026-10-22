@@ -54,7 +54,7 @@ export default async function LangLayout({ children, params }: { children: React
         <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:z-[60] focus:bg-white focus:px-4 focus:py-2">{dict.common.skipToContent}</a>
         <Header config={config} lang={lang} dict={dict} />
         <main id="main" className="min-h-[calc(100vh-8rem)]">{children}</main>
-        <Footer dict={dict} />
+        <Footer dict={dict} lang={lang} />
       </body>
     </html>
   );

@@ -3,7 +3,8 @@
     "home": "Início",
     "rsvp": "RSVP",
     "info": "Informações",
-    "registry": "Lista de presentes"
+    "registry": "Lista de presentes",
+    "pricing": "Preços"
   },
   "footer": {
     "tagline": "O seu casamento é privado. Os seus dados também deveriam ser.",
@@ -155,5 +156,189 @@
     "title": "Sistema",
     "health": "Base de dados OK",
     "users": "Utilizadores"
+  },
+  "pricing": {
+    "metaTitle": "Preços — my-boda",
+    "metaDescription": "Aloja o my-boda gratuitamente, deixa-nos alojá-lo por 79 € ou obtém uma licença comercial para casamentos de clientes.",
+    "badge": "Código disponível · autoalojado ou gerido",
+    "title": "Um casamento. Um preço. Sem surpresas.",
+    "subtitle": "Executa-o tu, de graça. Deixa-nos alojá-lo por 79 €. Cobra por casamentos de clientes com uma licença justa.",
+    "hero": {
+      "primary": "Começar a autoalojar",
+      "secondary": "Ver preços para empresas",
+      "note": "Sem custos por convidado. Sem rastreio. Exporta tudo."
+    },
+    "nav": {
+      "couples": "Para casais",
+      "business": "Para empresas",
+      "compare": "Comparar",
+      "faq": "Perguntas"
+    },
+    "couples": {
+      "eyebrow": "Para casais",
+      "title": "Escolhe quanto queres gerir",
+      "subtitle": "O mesmo site, as mesmas funcionalidades. A única diferença é quem mantém o servidor ligado."
+    },
+    "selfHost": {
+      "name": "Autoalojado",
+      "price": "0 €",
+      "period": "não comercial",
+      "description": "Instala no teu VPS, NAS ou Raspberry Pi. Grátis para o teu casamento ou qualquer evento pelo qual não cobres.",
+      "features": [
+        "Convidados ilimitados",
+        "Os três temas",
+        "RSVP e gestão de convidados",
+        "Exportação CSV",
+        "O teu domínio e os teus dados",
+        "Suporte da comunidade"
+      ],
+      "cta": "Implementar a partir do GitHub",
+      "note": "Apenas uso não comercial. O uso comercial requer a licença para empresas."
+    },
+    "hosted": {
+      "name": "Alojado Pro",
+      "badge": "A escolha da maioria",
+      "price": "79 €",
+      "period": "pagamento único · 12 meses",
+      "description": "Executamo-lo na nossa infraestrutura para que planeies o casamento, não o servidor.",
+      "features": [
+        "Tudo do Autoalojado",
+        "Domínio personalizado incluído",
+        "Cópias de segurança diárias",
+        "Atualizações geridas",
+        "Suporte por email durante 12 meses",
+        "Os teus dados exportáveis a qualquer momento"
+      ],
+      "cta": "Encomendar por email",
+      "note": "Configuração por email. O alojamento dura 12 meses desde a instalação."
+    },
+    "business": {
+      "eyebrow": "Para empresas",
+      "title": "Constrói sobre o my-boda",
+      "description": "Uma licença comercial para planners, agências e anfitriões que cobram pelo trabalho. Gere casamentos de clientes ilimitados na tua própria infraestrutura.",
+      "price": "5% da receita bruta",
+      "minimum": "Mínimo de 100 US$ por ano, ou 5% se for mais elevado.",
+      "features": [
+        "Sites de clientes ilimitados",
+        "Ficas com 95% do que cobras",
+        "Autoalojado: a tua infraestrutura, os dados dos teus clientes",
+        "Licença perpétua para a versão que recebes",
+        "Uma declaração por ano",
+        "Para o teu próprio trabalho com clientes, não para revenda"
+      ],
+      "cta": "Pedir uma licença",
+      "secondary": "Ler os termos",
+      "note": "Não sabes se precisas? Se não cobras a ninguém, não precisas."
+    },
+    "compare": {
+      "title": "Comparar de relance",
+      "featureLabel": "Característica",
+      "columns": [
+        "Autoalojado",
+        "Alojado Pro",
+        "Empresas"
+      ],
+      "rows": [
+        {
+          "label": "Para quem",
+          "values": [
+            "Casais, não comercial",
+            "Casais",
+            "Planners, agências, anfitriões"
+          ]
+        },
+        {
+          "label": "Alojamento",
+          "values": [
+            "O teu VPS ou NAS",
+            "Gerido por nós",
+            "O teu VPS ou NAS"
+          ]
+        },
+        {
+          "label": "Domínio próprio",
+          "values": [
+            "Sim",
+            "Incluído",
+            "Sim"
+          ]
+        },
+        {
+          "label": "Convidados",
+          "values": [
+            "Ilimitados",
+            "Ilimitados",
+            "Ilimitados"
+          ]
+        },
+        {
+          "label": "Cópias de segurança",
+          "values": [
+            "Tua responsabilidade",
+            "Diárias",
+            "Tua responsabilidade"
+          ]
+        },
+        {
+          "label": "Suporte",
+          "values": [
+            "Comunidade",
+            "Email, 12 meses",
+            "Email"
+          ]
+        },
+        {
+          "label": "Sites de clientes",
+          "values": [
+            "—",
+            "—",
+            "Ilimitados"
+          ]
+        },
+        {
+          "label": "Preço",
+          "values": [
+            "Grátis",
+            "79 € uma vez",
+            "5% ou 100 US$/ano mín."
+          ]
+        }
+      ]
+    },
+    "faq": {
+      "title": "Perguntas",
+      "items": [
+        {
+          "q": "A versão autoalojada é mesmo gratuita?",
+          "a": "Sim — para o teu casamento ou qualquer evento pelo qual não cobres. Não é gratuita para uso comercial."
+        },
+        {
+          "q": "O que é uso comercial?",
+          "a": "Cobrar a alguém para alojar, configurar ou operar um site my-boda, ou usá-lo como parte de um serviço pago. Planners, agências e anfitriões precisam da licença comercial."
+        },
+        {
+          "q": "O que acontece após os 12 meses do Alojado Pro?",
+          "a": "O alojamento dura 12 meses desde a configuração. Escrevemos-te antes do fim: podes renovar ou exportar os teus dados e autoalojar."
+        },
+        {
+          "q": "Posso passar de alojado para autoalojado?",
+          "a": "Sim. Os teus dados podem ser exportados e o mesmo código funciona em qualquer lugar."
+        },
+        {
+          "q": "Cobram por convidado?",
+          "a": "Não. Um preço por site, convidados ilimitados, em todos os planos."
+        },
+        {
+          "q": "Como se paga?",
+          "a": "Escreve-nos e enviamos a fatura e os próximos passos."
+        }
+      ]
+    },
+    "final": {
+      "title": "Pronto quando quiseres",
+      "subtitle": "Começa grátis no teu próprio servidor ou deixa-nos tratar do alojamento.",
+      "primary": "Implementar a partir do GitHub",
+      "secondary": "Escreve-nos"
+    }
   }
 }

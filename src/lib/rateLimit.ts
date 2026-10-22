@@ -15,21 +15,31 @@ const store: Map<string, Entry> = (() => {
   return g.__rateLimitStore;
 })();
 
-export function checkRateLimit(key: string): { allowed: boolean; retryAfterMs: number; remaining: number } {
+export type RateLimitOptions = {
+  maxAttempts?: number;
+  windowMs?: number;
+};
+
+export function checkRateLimit(
+  key: string,
+  opts: RateLimitOptions = {}
+): { allowed: boolean; retryAfterMs: number; remaining: number } {
+  const maxAttempts = opts.maxAttempts ?? MAX_ATTEMPTS;
+  const windowMs = opts.windowMs ?? WINDOW_MS;
   const now = Date.now();
   const entry = store.get(key);
 
   if (!entry || now > entry.resetAt) {
-    store.set(key, { count: 1, resetAt: now + WINDOW_MS });
-    return { allowed: true, retryAfterMs: 0, remaining: MAX_ATTEMPTS - 1 };
+    store.set(key, { count: 1, resetAt: now + windowMs });
+    return { allowed: true, retryAfterMs: 0, remaining: maxAttempts - 1 };
   }
 
-  if (entry.count >= MAX_ATTEMPTS) {
+  if (entry.count >= maxAttempts) {
     return { allowed: false, retryAfterMs: entry.resetAt - now, remaining: 0 };
   }
 
   entry.count += 1;
-  return { allowed: true, retryAfterMs: 0, remaining: MAX_ATTEMPTS - entry.count };
+  return { allowed: true, retryAfterMs: 0, remaining: maxAttempts - entry.count };
 }
 
 // For tests

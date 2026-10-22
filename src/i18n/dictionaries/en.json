@@ -4,7 +4,8 @@
     "rsvp": "RSVP",
     "info": "Info",
     "registry": "Registry",
-    "pricing": "Pricing"
+    "pricing": "Pricing",
+    "photos": "Photos"
   },
   "footer": {
     "tagline": "Your wedding is private. Your data should be too.",
@@ -370,6 +371,32 @@
       ],
       "cta": "Order by email",
       "note": "Set up by email. Hosting runs for 12 months from setup."
+    }
+  },
+  "gallery": {
+    "title": "Wedding photos",
+    "subtitle": "Share the moments you captured — every invited guest can see them.",
+    "uploadTitle": "Add your photos",
+    "chooseFiles": "Choose photos",
+    "caption": "Caption (optional)",
+    "captionPlaceholder": "A few words about these photos",
+    "upload": "Upload",
+    "uploading": "Uploading…",
+    "preparing": "Preparing…",
+    "done": "Uploaded",
+    "delete": "Delete",
+    "deleteConfirm": "Delete this photo for everyone?",
+    "empty": "No photos yet — be the first to share one.",
+    "photoCount": "{count} photos",
+    "errors": {
+      "noFiles": "Choose at least one photo.",
+      "tooMany": "Up to 3 photos at a time.",
+      "tooLarge": "Each photo must be under 10 MB.",
+      "invalidType": "That file could not be read as a photo.",
+      "quota": "This invitation has reached its photo limit.",
+      "rateLimited": "Too many uploads — wait a minute and try again.",
+      "uploadFailed": "Upload failed. Please try again.",
+      "deleteFailed": "Could not delete the photo."
     }
   }
 }

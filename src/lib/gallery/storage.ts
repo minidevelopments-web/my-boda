@@ -2,12 +2,23 @@ import fs from "fs/promises";
 import path from "path";
 import sharp from "sharp";
 
-export const MAX_FILE_BYTES = 10 * 1024 * 1024;
-export const MAX_FILES_PER_UPLOAD = 3;
-export const MAX_PHOTOS_PER_HOUSEHOLD = 50;
-export const MAX_CAPTION_LENGTH = 280;
-export const FULL_MAX_EDGE = 2048;
-export const THUMB_MAX_EDGE = 480;
+import {
+  FULL_MAX_EDGE,
+  MAX_CAPTION_LENGTH,
+  MAX_FILE_BYTES,
+  MAX_FILES_PER_UPLOAD,
+  MAX_PHOTOS_PER_HOUSEHOLD,
+  THUMB_MAX_EDGE,
+} from "./limits";
+
+export {
+  FULL_MAX_EDGE,
+  MAX_CAPTION_LENGTH,
+  MAX_FILE_BYTES,
+  MAX_FILES_PER_UPLOAD,
+  MAX_PHOTOS_PER_HOUSEHOLD,
+  THUMB_MAX_EDGE,
+};
 
 export type StoredPhoto = {
   fileName: string;

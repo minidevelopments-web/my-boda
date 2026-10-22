@@ -4,7 +4,8 @@
     "rsvp": "RSVP",
     "info": "Informations",
     "registry": "Liste de cadeaux",
-    "pricing": "Tarifs"
+    "pricing": "Tarifs",
+    "photos": "Photos"
   },
   "footer": {
     "tagline": "Votre mariage est privé. Vos données devraient l'être aussi.",
@@ -370,6 +371,32 @@
       ],
       "cta": "Commander par e-mail",
       "note": "Mise en place par e-mail. L'hébergement dure 12 mois à partir de la mise en service."
+    }
+  },
+  "gallery": {
+    "title": "Photos du mariage",
+    "subtitle": "Partagez les moments que vous avez capturés — tous les invités peuvent les voir.",
+    "uploadTitle": "Ajoutez vos photos",
+    "chooseFiles": "Choisir des photos",
+    "caption": "Légende (facultatif)",
+    "captionPlaceholder": "Quelques mots sur ces photos",
+    "upload": "Envoyer",
+    "uploading": "Envoi…",
+    "preparing": "Préparation…",
+    "done": "Envoyée",
+    "delete": "Supprimer",
+    "deleteConfirm": "Supprimer cette photo pour tout le monde ?",
+    "empty": "Pas encore de photos — soyez le premier à en partager une.",
+    "photoCount": "{count} photos",
+    "errors": {
+      "noFiles": "Choisissez au moins une photo.",
+      "tooMany": "3 photos maximum à la fois.",
+      "tooLarge": "Chaque photo doit faire moins de 10 Mo.",
+      "invalidType": "Ce fichier n'a pas pu être lu comme une photo.",
+      "quota": "Cette invitation a atteint sa limite de photos.",
+      "rateLimited": "Trop d'envois — attendez une minute et réessayez.",
+      "uploadFailed": "L'envoi a échoué. Réessayez.",
+      "deleteFailed": "Impossible de supprimer la photo."
     }
   }
 }

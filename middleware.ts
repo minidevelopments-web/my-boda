@@ -180,7 +180,7 @@ export async function middleware(req: NextRequest) {
     }
     return NextResponse.next();
   }
-  if (maybeLang && !isValidLocale(maybeLang) && ["admin","rsvp","info","registry","_next"].includes(maybeLang)) {
+  if (maybeLang && !isValidLocale(maybeLang) && ["admin","rsvp","info","registry","gallery","_next"].includes(maybeLang)) {
     // legacy unprefixed public path → prefix with detected locale
     const cookie = req.cookies.get("locale")?.value ?? null;
     const lang = pickLocale(req.headers.get("accept-language"), cookie);

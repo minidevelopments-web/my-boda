@@ -63,6 +63,7 @@ export function Header({ config, lang, dict }: HeaderProps) {
     { path: "/", href: `/${lang}`, label: nav.home },
     { path: "/rsvp", href: `/${lang}/rsvp`, label: nav.rsvp },
     { path: "/info", href: `/${lang}/info`, label: nav.info },
+    { path: "/gallery", href: `/${lang}/gallery`, label: nav.photos },
     { path: "/registry", href: `/${lang}/registry`, label: nav.registry },
   ];
   return (

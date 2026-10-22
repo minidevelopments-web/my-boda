@@ -4,7 +4,8 @@
     "rsvp": "RSVP",
     "info": "Informações",
     "registry": "Lista de presentes",
-    "pricing": "Preços"
+    "pricing": "Preços",
+    "photos": "Fotos"
   },
   "footer": {
     "tagline": "O seu casamento é privado. Os seus dados também deveriam ser.",
@@ -370,6 +371,32 @@
       ],
       "cta": "Encomendar por email",
       "note": "Configuração por email. O alojamento dura 12 meses desde a instalação."
+    }
+  },
+  "gallery": {
+    "title": "Fotos do casamento",
+    "subtitle": "Partilhe os momentos que capturou — todos os convidados podem vê-los.",
+    "uploadTitle": "Adicione as suas fotos",
+    "chooseFiles": "Escolher fotos",
+    "caption": "Legenda (opcional)",
+    "captionPlaceholder": "Algumas palavras sobre estas fotos",
+    "upload": "Enviar",
+    "uploading": "A enviar…",
+    "preparing": "A preparar…",
+    "done": "Enviada",
+    "delete": "Eliminar",
+    "deleteConfirm": "Eliminar esta foto para todos?",
+    "empty": "Ainda não há fotos — seja o primeiro a partilhar uma.",
+    "photoCount": "{count} fotos",
+    "errors": {
+      "noFiles": "Escolha pelo menos uma foto.",
+      "tooMany": "Máximo de 3 fotos de cada vez.",
+      "tooLarge": "Cada foto deve ter menos de 10 MB.",
+      "invalidType": "Não foi possível ler esse ficheiro como foto.",
+      "quota": "Este convite atingiu o limite de fotos.",
+      "rateLimited": "Demasiados envios — aguarde um minuto e tente novamente.",
+      "uploadFailed": "O envio falhou. Tente novamente.",
+      "deleteFailed": "Não foi possível eliminar a foto."
     }
   }
 }

@@ -4,7 +4,8 @@
     "rsvp": "RSVP",
     "info": "Información",
     "registry": "Regalos",
-    "pricing": "Precios"
+    "pricing": "Precios",
+    "photos": "Fotos"
   },
   "footer": {
     "tagline": "Tu boda es privada. Tus datos también deberían serlo.",
@@ -370,6 +371,32 @@
       ],
       "cta": "Pedir por correo",
       "note": "Configuración por correo. El alojamiento dura 12 meses desde la puesta en marcha."
+    }
+  },
+  "gallery": {
+    "title": "Fotos de la boda",
+    "subtitle": "Comparte los momentos que capturaste: todos los invitados pueden verlos.",
+    "uploadTitle": "Añade tus fotos",
+    "chooseFiles": "Elegir fotos",
+    "caption": "Pie de foto (opcional)",
+    "captionPlaceholder": "Unas palabras sobre estas fotos",
+    "upload": "Subir",
+    "uploading": "Subiendo…",
+    "preparing": "Preparando…",
+    "done": "Subida",
+    "delete": "Eliminar",
+    "deleteConfirm": "¿Eliminar esta foto para todos?",
+    "empty": "Aún no hay fotos: sé el primero en compartir una.",
+    "photoCount": "{count} fotos",
+    "errors": {
+      "noFiles": "Elige al menos una foto.",
+      "tooMany": "Máximo 3 fotos a la vez.",
+      "tooLarge": "Cada foto debe pesar menos de 10 MB.",
+      "invalidType": "No se pudo leer ese archivo como foto.",
+      "quota": "Esta invitación ha alcanzado el límite de fotos.",
+      "rateLimited": "Demasiadas subidas: espera un minuto e inténtalo de nuevo.",
+      "uploadFailed": "No se pudo subir. Inténtalo de nuevo.",
+      "deleteFailed": "No se pudo eliminar la foto."
     }
   }
 }

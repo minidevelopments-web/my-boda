@@ -4,7 +4,8 @@
     "rsvp": "RSVP",
     "info": "Infos",
     "registry": "Geschenkliste",
-    "pricing": "Preise"
+    "pricing": "Preise",
+    "photos": "Fotos"
   },
   "footer": {
     "tagline": "Eure Hochzeit ist privat. Eure Daten sollten es auch sein.",
@@ -370,6 +371,32 @@
       ],
       "cta": "Per E-Mail bestellen",
       "note": "Einrichtung per E-Mail. Das Hosting läuft 12 Monate ab Einrichtung."
+    }
+  },
+  "gallery": {
+    "title": "Hochzeitsfotos",
+    "subtitle": "Teile die Momente, die du festgehalten hast — alle Eingeladenen können sie sehen.",
+    "uploadTitle": "Füge deine Fotos hinzu",
+    "chooseFiles": "Fotos auswählen",
+    "caption": "Bildunterschrift (optional)",
+    "captionPlaceholder": "Ein paar Worte zu diesen Fotos",
+    "upload": "Hochladen",
+    "uploading": "Wird hochgeladen…",
+    "preparing": "Wird vorbereitet…",
+    "done": "Hochgeladen",
+    "delete": "Löschen",
+    "deleteConfirm": "Dieses Foto für alle löschen?",
+    "empty": "Noch keine Fotos — teile als Erste:r eines.",
+    "photoCount": "{count} Fotos",
+    "errors": {
+      "noFiles": "Wähle mindestens ein Foto aus.",
+      "tooMany": "Höchstens 3 Fotos auf einmal.",
+      "tooLarge": "Jedes Foto muss unter 10 MB groß sein.",
+      "invalidType": "Diese Datei konnte nicht als Foto gelesen werden.",
+      "quota": "Diese Einladung hat ihr Fotolimit erreicht.",
+      "rateLimited": "Zu viele Uploads — warte eine Minute und versuche es erneut.",
+      "uploadFailed": "Upload fehlgeschlagen. Bitte erneut versuchen.",
+      "deleteFailed": "Foto konnte nicht gelöscht werden."
     }
   }
 }

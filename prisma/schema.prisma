@@ -57,3 +57,20 @@ model Household {
   createdAt  DateTime  @default(now())
   guests     Guest[]
 }
+
+model GalleryPhoto {
+  id           String   @id @default(cuid())
+  householdId  String
+  guestId      String
+  uploaderName String
+  caption      String?
+  fileName     String
+  thumbName    String
+  mimeType     String
+  width        Int
+  height       Int
+  bytes        Int
+  createdAt    DateTime @default(now())
+
+  @@index([createdAt])
+}

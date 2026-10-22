@@ -65,7 +65,7 @@ async function runWithImageSlot<T>(job: () => Promise<T>): Promise<T> {
 
 export async function processAndStore(id: string, input: Buffer): Promise<StoredPhoto> {
   return runWithImageSlot(async () => {
-    const base = sharp(input).rotate();
+    const base = sharp(input, { limitInputPixels: 80_000_000 }).rotate();
     const [full, thumb] = await Promise.all([
       base
         .clone()

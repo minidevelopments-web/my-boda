@@ -60,6 +60,8 @@ function errorMessage(code: string | undefined, messages: Dictionary["gallery"])
       return messages.errors.tooLarge;
     case "invalid_image":
       return messages.errors.invalidType;
+    case "no_photos_uploaded":
+      return messages.errors.invalidType;
     case "quota_exceeded":
       return messages.errors.quota;
     case "rate_limited":
@@ -113,8 +115,7 @@ export function GalleryUpload({ messages }: Props) {
     setError(null);
     setUploading(true);
     const snapshot = items;
-    let anySuccess = false;
-    let failed = false;
+    const succeeded = new Set<string>();
 
     try {
       for (let start = 0; start < snapshot.length; start += MAX_FILES_PER_UPLOAD) {
@@ -129,36 +130,51 @@ export function GalleryUpload({ messages }: Props) {
         if (caption.trim()) form.append("caption", caption.trim());
 
         setStatus(ids, "uploading");
-        const res = await fetch("/api/v1/gallery", { method: "POST", body: form });
+        let res: Response;
+        try {
+          res = await fetch("/api/v1/gallery", { method: "POST", body: form });
+        } catch {
+          setStatus(ids, "error");
+          setError(messages.errors.uploadFailed);
+          break;
+        }
+
         const body = (await res.json().catch(() => ({}))) as {
           error?: string;
-          errors?: string[];
+          data?: unknown[];
+          failures?: Array<{ index: number; code: string }>;
         };
 
         if (!res.ok) {
           setStatus(ids, "error");
-          setError(errorMessage(body.error ?? body.errors?.[0], messages));
-          failed = true;
+          setError(errorMessage(body.failures?.[0]?.code ?? body.error, messages));
           break;
         }
-        if (body.errors && body.errors.length > 0) {
-          setStatus(ids, "error");
-          setError(errorMessage(body.errors[0], messages));
-          failed = true;
-        } else {
-          setStatus(ids, "done");
-          anySuccess = true;
+
+        const failedByIndex = new Map((body.failures ?? []).map((f) => [f.index, f.code]));
+        chunk.forEach((item, index) => {
+          if (failedByIndex.has(index)) {
+            setStatus([item.id], "error");
+          } else {
+            setStatus([item.id], "done");
+            succeeded.add(item.id);
+          }
+        });
+        if (body.failures && body.failures.length > 0) {
+          setError(errorMessage(body.failures[0].code, messages));
         }
       }
     } finally {
       setUploading(false);
     }
 
-    if (anySuccess) router.refresh();
-    if (!failed) {
-      snapshot.forEach((item) => URL.revokeObjectURL(item.preview));
-      setItems([]);
-      setCaption("");
+    if (succeeded.size > 0) {
+      router.refresh();
+      setItems((prev) => prev.filter((item) => !succeeded.has(item.id)));
+      snapshot.forEach((item) => {
+        if (succeeded.has(item.id)) URL.revokeObjectURL(item.preview);
+      });
+      if (succeeded.size === snapshot.length) setCaption("");
     }
   }
 

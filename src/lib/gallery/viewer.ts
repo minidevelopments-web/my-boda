@@ -23,13 +23,12 @@ export async function resolveGalleryViewer(
         where: { id: guest.householdId },
         include: { guests: true },
       });
-      if (!household) return null;
-      if (household.expiresAt && household.expiresAt < new Date()) return null;
-      const name = household.guests.find((g) => g.id === guest.guestId)?.name ?? "Guest";
-      return { kind: "guest", householdId: household.id, guestId: guest.guestId, name };
+      if (household && (!household.expiresAt || household.expiresAt >= new Date())) {
+        const name = household.guests.find((g) => g.id === guest.guestId)?.name ?? "Guest";
+        return { kind: "guest", householdId: household.id, guestId: guest.guestId, name };
+      }
     } catch {
-      // Fail closed: gallery access requires a live household check.
-      return null;
+      // Fall through to staff; a stale guest cookie must not lock staff out.
     }
   }
 

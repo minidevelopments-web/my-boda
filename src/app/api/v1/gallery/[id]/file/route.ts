@@ -37,7 +37,7 @@ export async function GET(
     headers: {
       "Content-Type": photo.mimeType,
       "Content-Length": String(data.length),
-      "Cache-Control": "private, max-age=604800, immutable",
+      "Cache-Control": "private, no-store",
       "X-Content-Type-Options": "nosniff",
     },
   });

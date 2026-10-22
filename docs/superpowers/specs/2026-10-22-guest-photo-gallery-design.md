@@ -28,7 +28,7 @@ download-all, moderation queue, S3/Vercel Blob, multi-instance support.
 | Processing | Server re-encodes to JPEG with `sharp` | Strips EXIF/GPS, fixes rotation, prevents serving SVG/HTML |
 | Publish | Immediate, delete-only moderation | Lowest friction for a trusted guest list |
 | Burst handling | Browser pre-resize + in-process 2-job queue | Prevents OOM/CPU stalls without Redis |
-| Caching | One-week immutable browser cache on photo files | Thumbnails are content-addressed and never rewritten |
+| Caching | `private, no-store` on photo files | A deleted or expired session must not keep viewing cached photos |
 
 ## Data model
 
@@ -87,7 +87,7 @@ photos. `householdId` is used for upload quota and delete authorization,
 | Method + path | Auth | Behavior |
 |---|---|---|
 | `POST /api/v1/gallery` | guest session | multipart upload; returns `{ data: GalleryPhoto[] }`; 400/401/413/429 as applicable |
-| `GET /api/v1/gallery/[id]/file?variant=thumb\|full` | guest **or** staff session | streams the file with `Content-Type: image/jpeg`, `Cache-Control: private, max-age=604800, immutable`, `X-Content-Type-Options: nosniff`; 404 if row or file missing |
+| `GET /api/v1/gallery/[id]/file?variant=thumb\|full` | guest **or** staff session | streams the file with `Content-Type: image/jpeg`, `Cache-Control: private, no-store`, `X-Content-Type-Options: nosniff`; 404 if row or file missing |
 | `DELETE /api/v1/gallery/[id]` | own household **or** staff | deletes row, then best-effort unlinks both files; 204 |
 
 Gallery listing is server-rendered directly from Prisma; there is no list
@@ -126,8 +126,9 @@ endpoint. Newest first, 48 per page with prev/next links.
 - Delete authorization: staff roles `COUPLE|PLANNER|SYSADMIN` may delete any
   photo; a guest may delete only rows whose `householdId` matches their
   session.
-- One-week `private` cache means a borrowed phone does not retain photos
-  indefinitely after the session ends.
+- `private, no-store` keeps the auth check on every view, so an expired or
+  deleted household (or a deleted photo) stops being viewable immediately,
+  including on a borrowed phone.
 
 ## Concurrency / “rush” handling
 

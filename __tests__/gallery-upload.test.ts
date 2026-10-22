@@ -77,8 +77,28 @@ it("rejects more than 3 files and non-image bytes", async () => {
   const bad = new File([Buffer.from("<svg/>")], "evil.jpg", { type: "image/jpeg" });
   const res = await POST(uploadRequest([bad]));
   expect(res.status).toBe(400);
-  expect((await res.json()).errors.length).toBeGreaterThan(0);
+  expect((await res.json()).failures.length).toBeGreaterThan(0);
   expect(mockCreate).not.toHaveBeenCalled();
+});
+
+it("keeps valid files and reports the failed index in a mixed batch", async () => {
+  const good = new File([await jpeg()], "good.jpg", { type: "image/jpeg" });
+  const bad = new File([Buffer.from("<svg/>")], "bad.jpg", { type: "image/jpeg" });
+  const res = await POST(uploadRequest([good, bad]));
+
+  expect(res.status).toBe(201);
+  const body = await res.json();
+  expect(body.data).toHaveLength(1);
+  expect(body.failures).toEqual([{ index: 1, code: "invalid_image" }]);
+  expect(await fs.readdir(dir)).toHaveLength(2);
+});
+
+it("rate limits a household after 10 requests per minute", async () => {
+  const file = new File([await jpeg()], "a.jpg", { type: "image/jpeg" });
+  for (let i = 0; i < 10; i++) {
+    expect((await POST(uploadRequest([file]))).status).toBe(201);
+  }
+  expect((await POST(uploadRequest([file]))).status).toBe(429);
 });
 
 it("enforces the household photo quota", async () => {

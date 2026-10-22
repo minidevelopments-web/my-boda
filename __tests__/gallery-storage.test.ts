@@ -25,7 +25,12 @@ afterEach(async () => {
 it("writes a 2048px full JPEG and a 480px thumbnail, stripped of EXIF", async () => {
   const input = await sharp({
     create: { width: 3000, height: 2000, channels: 3, background: "#ffffff" },
-  }).jpeg().toBuffer();
+  })
+    .jpeg()
+    .withMetadata({ exif: { IFD0: { Copyright: "gallery-test" } } })
+    .toBuffer();
+  expect((await sharp(input).metadata()).exif).toBeDefined();
+
   const stored = await processAndStore("photo1", input);
 
   expect(stored.fileName).toBe("photo1.jpg");

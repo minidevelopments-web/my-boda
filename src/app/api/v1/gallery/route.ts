@@ -66,11 +66,11 @@ export async function POST(req: NextRequest) {
   }
 
   const created: unknown[] = [];
-  const errors: string[] = [];
+  const failures: Array<{ index: number; code: string }> = [];
 
-  for (const file of files) {
+  for (const [index, file] of files.entries()) {
     if (file.size > MAX_FILE_BYTES) {
-      errors.push("too_large");
+      failures.push({ index, code: "too_large" });
       continue;
     }
 
@@ -90,16 +90,16 @@ export async function POST(req: NextRequest) {
       created.push(photo);
     } catch {
       await deletePhotoFiles({ fileName: `${id}.jpg`, thumbName: `${id}.thumb.jpg` });
-      errors.push("invalid_image");
+      failures.push({ index, code: "invalid_image" });
     }
   }
 
   if (created.length === 0) {
-    return NextResponse.json({ error: "no_photos_uploaded", errors }, { status: 400 });
+    return NextResponse.json({ error: "no_photos_uploaded", failures }, { status: 400 });
   }
 
   return NextResponse.json(
-    { data: created, ...(errors.length ? { errors } : {}) },
+    { data: created, ...(failures.length ? { failures } : {}) },
     { status: 201 }
   );
 }

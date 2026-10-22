@@ -60,6 +60,7 @@ it("serves thumbnails to a verified guest and rejects anonymous/unknown variants
   expect(ok.status).toBe(200);
   expect(ok.headers.get("content-type")).toBe("image/jpeg");
   expect(ok.headers.get("cache-control")).toContain("private");
+  expect(ok.headers.get("cache-control")).toContain("no-store");
 
   expect((await GET(get("p1", "thumb"), params("p1"))).status).toBe(401);
   expect((await GET(get("p1", "huge", `guest_session=${createGuestSession("h1", "g1")}`), params("p1"))).status).toBe(400);
@@ -69,10 +70,28 @@ it("lets a household delete its own photo and blocks another household", async (
   const other = await DELETE(del("p1", `guest_session=${createGuestSession("h2", "g9")}`), params("p1"));
   expect(other.status).toBe(403);
   expect(mockDelete).not.toHaveBeenCalled();
+  await expect(fs.access(path.join(dir, photo.fileName))).resolves.toBeUndefined();
 
   const own = await DELETE(del("p1", `guest_session=${createGuestSession("h1", "g1")}`), params("p1"));
   expect(own.status).toBe(204);
   expect(mockDelete).toHaveBeenCalledWith({ where: { id: "p1" } });
+});
+
+it("rejects an expired household but still lets staff use their session", async () => {
+  mockFindUnique.mockImplementation(async ({ where }: { where: Record<string, string> }) =>
+    where.id === "p1"
+      ? { id: "p1", householdId: "h1", ...photo }
+      : { id: where.id, expiresAt: new Date(Date.now() - 1000), guests: [{ id: "g1", name: "Ana" }] }
+  );
+
+  const expired = await GET(get("p1", "thumb", `guest_session=${createGuestSession("h1", "g1")}`), params("p1"));
+  expect(expired.status).toBe(401);
+
+  const staff = await GET(
+    get("p1", "thumb", `guest_session=${createGuestSession("h1", "g1")}; admin_session=${createStaffSession("u1", "COUPLE")}`),
+    params("p1")
+  );
+  expect(staff.status).toBe(200);
 });
 
 it("lets staff delete any photo", async () => {

@@ -9,6 +9,14 @@ node --test marketing/demo.test.mjs   # countdown logic
 
 Deploy by pointing any static host (Vercel, Netlify, GitHub Pages, nginx) at this folder. No build step.
 
+## Cloudflare Pages
+
+Live at <https://my-boda.pages.dev>. To redeploy from the repo root:
+
+```bash
+npx wrangler pages deploy marketing --project-name my-boda --branch main
+```
+
 - `index.html` — page and demo markup
 - `styles.css` — page plus the three demo themes
 - `demo.mjs` — theme switcher, countdown, copy button

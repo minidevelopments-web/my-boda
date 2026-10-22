@@ -123,7 +123,8 @@
       "vegan": "Vegan",
       "meat": "Meat",
       "fish": "Fish"
-    }
+    },
+    "exportPhotos": "Export photos"
   },
   "common": {
     "skipToContent": "Skip to content",

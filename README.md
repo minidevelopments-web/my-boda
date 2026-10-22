@@ -59,10 +59,10 @@ Admin dashboard: `http://localhost:3000/admin` — password from `ADMIN_PASSWORD
 |---|---------|--------------|
 | 1 | **Landing & Themes** | Hero countdown, couple story, 3-theme switcher (`classic` / `modern` / `garden`), accent color override |
 | 2 | **Smart RSVP** | Conditional form (attending → headcount/meal/dietary), Zod-validated, idempotent upsert by guest, confirmation feedback |
-| 3 | **Admin Dashboard** | HMAC-hashed password auth, httpOnly session cookie (7-day expiry), guest table with search/filter, stats, CSV export, polling refresh, logout |
+| 3 | **Admin Dashboard** | HMAC-hashed password auth, httpOnly session cookie (7-day expiry), guest table with search/filter, stats, CSV export, photo ZIP export, polling refresh, logout |
 | 4 | **Logistics Hub** | `/info` — schedule timeline, venue map embed, accommodations list, all driven by `*_JSON` env vars |
 | 5 | **Registry & Gifts** | `/registry` — IBAN/Bizum + external gift links, configurable message, no payment processing (privacy-first) |
-| 6 | **Guest Photo Gallery** | `/gallery` — invite-gated uploads, browser-resized, auto-published; guests delete their own, couple/planners delete any. Photos live on persistent disk (`UPLOAD_DIR`), not in Postgres |
+| 6 | **Guest Photo Gallery** | `/gallery` — invite-gated uploads, browser-resized, auto-published; guests delete their own, couple/planners delete any, owners export everything as a ZIP from `/admin`. Photos live on persistent disk (`UPLOAD_DIR`), not in Postgres |
 
 All copy is env-driven — no hardcoded couple data in the repo.
 

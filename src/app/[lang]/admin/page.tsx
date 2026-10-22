@@ -48,26 +48,36 @@ export default async function AdminPage({ params, searchParams }: { params: Prom
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-8">
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex items-center justify-between gap-3">
         <h1 className="text-2xl font-bold">{dict.guestManagement}</h1>
-        <form
-          action={async () => {
-            "use server";
-            const { cookies } = await import("next/headers");
-            const { redirect } = await import("next/navigation");
-            const { ADMIN_COOKIE_NAME } = await import("@/lib/auth");
-            const cookieStore = await cookies();
-            cookieStore.delete(ADMIN_COOKIE_NAME);
-            redirect(`/${lang}/admin/login`);
-          }}
-        >
-          <button
-            type="submit"
-            className="rounded border px-3 py-1.5 text-sm hover:bg-gray-50"
+        <div className="flex items-center gap-2">
+          {(role === "COUPLE" || role === "SYSADMIN") && (
+            <a
+              href="/api/v1/admin/gallery/export"
+              className="rounded border px-3 py-1.5 text-sm hover:bg-gray-50"
+            >
+              {dict.exportPhotos}
+            </a>
+          )}
+          <form
+            action={async () => {
+              "use server";
+              const { cookies } = await import("next/headers");
+              const { redirect } = await import("next/navigation");
+              const { ADMIN_COOKIE_NAME } = await import("@/lib/auth");
+              const cookieStore = await cookies();
+              cookieStore.delete(ADMIN_COOKIE_NAME);
+              redirect(`/${lang}/admin/login`);
+            }}
           >
-            {dict.logout}
-          </button>
-        </form>
+            <button
+              type="submit"
+              className="rounded border px-3 py-1.5 text-sm hover:bg-gray-50"
+            >
+              {dict.logout}
+            </button>
+          </form>
+        </div>
       </div>
       <Checklist
         responded={responded}

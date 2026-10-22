@@ -124,7 +124,7 @@ export default async function PricingPage({ params }: { params: Promise<{ lang: 
       <section id="compare" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-16 md:py-20">
         <h2 className="font-serif text-3xl font-light tracking-tight sm:text-4xl">{p.compare.title}</h2>
         <div className="mt-8 overflow-x-auto">
-          <table className="w-full min-w-[640px] border-collapse text-left text-sm">
+          <table className="w-full min-w-[800px] border-collapse text-left text-sm">
             <caption className="sr-only">{p.compare.title}</caption>
             <thead>
               <tr className="border-b border-stone-300">
@@ -147,7 +147,7 @@ export default async function PricingPage({ params }: { params: Promise<{ lang: 
                   {row.values.map((value, index) => (
                     <td
                       key={index}
-                      className={`py-4 pr-4 ${index === 1 ? "font-medium text-stone-900" : "text-stone-700"}`}
+                      className={`py-4 pr-4 ${index === 1 || index === 2 ? "font-medium text-stone-900" : "text-stone-700"}`}
                     >
                       {value}
                     </td>

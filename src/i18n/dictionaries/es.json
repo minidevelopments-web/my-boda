@@ -159,14 +159,15 @@
   },
   "pricing": {
     "metaTitle": "Precios — my-boda",
-    "metaDescription": "Autoaloja my-boda gratis, deja que lo alojemos por 79 € o consigue una licencia comercial para bodas de clientes.",
+    "metaDescription": "Autoaloja my-boda gratis, elige un plan alojado desde 79 € o consigue una licencia comercial para bodas de clientes.",
     "badge": "Código disponible · autoalojado o gestionado",
     "title": "Una boda. Un precio. Sin sorpresas.",
     "subtitle": "Ejecútalo tú gratis. Deja que lo alojemos por 79 €. Cobra por bodas de clientes con una licencia justa.",
     "hero": {
       "primary": "Empezar a autoalojar",
       "secondary": "Ver precios para empresas",
-      "note": "Sin coste por invitado. Sin rastreo. Exporta todo."
+      "note": "Sin coste por invitado. Sin rastreo. Exporta todo.",
+      "subtitle": "Ejecútalo tú gratis. Planes alojados desde 79 €. Cobra por bodas de clientes con una licencia justa."
     },
     "nav": {
       "couples": "Para parejas",
@@ -236,6 +237,7 @@
       "columns": [
         "Autoalojado",
         "Alojado Pro",
+        "Alojado Premium",
         "Empresas"
       ],
       "rows": [
@@ -243,6 +245,7 @@
           "label": "Para quién es",
           "values": [
             "Parejas, no comercial",
+            "Parejas",
             "Parejas",
             "Planificadores, agencias, anfitriones"
           ]
@@ -252,6 +255,7 @@
           "values": [
             "Tu VPS o NAS",
             "Gestionado por nosotros",
+            "Gestionado por nosotros",
             "Tu VPS o NAS"
           ]
         },
@@ -260,12 +264,14 @@
           "values": [
             "Sí",
             "Incluido",
+            "Incluido",
             "Sí"
           ]
         },
         {
           "label": "Invitados",
           "values": [
+            "Ilimitados",
             "Ilimitados",
             "Ilimitados",
             "Ilimitados"
@@ -276,6 +282,7 @@
           "values": [
             "Tu responsabilidad",
             "Diarias",
+            "Diarias",
             "Tu responsabilidad"
           ]
         },
@@ -284,12 +291,14 @@
           "values": [
             "Comunidad",
             "Correo, 12 meses",
+            "Prioritario, 24 h, 12 meses",
             "Correo"
           ]
         },
         {
           "label": "Webs de clientes",
           "values": [
+            "—",
             "—",
             "—",
             "Ilimitadas"
@@ -300,6 +309,7 @@
           "values": [
             "Gratis",
             "79 € una vez",
+            "149 € una vez",
             "5% o 100 US$/año mín."
           ]
         }
@@ -331,6 +341,10 @@
         {
           "q": "¿Cómo se paga?",
           "a": "Escríbenos y te enviaremos la factura y los siguientes pasos."
+        },
+        {
+          "q": "¿Cuál es la diferencia entre Alojado Pro y Premium?",
+          "a": "Premium añade un SLA de disponibilidad del 99,9% mensual (con un mes gratis si no lo cumplimos), soporte prioritario con respuesta en 24 h, una llamada de configuración de 30 minutos e importación de invitados en CSV. Pro es la misma web alojada sin esos extras."
         }
       ]
     },
@@ -339,6 +353,23 @@
       "subtitle": "Empieza gratis en tu propio servidor o deja que nos encarguemos del alojamiento.",
       "primary": "Desplegar desde GitHub",
       "secondary": "Escríbenos"
+    },
+    "premium": {
+      "name": "Alojado Premium",
+      "badge": "Servicio completo",
+      "price": "149 €",
+      "period": "pago único · 12 meses",
+      "description": "Lo alojamos, lo configuramos y seguimos disponibles. Para parejas que quieren una red de seguridad extra.",
+      "features": [
+        "Todo lo de Alojado Pro",
+        "SLA de disponibilidad del 99,9% mensual",
+        "Si no lo cumplimos, un mes gratis",
+        "Correo prioritario, respuesta en 24 h",
+        "Llamada de configuración de 30 minutos",
+        "Importación de la lista de invitados en CSV"
+      ],
+      "cta": "Pedir por correo",
+      "note": "Configuración por correo. El alojamiento dura 12 meses desde la puesta en marcha."
     }
   }
 }

@@ -7,4 +7,5 @@ function mailto(subject: string): string {
 }
 
 export const HOSTED_ORDER_HREF = mailto("my-boda Hosted Pro order");
+export const PREMIUM_ORDER_HREF = mailto("my-boda Hosted Premium order");
 export const COMMERCIAL_LICENSE_HREF = mailto("my-boda commercial license");

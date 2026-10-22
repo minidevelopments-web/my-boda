@@ -159,14 +159,15 @@
   },
   "pricing": {
     "metaTitle": "Tarifs — my-boda",
-    "metaDescription": "Auto-hébergez my-boda gratuitement, laissez-nous l'héberger pour 79 €, ou obtenez une licence commerciale pour les mariages de vos clients.",
+    "metaDescription": "Auto-hébergez my-boda gratuitement, choisissez un hébergement à partir de 79 €, ou obtenez une licence commerciale pour les mariages de vos clients.",
     "badge": "Code disponible · auto-hébergé ou géré",
     "title": "Un mariage. Un prix. Sans surprise.",
     "subtitle": "Hébergez-le vous-même gratuitement. Laissez-nous l'héberger pour 79 €. Facturez vos mariages clients avec une licence équitable.",
     "hero": {
       "primary": "Commencer l'auto-hébergement",
       "secondary": "Voir les tarifs entreprise",
-      "note": "Pas de frais par invité. Pas de suivi. Exportez tout."
+      "note": "Pas de frais par invité. Pas de suivi. Exportez tout.",
+      "subtitle": "Hébergez-le vous-même gratuitement. Hébergement à partir de 79 €. Facturez vos mariages clients avec une licence équitable."
     },
     "nav": {
       "couples": "Pour les couples",
@@ -236,6 +237,7 @@
       "columns": [
         "Auto-hébergé",
         "Hébergé Pro",
+        "Hébergé Premium",
         "Entreprise"
       ],
       "rows": [
@@ -243,6 +245,7 @@
           "label": "Pour qui",
           "values": [
             "Couples, non commercial",
+            "Couples",
             "Couples",
             "Wedding planners, agences, hébergeurs"
           ]
@@ -252,6 +255,7 @@
           "values": [
             "Votre VPS ou NAS",
             "Géré par nous",
+            "Géré par nous",
             "Votre VPS ou NAS"
           ]
         },
@@ -260,12 +264,14 @@
           "values": [
             "Oui",
             "Inclus",
+            "Inclus",
             "Oui"
           ]
         },
         {
           "label": "Invités",
           "values": [
+            "Illimités",
             "Illimités",
             "Illimités",
             "Illimités"
@@ -276,6 +282,7 @@
           "values": [
             "À votre charge",
             "Quotidiennes",
+            "Quotidiennes",
             "À votre charge"
           ]
         },
@@ -284,12 +291,14 @@
           "values": [
             "Communauté",
             "E-mail, 12 mois",
+            "Prioritaire, 24 h, 12 mois",
             "E-mail"
           ]
         },
         {
           "label": "Sites clients",
           "values": [
+            "—",
             "—",
             "—",
             "Illimités"
@@ -300,6 +309,7 @@
           "values": [
             "Gratuit",
             "79 € une fois",
+            "149 € une fois",
             "5 % ou 100 US$/an min."
           ]
         }
@@ -331,6 +341,10 @@
         {
           "q": "Comment payer ?",
           "a": "Écrivez-nous : nous vous enverrons la facture et les prochaines étapes."
+        },
+        {
+          "q": "Quelle est la différence entre Hébergé Pro et Premium ?",
+          "a": "Premium ajoute un SLA de disponibilité de 99,9 % par mois (avec un mois offert en cas de manquement), un support prioritaire avec une réponse sous 24 h, un appel de configuration de 30 minutes et l'import de la liste d'invités en CSV. Pro est le même site hébergé sans ces extras."
         }
       ]
     },
@@ -339,6 +353,23 @@
       "subtitle": "Commencez gratuitement sur votre serveur, ou laissez-nous gérer l'hébergement.",
       "primary": "Déployer depuis GitHub",
       "secondary": "Nous écrire"
+    },
+    "premium": {
+      "name": "Hébergé Premium",
+      "badge": "Service complet",
+      "price": "149 €",
+      "period": "paiement unique · 12 mois",
+      "description": "Nous l'hébergeons, le configurons et restons joignables. Pour les couples qui veulent une sécurité supplémentaire.",
+      "features": [
+        "Tout ce qui est dans Hébergé Pro",
+        "SLA de disponibilité de 99,9 % par mois",
+        "SLA manqué : un mois offert",
+        "Support prioritaire, réponse sous 24 h",
+        "Appel de configuration de 30 minutes",
+        "Import de la liste d'invités en CSV"
+      ],
+      "cta": "Commander par e-mail",
+      "note": "Mise en place par e-mail. L'hébergement dure 12 mois à partir de la mise en service."
     }
   }
 }

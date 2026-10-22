@@ -159,14 +159,15 @@
   },
   "pricing": {
     "metaTitle": "Pricing — my-boda",
-    "metaDescription": "Self-host my-boda for free, have us host it for €79, or get a commercial license for client weddings.",
+    "metaDescription": "Self-host my-boda for free, choose managed hosting from €79, or get a commercial license for client weddings.",
     "badge": "Source-available · self-hosted or managed",
     "title": "One wedding. One price. No surprises.",
     "subtitle": "Run it yourself for free. Let us host it for €79. Charge for client weddings with a fair license.",
     "hero": {
       "primary": "Start self-hosting",
       "secondary": "See business pricing",
-      "note": "No per-guest fees. No tracking. Export everything."
+      "note": "No per-guest fees. No tracking. Export everything.",
+      "subtitle": "Run it yourself for free. Managed hosting from €79. Charge for client weddings with a fair license."
     },
     "nav": {
       "couples": "For couples",
@@ -236,6 +237,7 @@
       "columns": [
         "Self-host",
         "Hosted Pro",
+        "Hosted Premium",
         "Business"
       ],
       "rows": [
@@ -243,6 +245,7 @@
           "label": "Who it's for",
           "values": [
             "Couples, non-commercial",
+            "Couples",
             "Couples",
             "Planners, agencies, hosts"
           ]
@@ -252,6 +255,7 @@
           "values": [
             "Your VPS or NAS",
             "Managed by us",
+            "Managed by us",
             "Your VPS or NAS"
           ]
         },
@@ -260,12 +264,14 @@
           "values": [
             "Yes",
             "Included",
+            "Included",
             "Yes"
           ]
         },
         {
           "label": "Guests",
           "values": [
+            "Unlimited",
             "Unlimited",
             "Unlimited",
             "Unlimited"
@@ -276,6 +282,7 @@
           "values": [
             "Your responsibility",
             "Daily",
+            "Daily",
             "Your responsibility"
           ]
         },
@@ -284,12 +291,14 @@
           "values": [
             "Community",
             "Email, 12 months",
+            "Priority, 24h, 12 months",
             "Email"
           ]
         },
         {
           "label": "Client sites",
           "values": [
+            "—",
             "—",
             "—",
             "Unlimited"
@@ -300,6 +309,7 @@
           "values": [
             "Free",
             "€79 once",
+            "€149 once",
             "5% or US$100/yr min."
           ]
         }
@@ -331,6 +341,10 @@
         {
           "q": "How do I pay?",
           "a": "Email us and we'll send the invoice and the next steps."
+        },
+        {
+          "q": "What's the difference between Hosted Pro and Premium?",
+          "a": "Premium adds a 99.9% monthly uptime SLA (with one free month if we miss it), priority support with a 24-hour reply target, a 30-minute setup call, and guest-list CSV import. Pro is the same hosted site without those extras."
         }
       ]
     },
@@ -339,6 +353,23 @@
       "subtitle": "Start free on your own server, or let us handle the hosting.",
       "primary": "Deploy from GitHub",
       "secondary": "Email us"
+    },
+    "premium": {
+      "name": "Hosted Premium",
+      "badge": "Full service",
+      "price": "€149",
+      "period": "one-time · 12 months",
+      "description": "We host it, set it up and stay on call. For couples who want an extra safety net.",
+      "features": [
+        "Everything in Hosted Pro",
+        "99.9% monthly uptime SLA",
+        "Miss the SLA, get one month free",
+        "Priority email, 24-hour reply target",
+        "30-minute setup call",
+        "Guest-list CSV import"
+      ],
+      "cta": "Order by email",
+      "note": "Set up by email. Hosting runs for 12 months from setup."
     }
   }
 }

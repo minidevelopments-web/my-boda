@@ -1119,6 +1119,14 @@ h2 {
   color: rgba(233, 225, 210, 0.4);
 }
 
+/* ---------- Hosted ---------- */
+
+.hosted-section {
+  padding: clamp(4rem, 8vw, 7rem) 0;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper-2);
+}
+
 /* ---------- License ---------- */
 
 .license-section {

@@ -159,14 +159,15 @@
   },
   "pricing": {
     "metaTitle": "Preise — my-boda",
-    "metaDescription": "my-boda kostenlos selbst hosten, für 79 € von uns hosten lassen oder eine kommerzielle Lizenz für Kundenehen erhalten.",
+    "metaDescription": "my-boda kostenlos selbst hosten, Hosting ab 79 € wählen oder eine kommerzielle Lizenz für Kundenehen erhalten.",
     "badge": "Quellcode verfügbar · selbst gehostet oder verwaltet",
     "title": "Eine Hochzeit. Ein Preis. Keine Überraschungen.",
     "subtitle": "Betreibe es selbst kostenlos. Lass es uns für 79 € hosten. Berechne Kundenehen mit einer fairen Lizenz.",
     "hero": {
       "primary": "Selbst hosten",
       "secondary": "Preise für Unternehmen",
-      "note": "Keine Kosten pro Gast. Kein Tracking. Alles exportierbar."
+      "note": "Keine Kosten pro Gast. Kein Tracking. Alles exportierbar.",
+      "subtitle": "Betreibe es selbst kostenlos. Hosting ab 79 €. Berechne Kundenehen mit einer fairen Lizenz."
     },
     "nav": {
       "couples": "Für Paare",
@@ -236,6 +237,7 @@
       "columns": [
         "Selbst gehostet",
         "Hosted Pro",
+        "Hosted Premium",
         "Unternehmen"
       ],
       "rows": [
@@ -243,6 +245,7 @@
           "label": "Für wen",
           "values": [
             "Paare, nicht kommerziell",
+            "Paare",
             "Paare",
             "Planer, Agenturen, Hoster"
           ]
@@ -252,6 +255,7 @@
           "values": [
             "Dein VPS oder NAS",
             "Von uns verwaltet",
+            "Von uns verwaltet",
             "Dein VPS oder NAS"
           ]
         },
@@ -260,12 +264,14 @@
           "values": [
             "Ja",
             "Inklusive",
+            "Inklusive",
             "Ja"
           ]
         },
         {
           "label": "Gäste",
           "values": [
+            "Unbegrenzt",
             "Unbegrenzt",
             "Unbegrenzt",
             "Unbegrenzt"
@@ -276,6 +282,7 @@
           "values": [
             "Deine Verantwortung",
             "Täglich",
+            "Täglich",
             "Deine Verantwortung"
           ]
         },
@@ -284,12 +291,14 @@
           "values": [
             "Community",
             "E-Mail, 12 Monate",
+            "Prioritär, 24 h, 12 Monate",
             "E-Mail"
           ]
         },
         {
           "label": "Kundenseiten",
           "values": [
+            "—",
             "—",
             "—",
             "Unbegrenzt"
@@ -300,6 +309,7 @@
           "values": [
             "Kostenlos",
             "79 € einmalig",
+            "149 € einmalig",
             "5 % oder 100 US$/Jahr min."
           ]
         }
@@ -331,6 +341,10 @@
         {
           "q": "Wie bezahle ich?",
           "a": "Schreib uns — wir senden dir die Rechnung und die nächsten Schritte."
+        },
+        {
+          "q": "Was ist der Unterschied zwischen Hosted Pro und Premium?",
+          "a": "Premium ergänzt eine monatliche 99,9-%-Uptime-SLA (bei Verfehlung ein Monat gratis), Prioritäts-Support mit 24-Stunden-Antwortziel, ein 30-minütiges Einrichtungsgespräch und den Import der Gästeliste als CSV. Pro ist dieselbe gehostete Website ohne diese Extras."
         }
       ]
     },
@@ -339,6 +353,23 @@
       "subtitle": "Starte kostenlos auf deinem eigenen Server oder lass uns das Hosting übernehmen.",
       "primary": "Von GitHub deployen",
       "secondary": "Schreib uns"
+    },
+    "premium": {
+      "name": "Hosted Premium",
+      "badge": "Rundum-Service",
+      "price": "149 €",
+      "period": "einmalig · 12 Monate",
+      "description": "Wir hosten, richten ein und bleiben erreichbar. Für Paare, die ein zusätzliches Sicherheitsnetz wollen.",
+      "features": [
+        "Alles aus Hosted Pro",
+        "99,9 % monatliche Uptime-SLA",
+        "SLA verpasst: ein Monat gratis",
+        "Prioritäts-Support, Antwort in 24 h",
+        "30-minütiges Einrichtungsgespräch",
+        "Gästeliste als CSV importieren"
+      ],
+      "cta": "Per E-Mail bestellen",
+      "note": "Einrichtung per E-Mail. Das Hosting läuft 12 Monate ab Einrichtung."
     }
   }
 }

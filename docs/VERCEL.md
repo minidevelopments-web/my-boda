@@ -17,3 +17,8 @@ Notes:
 - `NEXT_PUBLIC_*` are build-time — changing them requires Redeploy.
 - SQLite `file:` URLs are NOT supported on Vercel (ephemeral FS).
 - Middleware stays on Edge; API/DB runs on Node serverless.
+- **Photo gallery is not supported on Vercel as configured.** Uploads need a
+  persistent writable disk (`UPLOAD_DIR`); Vercel's filesystem is ephemeral, so
+  photos would disappear on redeploy or between instances. Self-host with the
+  Docker `uploads_data` volume (see `docs/SELF_HOSTING.md`), or extend
+  `src/lib/gallery/storage.ts` with S3/R2 storage before deploying here.

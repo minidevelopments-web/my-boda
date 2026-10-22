@@ -62,6 +62,7 @@ Admin dashboard: `http://localhost:3000/admin` — password from `ADMIN_PASSWORD
 | 3 | **Admin Dashboard** | HMAC-hashed password auth, httpOnly session cookie (7-day expiry), guest table with search/filter, stats, CSV export, polling refresh, logout |
 | 4 | **Logistics Hub** | `/info` — schedule timeline, venue map embed, accommodations list, all driven by `*_JSON` env vars |
 | 5 | **Registry & Gifts** | `/registry` — IBAN/Bizum + external gift links, configurable message, no payment processing (privacy-first) |
+| 6 | **Guest Photo Gallery** | `/gallery` — invite-gated uploads, browser-resized, auto-published; guests delete their own, couple/planners delete any. Photos live on persistent disk (`UPLOAD_DIR`), not in Postgres |
 
 All copy is env-driven — no hardcoded couple data in the repo.
 
@@ -99,6 +100,7 @@ All variables are documented in [`.env.example`](.env.example). Copy it to `.env
 | `NEXT_PUBLIC_REGISTRY_JSON` | public | `""` | Registry `{iban?,bizum?,links:[{label,url}],message?}` |
 | `NEXT_PUBLIC_VENUE_MAP_URL` | public | `""` | Google/Apple Maps URL for `/info` |
 | `DATABASE_URL` | server | `postgresql://myboda:myboda@postgres:5432/myboda` | Postgres (Vercel, Neon, Supabase, or Docker `postgres` service) |
+| `UPLOAD_DIR` | server | `./data/uploads` | Persistent directory for gallery photos (Docker volume `uploads_data`). Not supported on Vercel's ephemeral filesystem |
 | `ADMIN_PASSWORD` | server | `admin123` | Admin dashboard password (HMAC-hashed, httpOnly cookie) |
 
 `NEXT_PUBLIC_*` vars are inlined at build time — rebuild after changing them (`docker compose up --build`, or Redeploy on Vercel).

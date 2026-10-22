@@ -27,6 +27,9 @@ services:
       - NEXT_PUBLIC_REGISTRY_JSON=${NEXT_PUBLIC_REGISTRY_JSON:-}
       - NEXT_PUBLIC_VENUE_MAP_URL=${NEXT_PUBLIC_VENUE_MAP_URL:-}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD:-}
+      - UPLOAD_DIR=/app/data/uploads
+    volumes:
+      - uploads_data:/app/data/uploads
     depends_on:
       postgres:
         condition: service_healthy
@@ -49,3 +52,4 @@ services:
 
 volumes:
   postgres_data:
+  uploads_data:

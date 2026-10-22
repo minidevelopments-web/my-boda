@@ -6,7 +6,7 @@ This guide covers deploying my-boda on your own infrastructure with Docker, conf
 
 - A VPS / NAS / home server with Docker Engine ≥ 24 and Docker Compose v2
 - A domain name (optional but recommended) with DNS access
-- ~512 MB RAM, 1 vCPU, 2 GB disk is enough (Postgres via compose, no heavy deps)
+- ~512 MB RAM, 1 vCPU, 2 GB disk is enough (1 GB RAM with the photo gallery enabled) (Postgres via compose, no heavy deps)
 
 ## 1. Docker Quick Start
 
@@ -29,6 +29,7 @@ Open `http://YOUR_SERVER_IP:3000`. Admin at `/admin`.
 - Exposes `3000:3000` and `expose: 3000`
 - Sets `DATABASE_URL=postgresql://myboda:myboda@postgres:5432/myboda` (Postgres service; same default as the build arg)
 - Persists DB via named volume `postgres_data:/var/lib/postgresql/data` — survives rebuilds
+- Persists gallery photos via named volume `uploads_data:/app/data/uploads` — survives rebuilds
 - `restart: unless-stopped` — survives host reboots
 - `healthcheck` polls `http://localhost:3000/` every 30s (start period 40s)
 
@@ -186,13 +187,29 @@ docker compose exec postgres pg_dump -U myboda myboda > backup.sql
 cat backup.sql | docker compose exec -T postgres psql -U myboda myboda
 ```
 
+### Gallery uploads
+
+Wedding photos are **not stored in Postgres**. They live in the `uploads_data`
+volume at `/app/data/uploads` (or `UPLOAD_DIR` if you overrode it). Back up the
+volume alongside the DB dump:
+
+```bash
+docker run --rm -v my-boda_uploads_data:/data -v /backups:/backup alpine \
+  tar czf /backup/my-boda-uploads-$(date +%F).tar.gz -C /data .
+# Restore:
+docker run --rm -v my-boda_uploads_data:/data -v /backups:/backup alpine \
+  sh -c "rm -rf /data/* && tar xzf /backup/my-boda-uploads-YYYY-MM-DD.tar.gz -C /data"
+```
+
 ### What to back up
 
-- DB file/dump (guests + RSVPs)
+- DB dump (guests, RSVPs, users, households, photo metadata)
+- `uploads_data` volume (the photo files themselves)
 - `.env` (secrets — store encrypted, not in git)
 - Optionally `docker-compose.yml` if you customized it
 
-No object storage — all data is in the DB.
+The gallery is the only feature that writes outside Postgres. If you disable
+it, the rest of the app is fully DB-backed.
 
 ## 7. Users & Roles
 

@@ -30,7 +30,7 @@ export type StoredPhoto = {
 };
 
 export function getUploadRoot(): string {
-  return path.resolve(process.env.UPLOAD_DIR || "./data/uploads");
+  return path.resolve(/* turbopackIgnore: true */ process.env.UPLOAD_DIR || "./data/uploads");
 }
 
 function photoPath(fileName: string): string {
@@ -89,8 +89,11 @@ export async function processAndStore(id: string, input: Buffer): Promise<Stored
     const fullPath = photoPath(fileName);
     const thumbPath = photoPath(thumbName);
 
-    await fs.mkdir(getUploadRoot(), { recursive: true });
-    await Promise.all([fs.writeFile(fullPath, full), fs.writeFile(thumbPath, thumb)]);
+    await fs.mkdir(/* turbopackIgnore: true */ getUploadRoot(), { recursive: true });
+    await Promise.all([
+      fs.writeFile(/* turbopackIgnore: true */ fullPath, full),
+      fs.writeFile(/* turbopackIgnore: true */ thumbPath, thumb),
+    ]);
 
     return {
       fileName,
@@ -106,7 +109,7 @@ export async function processAndStore(id: string, input: Buffer): Promise<Stored
 export async function readPhotoFile(fileName: string): Promise<Buffer | null> {
   const filePath = photoPath(fileName);
   try {
-    return await fs.readFile(filePath);
+    return await fs.readFile(/* turbopackIgnore: true */ filePath);
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code === "ENOENT") return null;
     throw error;
@@ -115,7 +118,7 @@ export async function readPhotoFile(fileName: string): Promise<Buffer | null> {
 
 export async function deletePhotoFiles(photo: { fileName: string; thumbName: string }): Promise<void> {
   await Promise.all([
-    fs.unlink(photoPath(photo.fileName)).catch(() => {}),
-    fs.unlink(photoPath(photo.thumbName)).catch(() => {}),
+    fs.unlink(/* turbopackIgnore: true */ photoPath(photo.fileName)).catch(() => {}),
+    fs.unlink(/* turbopackIgnore: true */ photoPath(photo.thumbName)).catch(() => {}),
   ]);
 }

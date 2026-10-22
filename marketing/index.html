@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>my-boda — Your wedding is private. Your data should be too.</title>
+    <meta
+      name="description"
+      content="A source-available, self-hosted wedding website you own. Three themes, RSVP, guest admin, logistics and registry. No tracking, no per-guest fees, no vendor lock-in."
+    />
+    <meta name="theme-color" content="#f4efe4" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="my-boda" />
+    <meta property="og:title" content="my-boda — Your wedding is private" />
+    <meta
+      property="og:description"
+      content="A source-available, self-hosted wedding website you own. Three themes, RSVP, guest admin, logistics and registry."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%231f1b17'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='40' fill='%23f4efe4' text-anchor='middle'%3Em%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="demo.mjs"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="wordmark" href="#top" aria-label="my-boda, back to top">my-boda<span aria-hidden="true">.</span></a>
+        <nav class="site-nav" aria-label="Main">
+          <a href="#demo">Demo</a>
+          <a href="#features">Features</a>
+          <a href="#selfhost">Self-host</a>
+        </nav>
+        <a class="btn btn-small" href="https://github.com/minidevelopments-web/my-boda">GitHub <span aria-hidden="true">↗</span></a>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="shell">
+          <p class="eyebrow"><span>01</span> A wedding site you own</p>
+          <h1>Your wedding is private.<br /><em>Your data should be too.</em></h1>
+
+          <div class="hero-foot">
+            <p class="lede">
+              A wedding website you host yourself — three themes, RSVP, guest admin, logistics and
+              registry. No tracking, no per-guest fees, no vendor lock-in.
+            </p>
+            <div class="actions">
+              <a class="btn" href="https://github.com/minidevelopments-web/my-boda">Self-host on GitHub</a>
+              <a class="btn btn-ghost" href="#demo">Try the demo <span aria-hidden="true">↓</span></a>
+            </div>
+          </div>
+
+          <ul class="meta-strip" aria-label="Product promises">
+            <li>No trackers</li>
+            <li>No per-guest fees</li>
+            <li>Your domain</li>
+            <li>Your database</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="demo-section" id="demo">
+        <div class="shell">
+          <header class="section-head" data-reveal>
+            <p class="eyebrow"><span>02</span> The demo</p>
+            <h2>See it before you host it.</h2>
+            <p>
+              The same home page, three themes. This preview runs on sample data — no backend, no
+              tracking, nothing to install.
+            </p>
+          </header>
+
+          <div class="demo-toolbar" data-reveal>
+            <div class="theme-tabs" role="group" aria-label="Demo theme">
+              <button type="button" data-theme-btn="classic" aria-pressed="true">Classic Elegance</button>
+              <button type="button" data-theme-btn="modern" aria-pressed="false">Modern Minimal</button>
+              <button type="button" data-theme-btn="garden" aria-pressed="false">Garden Romance</button>
+            </div>
+            <p class="demo-status">Theme: <span id="demo-status">Classic Elegance</span></p>
+          </div>
+
+          <div class="browser" data-reveal>
+            <div class="browser-bar">
+              <span class="browser-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="browser-url">my-boda.example/alex-and-sam</span>
+              <span class="browser-tag">Interactive preview</span>
+            </div>
+
+            <div class="preview" id="preview" data-theme="classic">
+              <div class="preview-inner">
+                <div class="preview-topline" aria-hidden="true"></div>
+
+                <section class="invite" aria-label="Demo wedding home page">
+                  <p class="invite-eyebrow">— You are cordially invited —</p>
+                  <h3 class="invite-names"><span class="name">Alex</span> <span class="amp">&amp;</span> <span class="name">Sam</span></h3>
+                  <div class="invite-rule" aria-hidden="true"><span></span><i></i><span></span></div>
+                  <p class="invite-date">Saturday, June 12, 2027</p>
+                  <p class="invite-venue">Villa del Sol, Barcelona</p>
+
+                  <div class="countdown" role="group" aria-label="Countdown to the wedding">
+                    <div class="cd-cell"><b data-cd="days">—</b><span>Days</span></div>
+                    <div class="cd-cell"><b data-cd="hours">—</b><span>Hours</span></div>
+                    <div class="cd-cell"><b data-cd="minutes">—</b><span>Minutes</span></div>
+                    <div class="cd-cell"><b data-cd="seconds">—</b><span>Seconds</span></div>
+                  </div>
+
+                  <div class="invite-actions">
+                    <button type="button" class="preview-btn" data-demo-action="rsvp">RSVP</button>
+                    <button type="button" class="preview-btn preview-btn-ghost" data-demo-action="info">Details</button>
+                  </div>
+                  <p class="demo-note" id="demo-note" aria-live="polite"></p>
+                </section>
+
+                <section class="preview-schedule" aria-label="Demo schedule">
+                  <h4>Schedule</h4>
+                  <ol>
+                    <li class="sched-item">
+                      <span class="sched-icon" aria-hidden="true">♥</span>
+                      <p class="sched-time">4:00 PM</p>
+                      <h5>Ceremony</h5>
+                      <p class="sched-desc">Join us as we say “I do”</p>
+                    </li>
+                    <li class="sched-item">
+                      <span class="sched-icon" aria-hidden="true">✿</span>
+                      <p class="sched-time">5:30 PM</p>
+                      <h5>Cocktail Hour</h5>
+                      <p class="sched-desc">Drinks on the terrace</p>
+                    </li>
+                    <li class="sched-item">
+                      <span class="sched-icon" aria-hidden="true">♪</span>
+                      <p class="sched-time">7:00 PM</p>
+                      <h5>Reception</h5>
+                      <p class="sched-desc">Dinner, dancing &amp; celebration</p>
+                    </li>
+                  </ol>
+                </section>
+              </div>
+            </div>
+          </div>
+
+          <p class="demo-caption">
+            Interactive preview · sample data · RSVP, details and admin ship with the app.
+          </p>
+        </div>
+      </section>
+
+      <section class="features-section" id="features">
+        <div class="shell">
+          <header class="section-head" data-reveal>
+            <p class="eyebrow"><span>03</span> What’s inside</p>
+            <h2>Everything a wedding needs.<br />Nothing that phones home.</h2>
+            <p>Built to be read by humans, edited by hand and hosted on hardware you control.</p>
+          </header>
+
+          <div class="features" data-reveal>
+            <article class="feature">
+              <span class="feature-num">01</span>
+              <h3>Three themes</h3>
+              <p>Classic, Modern and Garden. One <code>NEXT_PUBLIC_THEME</code> value swaps typography, colour and shape. Override the accent with a single hex.</p>
+            </article>
+            <article class="feature">
+              <span class="feature-num">02</span>
+              <h3>Smart RSVP</h3>
+              <p>Attending, headcount, meal and dietary notes. Zod-validated and idempotent — one answer per guest, updated not duplicated.</p>
+            </article>
+            <article class="feature">
+              <span class="feature-num">03</span>
+              <h3>Guest admin</h3>
+              <p>A password-protected dashboard with search, filters, live stats and CSV export. No spreadsheets to reconcile.</p>
+            </article>
+            <article class="feature">
+              <span class="feature-num">04</span>
+              <h3>Logistics hub</h3>
+              <p>Schedule timeline, venue map link and accommodation list — all driven by environment variables, no CMS required.</p>
+            </article>
+            <article class="feature">
+              <span class="feature-num">05</span>
+              <h3>Registry &amp; gifts</h3>
+              <p>IBAN, Bizum or external gift links with a custom message. No payment processing, no card data, ever.</p>
+            </article>
+            <article class="feature">
+              <span class="feature-num">06</span>
+              <h3>Five languages</h3>
+              <p>English, Spanish, French, German and Portuguese. Each guest gets the site in the language their browser asks for.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="privacy-band" aria-label="Privacy">
+        <div class="shell privacy-inner" data-reveal>
+          <h2>No analytics. No ad pixels. No guest data leaving your server.</h2>
+          <div class="privacy-points">
+            <div>
+              <h3>Yours to keep</h3>
+              <p>Guest answers live in your Postgres database, on your disk, behind your domain.</p>
+            </div>
+            <div>
+              <h3>Nothing to leak</h3>
+              <p>No third-party scripts, no embedded trackers, no vendor with a copy of the guest list.</p>
+            </div>
+            <div>
+              <h3>Yours to leave</h3>
+              <p>The code is source-available. Stop paying for hosting and it still runs.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="selfhost-section" id="selfhost">
+        <div class="shell selfhost-grid">
+          <div class="selfhost-copy" data-reveal>
+            <p class="eyebrow"><span>04</span> Self-host</p>
+            <h2>One evening.<br />A site for the rest of the engagement.</h2>
+            <p>
+              Clone the repo, fill in the couple’s details and start Docker. Postgres, migrations and
+              the admin account come up with it.
+            </p>
+            <ul class="checklist">
+              <li>Docker, or Node 20+ and Postgres</li>
+              <li>~€3–5/month VPS and a domain</li>
+              <li>Vercel, Neon and Supabase also work</li>
+            </ul>
+            <p class="inline-links">
+              <a href="https://github.com/minidevelopments-web/my-boda/blob/main/docs/SELF_HOSTING.md">Self-hosting guide <span aria-hidden="true">↗</span></a>
+              <a href="https://github.com/minidevelopments-web/my-boda/blob/main/.env.example">Environment reference <span aria-hidden="true">↗</span></a>
+            </p>
+          </div>
+
+          <div class="terminal" data-reveal>
+            <div class="terminal-bar">
+              <span>terminal</span>
+              <button type="button" class="copy-btn" data-copy-target="install-cmd">Copy</button>
+            </div>
+<pre id="install-cmd"><code>git clone https://github.com/minidevelopments-web/my-boda.git
+cd my-boda
+cp .env.example .env      <span class="c"># names, date, venue, passwords</span>
+docker compose up --build -d</code></pre>
+            <p class="terminal-out"><span aria-hidden="true">→</span> http://localhost:3000</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="license-section" aria-labelledby="license-title">
+        <div class="shell">
+          <header class="section-head" data-reveal>
+            <p class="eyebrow"><span>05</span> Licensing</p>
+            <h2 id="license-title">Free for your own wedding.</h2>
+            <p>Source-available, not a subscription. If you charge someone to host theirs, get a licence.</p>
+          </header>
+
+          <div class="license-grid" data-reveal>
+            <article class="license-card">
+              <p class="license-kicker">For couples</p>
+              <p class="license-price">Free</p>
+              <p class="license-desc">PolyForm Noncommercial 1.0.0</p>
+              <ul>
+                <li>Your wedding, a friend’s, or an internal event</li>
+                <li>Fork it, change it, keep it</li>
+                <li>No charge to you or your guests</li>
+              </ul>
+              <a class="btn btn-ghost" href="https://github.com/minidevelopments-web/my-boda/blob/main/LICENSE">Read the licence</a>
+            </article>
+
+            <article class="license-card license-card-dark">
+              <p class="license-kicker">For planners &amp; hosts</p>
+              <p class="license-price">5% <span>of gross revenue</span></p>
+              <p class="license-desc">US$100/year minimum · commercial licence</p>
+              <ul>
+                <li>Charge for building or hosting client sites</li>
+                <li>Include it in a paid service</li>
+                <li>Perpetual for the versions you receive</li>
+              </ul>
+              <a class="btn btn-light" href="https://github.com/minidevelopments-web/my-boda/blob/main/COMMERCIAL.md">Commercial terms</a>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <div>
+          <p class="wordmark footer-wordmark">my-boda<span aria-hidden="true">.</span></p>
+          <p class="footer-note">Made with care for couples who value privacy.</p>
+        </div>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="https://github.com/minidevelopments-web/my-boda">GitHub</a>
+          <a href="https://github.com/minidevelopments-web/my-boda/blob/main/docs/SELF_HOSTING.md">Self-hosting</a>
+          <a href="https://github.com/minidevelopments-web/my-boda/blob/main/docs/THEMES.md">Themes</a>
+          <a href="https://github.com/minidevelopments-web/my-boda/blob/main/LICENSE">Licence</a>
+          <a href="mailto:minidevelopments@gmail.com">Email</a>
+        </nav>
+      </div>
+      <div class="shell footer-bottom">
+        <p>© 2026 my-boda</p>
+        <p>Your wedding is private. Your data should be too.</p>
+      </div>
+    </footer>
+  </body>
+</html>

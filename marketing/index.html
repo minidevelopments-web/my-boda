@@ -6,7 +6,7 @@
     <title>my-boda — Your wedding is private. Your data should be too.</title>
     <meta
       name="description"
-      content="A source-available, self-hosted wedding website you own. Three themes, RSVP, guest admin, logistics and registry. No tracking, no per-guest fees, no vendor lock-in."
+      content="A source-available, self-hosted wedding website you own. Three themes, RSVP, guest admin, logistics, registry and a private photo gallery. No tracking, no per-guest fees, no vendor lock-in."
     />
     <meta name="theme-color" content="#f4efe4" />
     <meta property="og:type" content="website" />
@@ -14,7 +14,7 @@
     <meta property="og:title" content="my-boda — Your wedding is private" />
     <meta
       property="og:description"
-      content="A source-available, self-hosted wedding website you own. Three themes, RSVP, guest admin, logistics and registry."
+      content="A source-available, self-hosted wedding website you own. Three themes, RSVP, guest admin, logistics, registry and a private photo gallery."
     />
     <link
       rel="icon"
@@ -47,8 +47,9 @@
 
           <div class="hero-foot">
             <p class="lede">
-              A wedding website you host yourself — three themes, RSVP, guest admin, logistics and
-              registry. No tracking, no per-guest fees, no vendor lock-in.
+              A wedding website you host yourself — three themes, RSVP, guest admin, logistics,
+              registry and a private photo gallery. No tracking, no per-guest fees, no vendor
+              lock-in.
             </p>
             <div class="actions">
               <a class="btn" href="https://github.com/minidevelopments-web/my-boda">Self-host on GitHub</a>
@@ -145,7 +146,7 @@
           </div>
 
           <p class="demo-caption">
-            Interactive preview · sample data · RSVP, details and admin ship with the app.
+            Interactive preview · sample data · RSVP, details, photos and admin ship with the app.
           </p>
         </div>
       </section>
@@ -189,6 +190,21 @@
               <h3>Five languages</h3>
               <p>English, Spanish, French, German and Portuguese. Each guest gets the site in the language their browser asks for.</p>
             </article>
+            <article class="feature">
+              <span class="feature-num">07</span>
+              <h3>Guest photo gallery</h3>
+              <p>An invite-only gallery for the day itself. Guests upload from their phone, the browser resizes before sending, and photos publish straight to a shared grid.</p>
+            </article>
+            <article class="feature">
+              <span class="feature-num">08</span>
+              <h3>Photos stay yours</h3>
+              <p>Images live on your own disk — resized, stripped of EXIF/GPS and served only to verified guests. No third-party gallery, ads, watermarks or per-photo fees.</p>
+            </article>
+            <article class="feature">
+              <span class="feature-num">09</span>
+              <h3>No lock-in</h3>
+              <p>Export the guest list as CSV, keep the Postgres database and copy the photos off your disk. The code is source-available, so the site keeps running.</p>
+            </article>
           </div>
         </div>
       </section>
@@ -199,7 +215,7 @@
           <div class="privacy-points">
             <div>
               <h3>Yours to keep</h3>
-              <p>Guest answers live in your Postgres database, on your disk, behind your domain.</p>
+              <p>Guest answers live in your Postgres database, photos on your disk, behind your domain.</p>
             </div>
             <div>
               <h3>Nothing to leak</h3>
@@ -225,7 +241,7 @@
             <ul class="checklist">
               <li>Docker, or Node 20+ and Postgres</li>
               <li>~€3–5/month VPS and a domain</li>
-              <li>Vercel, Neon and Supabase also work</li>
+              <li>Vercel, Neon and Supabase also work — the photo gallery needs persistent disk</li>
             </ul>
             <p class="inline-links">
               <a href="https://github.com/minidevelopments-web/my-boda/blob/main/docs/SELF_HOSTING.md">Self-hosting guide <span aria-hidden="true">↗</span></a>
@@ -264,6 +280,7 @@ docker compose up --build -d</code></pre>
                 <li>Custom domain included</li>
                 <li>Daily backups and managed updates</li>
                 <li>All three themes, unlimited guests</li>
+                <li>Private guest photo gallery</li>
                 <li>Email support for 12 months</li>
                 <li>Your data exportable at any time</li>
               </ul>
